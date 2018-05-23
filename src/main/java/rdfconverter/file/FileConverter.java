@@ -63,16 +63,17 @@ public class FileConverter {
 
         List<String> datatypeURIs = new ArrayList<>();
         List<Property> propertyURIs = new ArrayList<>();
+        List<Integer> targetColumns = new ArrayList<>();
         int lineNumber = 1;
 
         try (CSVReader reader = new CSVReader(new FileReader(inputFile), COLUMN_SEPARATOR)) {
 
-            String baseURI = readHeader(reader.readNext(), datatypeURIs, propertyURIs);
+            String baseURI = readHeader(reader.readNext(), datatypeURIs, propertyURIs, targetColumns);
 
             String[] line;
             while ((line = reader.readNext()) != null) {
                 lineNumber++;
-                readData(line, baseURI, datatypeURIs, propertyURIs, model);
+                readData(line, baseURI, datatypeURIs, propertyURIs, targetColumns, model);
             }
             model.setNsPrefixes(prefixMap);
 
@@ -84,7 +85,7 @@ public class FileConverter {
         LOGGER.info("File Conversion Completed: {}", inputFile.getPath());
     }
 
-    private static String readHeader(String[] headerLine, List<String> datatypeURIs, List<Property> propertyURIs) {
+    private static String readHeader(String[] headerLine, List<String> datatypeURIs, List<Property> propertyURIs, List<Integer> targetColumns) {
 
         String baseURI = "";
 
@@ -95,13 +96,35 @@ public class FileConverter {
             //Extract datatype and propertyURI from header field.
             String dataType;
             String propertyURI;
-            if (parts.length > 1) {
-                dataType = parts[0];
-                propertyURI = parts[1].trim();
-            } else {       //Default to INDIVIDUAL if not present.
-                dataType = "INDIVIDUAL";
-                propertyURI = parts[0].trim();
+            Integer targetColumn;
+            switch (parts.length) {
+                case 1:
+                    //Default to INDIVIDUAL if not present.
+                    dataType = "INDIVIDUAL";
+                    propertyURI = parts[0].trim();
+                    //Default to target column 0.
+                    targetColumn = 0;
+                    break;
+                case 2:
+                    if (integerCheck(parts[1])) {
+                        dataType = "INDIVIDUAL";
+                        propertyURI = parts[0].trim();
+                        targetColumn = Integer.parseInt(parts[1]);
+                    } else {
+                        dataType = parts[0];
+                        propertyURI = parts[1].trim();
+                        targetColumn = 0;
+                    }
+                    break;
+                default:
+                    dataType = parts[0];
+                    propertyURI = parts[1].trim();
+                    targetColumn = Integer.parseInt(parts[2]);
+                    break;
             }
+
+            //Record the target column
+            targetColumns.add(targetColumn);
 
             //First column is always a resource so datatype specifies the BASE URI.
             if (i > 0) {
@@ -122,30 +145,25 @@ public class FileConverter {
         return baseURI;
     }
 
-    private static void readData(String[] dataLine, String baseURI, List<String> datatypeURIs, List<Property> propertyURIs, Model model) {
+    private static boolean integerCheck(String checkString) {
+        try {
+            Integer.parseInt(checkString);
+        } catch (NumberFormatException | NullPointerException e) {
+            return false;
+        }
+        return true;
+    }
+
+    private static void readData(String[] dataLine, String baseURI, List<String> datatypeURIs, List<Property> propertyURIs, List<Integer> targetColumns, Model model) {
+
+        //Map of subject encountered in each row.
+        HashMap<Integer, Resource> subjects = new HashMap<>();
 
         //Create subject as individual with specified class (held in zero field of propertyURIs).
         String tidyData = dataLine[0].trim();
 
-        //Check whether the subject contains an explicit URI already.
-        String uri;
-        String label;
-        if (tidyData.startsWith(HTTP_PREFIX)) {
-            uri = tidyData;
-            label = tidyData.substring(tidyData.indexOf("#") + 1);
-        } else {
-            uri = baseURI + tidyData;
-            label = tidyData;
-        }
-
-        //Create the individual with specified class and owl:namedIndividual class
-        Resource subject = model.createResource(uri, propertyURIs.get(0));
-        subject.addProperty(RDF.type, NAMED_INDIVIDUAL);
-
-        //Apply a label to the subject.
-        Literal labelLiteral = model.createLiteral(label);
-        subject.addLiteral(RDFS.label, labelLiteral);
-
+        Resource subject = createIndividual(tidyData, model, baseURI, propertyURIs.get(0));
+        subjects.put(0, subject);
         //Extract the objects.
         for (int i = 1; i < dataLine.length; i++) {
 
@@ -166,14 +184,44 @@ public class FileConverter {
                 if (!tidyData.startsWith(HTTP_PREFIX)) {
                     tidyData = baseURI + tidyData;
                 }
-                object = model.createResource(tidyData);
+
+                //TODO allow encoding of the class for later Individuals.
+                subject = createIndividual(tidyData, model, baseURI, null);
+
+                subjects.put(i, subject);
+                object = subject;
             } else {
                 object = DatatypeController.extractLiteral(tidyData, dataTypeURI);
             }
 
-            subject.addProperty(property, object);
+            Resource targetSubject = subjects.get(targetColumns.get(i));
+            targetSubject.addProperty(property, object);
+        }
+    }
+
+    private static Resource createIndividual(String tidyData, Model model, String baseURI, Property classURI) {
+        //Check whether the subject contains an explicit URI already.
+        String uri;
+        String label;
+        if (tidyData.startsWith(HTTP_PREFIX)) {
+            uri = tidyData;
+            label = tidyData.substring(tidyData.indexOf("#") + 1);
+        } else {
+            uri = baseURI + tidyData;
+            label = tidyData;
         }
 
+        //Create the individual with specified class and owl:namedIndividual class
+        Resource subject = model.createResource(uri);
+        if (classURI != null) {
+            subject.addProperty(RDF.type, classURI);
+        }
+        subject.addProperty(RDF.type, NAMED_INDIVIDUAL);
+
+        //Apply a label to the subject.
+        Literal labelLiteral = model.createLiteral(label);
+        subject.addLiteral(RDFS.label, labelLiteral);
+        return subject;
     }
 
     /**
