@@ -17,6 +17,10 @@ public class PrefixController {
     private static final HashMap<String, String> PREFIXES = new HashMap<>();
     public static final String PREFIX_SEPARATOR = ":";
 
+    public static final void addPrefix(String prefix, String uri) {
+        PREFIXES.put(prefix, uri);
+    }
+
     public static final String lookupURI(String classString, String baseURI) {
         //Check property URI for HTTP prefix.
         if (classString.startsWith(HTTP_PREFIX)) {
