@@ -23,6 +23,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import rdfconverter.datatypes.PrefixController;
 import rdfconverter.file.FileConverter;
 
 /**
@@ -40,6 +41,7 @@ public class FileConverterTest {
     public static void setUpClass() {
         File inputFile = new File(FileConverterTest.class.getClassLoader().getResource("TestData.csv").getFile());
         testModel = ModelFactory.createDefaultModel();
+        PrefixController.addPrefix("other", "http://example.org/other#");
         FileConverter.writeToModel(inputFile, testModel, new HashMap<>());
     }
 
@@ -298,6 +300,25 @@ public class FileConverterTest {
         Statement s2 = ResourceFactory.createStatement(subject, predicate, object2);
 
         boolean result = testModel.contains(s) && testModel.contains(s2);
+        boolean expResult = true;
+        //System.out.println("Exp: " + expResult + " Res: " + result);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of Vehicle method, of class FileConverter. Check prefix for class
+     * type.
+     */
+    @Test
+    public void testVehicle4() {
+        System.out.println("Vehicle4");
+
+        Resource subject = ResourceFactory.createResource("http://example.org#VehicleF");
+        Property predicate = RDF.type;
+        Resource object = ResourceFactory.createResource("http://example.org/other#Vehicle");
+        Statement s = ResourceFactory.createStatement(subject, predicate, object);
+
+        boolean result = testModel.contains(s);
         boolean expResult = true;
         //System.out.println("Exp: " + expResult + " Res: " + result);
         assertEquals(expResult, result);
