@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
  */
 public class PrefixReader {
 
+    //TODO - load default prefixes and from file.
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private static final char COLUMN_SEPARATOR = ',';
 

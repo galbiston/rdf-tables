@@ -31,16 +31,16 @@ import rdfconverter.file.FileConverter;
  */
 public class FileConverterTest {
 
-    private static Model modelTest1;
+    private static Model testModel;
 
     public FileConverterTest() {
     }
 
     @BeforeClass
     public static void setUpClass() {
-        File inputFile = new File(FileConverterTest.class.getClassLoader().getResource("Test1.csv").getFile());
-        modelTest1 = ModelFactory.createDefaultModel();
-        FileConverter.writeToModel(inputFile, modelTest1, new HashMap<>());
+        File inputFile = new File(FileConverterTest.class.getClassLoader().getResource("TestData.csv").getFile());
+        testModel = ModelFactory.createDefaultModel();
+        FileConverter.writeToModel(inputFile, testModel, new HashMap<>());
     }
 
     @AfterClass
@@ -66,8 +66,9 @@ public class FileConverterTest {
         Property predicate = ResourceFactory.createProperty("http://example.org#age");
         Literal object = ResourceFactory.createTypedLiteral(21);
         Statement s = ResourceFactory.createStatement(subject, predicate, object);
-        boolean result = modelTest1.contains(s);
+        boolean result = testModel.contains(s);
         boolean expResult = true;
+        //System.out.println("Exp: " + expResult + " Res: " + result);
         assertEquals(expResult, result);
     }
 
@@ -83,8 +84,9 @@ public class FileConverterTest {
         Property predicate = ResourceFactory.createProperty("http://example2.org/ont#shoeSize");
         Literal object = ResourceFactory.createTypedLiteral(8);
         Statement s = ResourceFactory.createStatement(subject, predicate, object);
-        boolean result = modelTest1.contains(s);
+        boolean result = testModel.contains(s);
         boolean expResult = true;
+        //System.out.println("Exp: " + expResult + " Res: " + result);
         assertEquals(expResult, result);
     }
 
@@ -99,8 +101,9 @@ public class FileConverterTest {
         Property predicate = ResourceFactory.createProperty("http://example.org#income");
         Literal object = ResourceFactory.createTypedLiteral(12000.01);
         Statement s = ResourceFactory.createStatement(subject, predicate, object);
-        boolean result = modelTest1.contains(s);
+        boolean result = testModel.contains(s);
         boolean expResult = true;
+        //System.out.println("Exp: " + expResult + " Res: " + result);
         assertEquals(expResult, result);
     }
 
@@ -115,8 +118,9 @@ public class FileConverterTest {
         Property predicate = ResourceFactory.createProperty("http://example.org#start");
         Literal object = ResourceFactory.createTypedLiteral("11:00:12", XSDBaseNumericType.XSDtime);
         Statement s = ResourceFactory.createStatement(subject, predicate, object);
-        boolean result = modelTest1.contains(s);
+        boolean result = testModel.contains(s);
         boolean expResult = true;
+        //System.out.println("Exp: " + expResult + " Res: " + result);
         assertEquals(expResult, result);
     }
 
@@ -131,8 +135,9 @@ public class FileConverterTest {
         Property predicate = ResourceFactory.createProperty("http://example.org#period");
         Literal object = ResourceFactory.createTypedLiteral("PT130S", XSDBaseNumericType.XSDduration);
         Statement s = ResourceFactory.createStatement(subject, predicate, object);
-        boolean result = modelTest1.contains(s);
+        boolean result = testModel.contains(s);
         boolean expResult = true;
+        //System.out.println("Exp: " + expResult + " Res: " + result);
         assertEquals(expResult, result);
     }
 
@@ -148,8 +153,9 @@ public class FileConverterTest {
         Property predicate = ResourceFactory.createProperty("http://example.org#appointment");
         Literal object = ResourceFactory.createTypedLiteral("2001-10-26T21:32:52+02:00", XSDBaseNumericType.XSDdateTime);
         Statement s = ResourceFactory.createStatement(subject, predicate, object);
-        boolean result = modelTest1.contains(s);
+        boolean result = testModel.contains(s);
         boolean expResult = true;
+        //System.out.println("Exp: " + expResult + " Res: " + result);
         assertEquals(expResult, result);
     }
 
@@ -164,8 +170,9 @@ public class FileConverterTest {
         Property predicate = ResourceFactory.createProperty("http://example.org#birthday");
         Literal object = ResourceFactory.createTypedLiteral("2001-10-26", XSDBaseNumericType.XSDdate);
         Statement s = ResourceFactory.createStatement(subject, predicate, object);
-        boolean result = modelTest1.contains(s);
+        boolean result = testModel.contains(s);
         boolean expResult = true;
+        //System.out.println("Exp: " + expResult + " Res: " + result);
         assertEquals(expResult, result);
     }
 
@@ -182,9 +189,10 @@ public class FileConverterTest {
         Literal object = ResourceFactory.createTypedLiteral(true);
         Statement s = ResourceFactory.createStatement(subject, predicate, object);
 
-        Literal r = modelTest1.getProperty(subject, predicate).getLiteral();
-        boolean result = modelTest1.contains(s);
+        Literal r = testModel.getProperty(subject, predicate).getLiteral();
+        boolean result = testModel.contains(s);
         boolean expResult = true;
+        //System.out.println("Exp: " + expResult + " Res: " + result);
         assertEquals(expResult, result);
     }
 
@@ -199,8 +207,9 @@ public class FileConverterTest {
         Property predicate = RDF.type;
         Resource object = ResourceFactory.createResource("http://example.org#Person");
         Statement s = ResourceFactory.createStatement(subject, predicate, object);
-        boolean result = modelTest1.contains(s);
+        boolean result = testModel.contains(s);
         boolean expResult = true;
+        //System.out.println("Exp: " + expResult + " Res: " + result);
         assertEquals(expResult, result);
     }
 
@@ -212,11 +221,12 @@ public class FileConverterTest {
         System.out.println("Name");
 
         Resource subject = ResourceFactory.createResource("http://example.org#PersonC");
-        Property predicate = ResourceFactory.createProperty("http://example.org#name");
+        Property predicate = ResourceFactory.createProperty("http://example.org#firstname");
         Literal object = ResourceFactory.createTypedLiteral("Peter");
         Statement s = ResourceFactory.createStatement(subject, predicate, object);
-        boolean result = modelTest1.contains(s);
+        boolean result = testModel.contains(s);
         boolean expResult = true;
+        //System.out.println("Exp: " + expResult + " Res: " + result);
         assertEquals(expResult, result);
     }
 
@@ -231,8 +241,9 @@ public class FileConverterTest {
         Property predicate = RDFS.label;
         Literal object = ResourceFactory.createTypedLiteral("PersonD");
         Statement s = ResourceFactory.createStatement(subject, predicate, object);
-        boolean result = modelTest1.contains(s);
+        boolean result = testModel.contains(s);
         boolean expResult = true;
+        //System.out.println("Exp: " + expResult + " Res: " + result);
         assertEquals(expResult, result);
     }
 
@@ -247,8 +258,9 @@ public class FileConverterTest {
         Property predicate = ResourceFactory.createProperty("http://example.org#vehicle");
         Resource object = ResourceFactory.createResource("http://example.org#VehicleE");
         Statement s = ResourceFactory.createStatement(subject, predicate, object);
-        boolean result = modelTest1.contains(s);
+        boolean result = testModel.contains(s);
         boolean expResult = true;
+        //System.out.println("Exp: " + expResult + " Res: " + result);
         assertEquals(expResult, result);
     }
 
@@ -263,8 +275,9 @@ public class FileConverterTest {
         Property predicate = ResourceFactory.createProperty("http://example.org#vehicle");
         Resource object = ResourceFactory.createResource("http://example2.org/ont#VehicleD");
         Statement s = ResourceFactory.createStatement(subject, predicate, object);
-        boolean result = modelTest1.contains(s);
+        boolean result = testModel.contains(s);
         boolean expResult = true;
+        //System.out.println("Exp: " + expResult + " Res: " + result);
         assertEquals(expResult, result);
     }
 
@@ -284,8 +297,9 @@ public class FileConverterTest {
         Resource object2 = ResourceFactory.createResource("http://example.org#VehicleF");
         Statement s2 = ResourceFactory.createStatement(subject, predicate, object2);
 
-        boolean result = modelTest1.contains(s) && modelTest1.contains(s2);
+        boolean result = testModel.contains(s) && testModel.contains(s2);
         boolean expResult = true;
+        //System.out.println("Exp: " + expResult + " Res: " + result);
         assertEquals(expResult, result);
     }
 
@@ -301,8 +315,9 @@ public class FileConverterTest {
         Property predicate = ResourceFactory.createProperty("http://example.org#name");
         Literal object = ResourceFactory.createTypedLiteral("");
         Statement s = ResourceFactory.createStatement(subject, predicate, object);
-        boolean result = modelTest1.contains(s);
+        boolean result = testModel.contains(s);
         boolean expResult = false;
+        //System.out.println("Exp: " + expResult + " Res: " + result);
         assertEquals(expResult, result);
     }
 

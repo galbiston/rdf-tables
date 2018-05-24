@@ -20,13 +20,14 @@ import org.slf4j.LoggerFactory;
  */
 public class DatatypeController {
 
+    //TODO load from file
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private static final HashMap<String, String> DATATYPE_PREFIXES = new HashMap<>();
     private static final HashMap<String, BaseDatatype> DATATYPES = new HashMap<>();
 
-    private static final String HTTP_PREFIX = "http://";
-    public static final String INDIVIDUAL = "individual";
+    public static final String HEADER_ITEM_SEPARATOR = " ";
+    public static final String HTTP_PREFIX = "http://";
     public static final String BOOLEAN_URI = XSDBaseNumericType.XSDboolean.getURI();
 
     public static final HashMap<String, String> getDatatypePrefixes() {
@@ -94,9 +95,7 @@ public class DatatypeController {
             return datatypeLabel;
         } else {
             String tidyLabel = datatypeLabel.toLowerCase();
-            if (tidyLabel.equals(INDIVIDUAL)) {
-                return tidyLabel;
-            } else if (DATATYPE_PREFIXES.containsKey(tidyLabel)) {
+            if (DATATYPE_PREFIXES.containsKey(tidyLabel)) {
                 return DATATYPE_PREFIXES.get(tidyLabel);
             } else {
                 LOGGER.error("Datatype not an individual, recognised prefix or URI: {}", datatypeLabel);
@@ -110,12 +109,30 @@ public class DatatypeController {
         getDatatypes();
         if (DATATYPES.containsKey(datatypeURI)) {
             BaseDatatype datatype = DATATYPES.get(datatypeURI);
-            return ResourceFactory.createTypedLiteral(data, datatype);
+            String tidyData = tidyDatatype(data, datatypeURI);
+            return ResourceFactory.createTypedLiteral(tidyData, datatype);
         } else {
             LOGGER.error("Datatype URI {} not recognised for data: {}", datatypeURI, data);
             return null;
         }
 
+    }
+
+    /**
+     * Format according to xsd restrictions.
+     *
+     * @param untidyData
+     * @param dataTypeURI
+     * @return
+     */
+    private static String tidyDatatype(String untidyData, String dataTypeURI) {
+        String tidyData = untidyData.trim();
+
+        if (dataTypeURI.equals(DatatypeController.BOOLEAN_URI)) {
+            tidyData = tidyData.toLowerCase();
+        }
+
+        return tidyData;
     }
 
 }

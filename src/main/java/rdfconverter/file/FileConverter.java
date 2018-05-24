@@ -25,6 +25,9 @@ import org.apache.jena.vocabulary.RDFS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rdfconverter.datatypes.DatatypeController;
+import static rdfconverter.datatypes.DatatypeController.HEADER_ITEM_SEPARATOR;
+import static rdfconverter.datatypes.DatatypeController.HTTP_PREFIX;
+import rdfconverter.datatypes.PrefixController;
 
 /**
  * Read a CSV file of triples.
@@ -52,28 +55,32 @@ public class FileConverter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    private static final char COLUMN_SEPARATOR = ',';
-    private static final String PROPERTY_SEPARATOR = " ";
-    private static final String HTTP_PREFIX = "http://";
     private static final Resource NAMED_INDIVIDUAL = ResourceFactory.createResource(OWL.NS + "NamedIndividual");
 
+    private static final String CLASS_CHARACTER = "#";
+
     public static final void writeToModel(File inputFile, Model model, HashMap<String, String> prefixMap) {
+        writeToModel(inputFile, model, prefixMap, ',');
+    }
+
+    public static final void writeToModel(File inputFile, Model model, HashMap<String, String> prefixMap, char separator) {
 
         LOGGER.info("File Conversion Started: {}", inputFile.getPath());
 
-        List<String> datatypeURIs = new ArrayList<>();
-        List<Property> propertyURIs = new ArrayList<>();
+        HashMap<Integer, String> datatypeURIs = new HashMap<>();
+        HashMap<Integer, Property> propertyURIs = new HashMap<>();
+        HashMap<Integer, Resource> classURIs = new HashMap<>();
         List<Integer> targetColumns = new ArrayList<>();
         int lineNumber = 1;
 
-        try (CSVReader reader = new CSVReader(new FileReader(inputFile), COLUMN_SEPARATOR)) {
+        try (CSVReader reader = new CSVReader(new FileReader(inputFile), separator)) {
 
-            String baseURI = readHeader(reader.readNext(), datatypeURIs, propertyURIs, targetColumns);
+            String baseURI = readHeader(reader.readNext(), datatypeURIs, propertyURIs, classURIs, targetColumns);
 
             String[] line;
             while ((line = reader.readNext()) != null) {
                 lineNumber++;
-                readData(line, baseURI, datatypeURIs, propertyURIs, targetColumns, model);
+                readData(line, baseURI, datatypeURIs, propertyURIs, classURIs, targetColumns, model);
             }
             model.setNsPrefixes(prefixMap);
 
@@ -85,64 +92,91 @@ public class FileConverter {
         LOGGER.info("File Conversion Completed: {}", inputFile.getPath());
     }
 
-    private static String readHeader(String[] headerLine, List<String> datatypeURIs, List<Property> propertyURIs, List<Integer> targetColumns) {
+    private static String readHeader(String[] headerLine, HashMap<Integer, String> datatypeURIs, HashMap<Integer, Property> propertyURIs, HashMap<Integer, Resource> classURIs, List<Integer> targetColumns) {
 
         String baseURI = "";
 
         for (int i = 0; i < headerLine.length; i++) {
             String header = headerLine[i];
-            String[] parts = header.split(PROPERTY_SEPARATOR);
+            String[] parts = header.split(HEADER_ITEM_SEPARATOR);
 
             //Extract datatype and propertyURI from header field.
-            String dataType;
+            String datatype = null;
             String propertyURI;
-            Integer targetColumn;
+            String classURI = null;
+            Integer targetColumn = 0;
+            propertyURI = parts[0];
             switch (parts.length) {
                 case 1:
-                    //Default to INDIVIDUAL if not present.
-                    dataType = "INDIVIDUAL";
-                    propertyURI = parts[0].trim();
-                    //Default to target column 0.
-                    targetColumn = 0;
+                    datatype = "string";
                     break;
                 case 2:
+                    //First column is always a resource so datatype specifies the BASE URI.
+                    if (i == 0) {
+                        baseURI = parts[0];
+                    }
                     if (integerCheck(parts[1])) {
-                        dataType = "INDIVIDUAL";
-                        propertyURI = parts[0].trim();
                         targetColumn = Integer.parseInt(parts[1]);
                     } else {
-                        dataType = parts[0];
-                        propertyURI = parts[1].trim();
-                        targetColumn = 0;
+
+                        if (parts[1].startsWith(CLASS_CHARACTER)) {
+                            classURI = parts[1].substring(1);
+                        } else {
+                            datatype = parts[1];
+                        }
+                    }
+                    break;
+                case 3:
+                    if (parts[1].startsWith(CLASS_CHARACTER)) {
+                        classURI = parts[1].substring(1);
+                    } else {
+                        datatype = parts[1];
+                    }
+
+                    if (parts[2].startsWith(CLASS_CHARACTER)) {
+                        classURI = parts[2].substring(1);
+                    } else {
+                        targetColumn = Integer.parseInt(parts[2]);
                     }
                     break;
                 default:
-                    dataType = parts[0];
-                    propertyURI = parts[1].trim();
+                    datatype = parts[1];
                     targetColumn = Integer.parseInt(parts[2]);
-                    break;
+                    classURI = parts[3];
             }
 
             //Record the target column
             targetColumns.add(targetColumn);
 
-            //First column is always a resource so datatype specifies the BASE URI.
             if (i > 0) {
-                datatypeURIs.add(DatatypeController.lookupDatatypeURI(dataType.trim()));
-            } else {
-                datatypeURIs.add(DatatypeController.INDIVIDUAL);       //Added to keep alignment of the types with the columns in the data.
-                baseURI = dataType.trim();
+                createDatatype(i, datatype, datatypeURIs);
+                createProperty(i, propertyURI, baseURI, propertyURIs);
             }
 
-            //Check property URI for HTTP prefix.
-            if (!propertyURI.startsWith(HTTP_PREFIX)) {
-                propertyURI = baseURI + propertyURI;
-            }
-            Property property = ResourceFactory.createProperty(propertyURI);
-            propertyURIs.add(property);
-
+            createClass(i, classURI, baseURI, classURIs);
         }
         return baseURI;
+    }
+
+    private static void createProperty(Integer index, String propertyURI, String baseURI, HashMap<Integer, Property> propertyURIs) {
+        String uri = PrefixController.lookupURI(propertyURI, baseURI);
+        Property property = ResourceFactory.createProperty(uri);
+        propertyURIs.put(index, property);
+    }
+
+    private static void createClass(Integer index, String classURI, String baseURI, HashMap<Integer, Resource> classURIs) {
+
+        if (classURI != null) {
+            String uri = PrefixController.lookupURI(classURI, baseURI);
+            Resource resource = ResourceFactory.createResource(uri);
+            classURIs.put(index, resource);
+        }
+    }
+
+    private static void createDatatype(int index, String datatype, HashMap<Integer, String> datatypeURIs) {
+        if (datatype != null) {
+            datatypeURIs.put(index, DatatypeController.lookupDatatypeURI(datatype));
+        }
     }
 
     private static boolean integerCheck(String checkString) {
@@ -154,52 +188,48 @@ public class FileConverter {
         return true;
     }
 
-    private static void readData(String[] dataLine, String baseURI, List<String> datatypeURIs, List<Property> propertyURIs, List<Integer> targetColumns, Model model) {
+    private static void readData(String[] dataLine, String baseURI, HashMap<Integer, String> datatypeURIs, HashMap<Integer, Property> propertyURIs, HashMap<Integer, Resource> classURIs, List<Integer> targetColumns, Model model) {
 
         //Map of subject encountered in each row.
-        HashMap<Integer, Resource> subjects = new HashMap<>();
+        HashMap<Integer, Resource> indviduals = new HashMap<>();
 
-        //Create subject as individual with specified class (held in zero field of propertyURIs).
-        String tidyData = dataLine[0].trim();
+        //Find all individuals
+        for (Integer index : classURIs.keySet()) {
+            //Create subject as individual with specified class.
+            String tidyData = dataLine[index].trim();
+            Resource subject = createIndividual(tidyData, model, baseURI, classURIs.get(index));
+            indviduals.put(index, subject);
+        }
 
-        Resource subject = createIndividual(tidyData, model, baseURI, propertyURIs.get(0));
-        subjects.put(0, subject);
         //Extract the objects.
         for (int i = 1; i < dataLine.length; i++) {
 
-            String dataTypeURI = datatypeURIs.get(i);
-            tidyData = tidyString(dataLine[i], dataTypeURI);
+            String data = dataLine[i];
 
-            //Exit early on empty or whitespace string.
-            if (tidyData.equals("")) {
+            //Skip early on empty or whitespace string.
+            if (data.equals("")) {
                 continue;
             }
 
             Property property = propertyURIs.get(i);
             RDFNode object;
-
-            if (dataTypeURI.equals(DatatypeController.INDIVIDUAL)) {
-
-                //Add base URI if HTTP prefix missing.
-                if (!tidyData.startsWith(HTTP_PREFIX)) {
-                    tidyData = baseURI + tidyData;
-                }
-
-                //TODO allow encoding of the class for later Individuals.
-                subject = createIndividual(tidyData, model, baseURI, null);
-
-                subjects.put(i, subject);
-                object = subject;
+            if (datatypeURIs.containsKey(i)) {
+                String datatypeURI = datatypeURIs.get(i);
+                object = DatatypeController.extractLiteral(data, datatypeURI);
+            } else if (indviduals.containsKey(i)) {
+                //No datatype so must be an individual.
+                object = indviduals.get(i);
             } else {
-                object = DatatypeController.extractLiteral(tidyData, dataTypeURI);
+                LOGGER.error("Cannot find: {} in index: {}. Class URI may be missing from column header.", data, i);
+                throw new AssertionError();
             }
 
-            Resource targetSubject = subjects.get(targetColumns.get(i));
+            Resource targetSubject = indviduals.get(targetColumns.get(i));
             targetSubject.addProperty(property, object);
         }
     }
 
-    private static Resource createIndividual(String tidyData, Model model, String baseURI, Property classURI) {
+    private static Resource createIndividual(String tidyData, Model model, String baseURI, Resource classURI) {
         //Check whether the subject contains an explicit URI already.
         String uri;
         String label;
@@ -224,20 +254,4 @@ public class FileConverter {
         return subject;
     }
 
-    /**
-     * Format according to xsd restrictions.
-     *
-     * @param untidyData
-     * @param dataTypeURI
-     * @return
-     */
-    private static String tidyString(String untidyData, String dataTypeURI) {
-        String tidyData = untidyData.trim();
-
-        if (dataTypeURI.equals(DatatypeController.BOOLEAN_URI)) {
-            tidyData = tidyData.toLowerCase();
-        }
-
-        return tidyData;
-    }
 }

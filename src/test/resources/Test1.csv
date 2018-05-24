@@ -1,6 +1,0 @@
-http://example.org# http://example.org#Person,int age,integer http://example2.org/ont#shoeSize,string name,vehicle,location,vehicle,double income,boolean drivingLicence,time start,duration period,datetime appointment,date birthday
-PersonA,21,8,Bob,VehicleA,LocationA,,12000.01,,11:00:12,PT130S,2001-10-26T21:32:52+02:00,2001-10-26
-PersonB,22,9,Bill,VehicleB,LocationB,,,TRUE,,,,
-PersonC,23,10,Peter,VehicleC,LocationC,,,,,,,
-PersonD,24,11,Sarah,http://example2.org/ont#VehicleD,http://example2.org/ont#LocationD,,,,,,,
-PersonE,25,12,,VehicleE,LocationE,VehicleF,,,,,,
