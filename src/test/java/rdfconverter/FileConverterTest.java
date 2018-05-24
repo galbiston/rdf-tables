@@ -5,11 +5,12 @@
  */
 package rdfconverter;
 
-import rdfconverter.file.FileConverter;
 import java.io.File;
+import java.util.HashMap;
 import org.apache.jena.datatypes.xsd.impl.XSDBaseNumericType;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
@@ -22,6 +23,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import rdfconverter.file.FileConverter;
 
 /**
  *
@@ -29,7 +31,6 @@ import org.junit.Test;
  */
 public class FileConverterTest {
 
-    private static FileConverter instanceTest1;
     private static Model modelTest1;
 
     public FileConverterTest() {
@@ -38,8 +39,8 @@ public class FileConverterTest {
     @BeforeClass
     public static void setUpClass() {
         File inputFile = new File(FileConverterTest.class.getClassLoader().getResource("Test1.csv").getFile());
-        //instanceTest1 = FileConverter.(inputFile, ModelFactory.createDefaultModel(), ' ');
-        //modelTest1 = instanceTest1.getModel();
+        modelTest1 = ModelFactory.createDefaultModel();
+        FileConverter.writeToModel(inputFile, modelTest1, new HashMap<>());
     }
 
     @AfterClass
