@@ -1,5 +1,4 @@
 apply plugin: 'java'
-apply plugin: 'maven-publish'
 
 sourceCompatibility = '1.8'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
@@ -39,5 +38,14 @@ dependencies {
 
 group = 'org.ntu'
 version = '1.0.0'
+
+apply plugin: 'maven-publish'
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
 
 build.finalizedBy(publishToMavenLocal)
