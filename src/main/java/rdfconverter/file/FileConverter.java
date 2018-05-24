@@ -101,14 +101,14 @@ public class FileConverter {
             String[] parts = header.split(HEADER_ITEM_SEPARATOR);
 
             //Extract datatype and propertyURI from header field.
-            String datatype = null;
-            String propertyURI;
-            String classURI = null;
+            String datatypeLabel = null;
+            String propertyLabel = parts[0];
+            String classLabel = null;
             Integer targetColumn = 0;
-            propertyURI = parts[0];
+
             switch (parts.length) {
                 case 1:
-                    datatype = "string";
+                    datatypeLabel = "string";
                     break;
                 case 2:
                     //First column is always a resource so datatype specifies the BASE URI.
@@ -120,62 +120,62 @@ public class FileConverter {
                     } else {
 
                         if (parts[1].startsWith(CLASS_CHARACTER)) {
-                            classURI = parts[1].substring(1);
+                            classLabel = parts[1].substring(1);
                         } else {
-                            datatype = parts[1];
+                            datatypeLabel = parts[1];
                         }
                     }
                     break;
                 case 3:
                     if (parts[1].startsWith(CLASS_CHARACTER)) {
-                        classURI = parts[1].substring(1);
+                        classLabel = parts[1].substring(1);
                     } else {
-                        datatype = parts[1];
+                        datatypeLabel = parts[1];
                     }
 
                     if (parts[2].startsWith(CLASS_CHARACTER)) {
-                        classURI = parts[2].substring(1);
+                        classLabel = parts[2].substring(1);
                     } else {
                         targetColumn = Integer.parseInt(parts[2]);
                     }
                     break;
                 default:
-                    datatype = parts[1];
+                    datatypeLabel = parts[1];
                     targetColumn = Integer.parseInt(parts[2]);
-                    classURI = parts[3];
+                    classLabel = parts[3];
             }
 
             //Record the target column
             targetColumns.add(targetColumn);
 
             if (i > 0) {
-                createDatatype(i, datatype, datatypeURIs);
-                createProperty(i, propertyURI, baseURI, propertyURIs);
+                createDatatype(i, datatypeLabel, baseURI, datatypeURIs);
+                createProperty(i, propertyLabel, baseURI, propertyURIs);
             }
 
-            createClass(i, classURI, baseURI, classURIs);
+            createClass(i, classLabel, baseURI, classURIs);
         }
         return baseURI;
     }
 
-    private static void createProperty(Integer index, String propertyURI, String baseURI, HashMap<Integer, Property> propertyURIs) {
-        String uri = PrefixController.lookupURI(propertyURI, baseURI);
+    private static void createProperty(Integer index, String propertyLabel, String baseURI, HashMap<Integer, Property> propertyURIs) {
+        String uri = PrefixController.lookupURI(propertyLabel, baseURI);
         Property property = ResourceFactory.createProperty(uri);
         propertyURIs.put(index, property);
     }
 
-    private static void createClass(Integer index, String classURI, String baseURI, HashMap<Integer, Resource> classURIs) {
+    private static void createClass(Integer index, String classLabel, String baseURI, HashMap<Integer, Resource> classURIs) {
 
-        if (classURI != null) {
-            String uri = PrefixController.lookupURI(classURI, baseURI);
+        if (classLabel != null) {
+            String uri = PrefixController.lookupURI(classLabel, baseURI);
             Resource resource = ResourceFactory.createResource(uri);
             classURIs.put(index, resource);
         }
     }
 
-    private static void createDatatype(int index, String datatype, HashMap<Integer, String> datatypeURIs) {
-        if (datatype != null) {
-            datatypeURIs.put(index, DatatypeController.lookupDatatypeURI(datatype));
+    private static void createDatatype(int index, String datatypeLabel, String baseURI, HashMap<Integer, String> datatypeURIs) {
+        if (datatypeLabel != null) {
+            datatypeURIs.put(index, DatatypeController.lookupDatatypeURI(datatypeLabel, baseURI));
         }
     }
 
