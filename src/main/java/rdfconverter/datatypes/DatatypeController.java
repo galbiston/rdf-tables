@@ -87,22 +87,15 @@ public class DatatypeController {
         DATATYPES.put(datatype.getURI(), datatype);
     }
 
-    public static final String lookupDatatypeURI(String datatypeLabel) {
+    public static final String lookupDatatypeURI(String datatypeLabel, String baseURI) {
         getDatatypes();
         //Check if datatypeLabel is a URI and if so return.
-        if (datatypeLabel.startsWith(HTTP_PREFIX)) {
-            LOGGER.info("Suspected explicit URI datatype found: {}", datatypeLabel);
-            return datatypeLabel;
+        String tidyLabel = datatypeLabel.toLowerCase();
+        if (DATATYPE_PREFIXES.containsKey(tidyLabel)) {
+            return DATATYPE_PREFIXES.get(tidyLabel);
         } else {
-            String tidyLabel = datatypeLabel.toLowerCase();
-            if (DATATYPE_PREFIXES.containsKey(tidyLabel)) {
-                return DATATYPE_PREFIXES.get(tidyLabel);
-            } else {
-                LOGGER.error("Datatype not an individual, recognised prefix or URI: {}", datatypeLabel);
-                return null;
-            }
+            return PrefixController.lookupURI(datatypeLabel, baseURI);
         }
-
     }
 
     public static final Literal extractLiteral(String data, String datatypeURI) {
