@@ -26,26 +26,30 @@ public class PrefixController {
         PREFIXES.put(prefix, uri);
     }
 
-    public static final String lookupURI(String classString, String baseURI) {
+    public static final String lookupURI(String classLabel, String baseURI) {
         //Check property URI for HTTP prefix.
-        if (classString.startsWith(HTTP_PREFIX)) {
-            return classString;
-        } else if (PREFIXES.containsKey(classString)) {
-            return PREFIXES.get(classString);
+        if (checkURI(classLabel)) {
+            return classLabel;
+        } else if (PREFIXES.containsKey(classLabel)) {
+            return PREFIXES.get(classLabel);
         } else {
 
-            String[] parts = classString.split(PREFIX_SEPARATOR);
+            String[] parts = classLabel.split(PREFIX_SEPARATOR);
 
             if (parts.length > 1) {
                 if (PREFIXES.containsKey(parts[0])) {
                     return PREFIXES.get(parts[0]) + parts[1];
                 } else {
-                    LOGGER.error("Prefix unknown for {}", classString);
+                    LOGGER.error("Prefix unknown for {}", classLabel);
                     throw new AssertionError();
                 }
             }
-            return baseURI + classString;
+            return baseURI + classLabel;
         }
+    }
+
+    public static final boolean checkURI(String candidateURI) {
+        return candidateURI.startsWith(HTTP_PREFIX);
     }
 
 }
