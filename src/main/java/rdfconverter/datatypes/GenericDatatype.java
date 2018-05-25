@@ -7,7 +7,6 @@ package rdfconverter.datatypes;
 
 import org.apache.jena.datatypes.BaseDatatype;
 import org.apache.jena.datatypes.DatatypeFormatException;
-import org.apache.jena.graph.impl.LiteralLabel;
 
 /**
  *
@@ -40,19 +39,6 @@ public class GenericDatatype extends BaseDatatype {
     @Override
     public Object parse(String lexicalForm) throws DatatypeFormatException {
         return lexicalForm;
-    }
-
-    /**
-     * Compares two instances of values of the given datatype. .
-     *
-     * @param value1
-     * @param value2
-     * @return
-     */
-    @Override
-    public boolean isEqual(LiteralLabel value1, LiteralLabel value2) {
-        return value1.getDatatype() == value2.getDatatype()
-                && value1.getValue().equals(value2.getValue());
     }
 
 }
