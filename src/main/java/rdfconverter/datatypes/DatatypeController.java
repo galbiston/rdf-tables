@@ -81,10 +81,16 @@ public class DatatypeController {
         DATATYPES.put(XSDBaseNumericType.XSDduration.getURI(), XSDBaseNumericType.XSDduration);
     }
 
-    public static final void addPrefixDatatype(String prefix, BaseDatatype datatype) {
+    public static final void addPrefixDatatype(String prefix, String datatypeURI) {
         getDatatypes();
-        DATATYPE_PREFIXES.put(prefix, datatype.getURI());
-        DATATYPES.put(datatype.getURI(), datatype);
+
+        if (PrefixController.checkURI(datatypeURI)) {
+            DATATYPE_PREFIXES.put(prefix, datatypeURI);
+        } else {
+            LOGGER.error("Datatype URI is not a URI: {} {}", prefix, datatypeURI);
+            throw new AssertionError();
+        }
+        DATATYPES.put(datatypeURI, new GenericDatatype(datatypeURI));
     }
 
     public static final String lookupDatatypeURI(String datatypeLabel, String baseURI) {
@@ -94,7 +100,10 @@ public class DatatypeController {
         if (DATATYPE_PREFIXES.containsKey(tidyLabel)) {
             return DATATYPE_PREFIXES.get(tidyLabel);
         } else {
-            return PrefixController.lookupURI(datatypeLabel, baseURI);
+            String datatypeURI = PrefixController.lookupURI(datatypeLabel, baseURI);
+            DATATYPE_PREFIXES.put(datatypeLabel, datatypeURI);
+            DATATYPES.put(datatypeURI, new GenericDatatype(datatypeURI));
+            return datatypeURI;
         }
     }
 
