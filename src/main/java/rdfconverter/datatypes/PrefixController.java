@@ -5,7 +5,10 @@
  */
 package rdfconverter.datatypes;
 
+import java.lang.invoke.MethodHandles;
 import java.util.HashMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import static rdfconverter.datatypes.DatatypeController.HTTP_PREFIX;
 
 /**
@@ -13,6 +16,8 @@ import static rdfconverter.datatypes.DatatypeController.HTTP_PREFIX;
  * @author Gerg
  */
 public class PrefixController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private static final HashMap<String, String> PREFIXES = new HashMap<>();
     public static final String PREFIX_SEPARATOR = ":";
@@ -34,6 +39,9 @@ public class PrefixController {
             if (parts.length > 1) {
                 if (PREFIXES.containsKey(parts[0])) {
                     return PREFIXES.get(parts[0]) + parts[1];
+                } else {
+                    LOGGER.error("Prefix unknown for {}", classString);
+                    throw new AssertionError();
                 }
             }
             return baseURI + classString;
