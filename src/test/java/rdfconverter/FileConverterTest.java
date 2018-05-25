@@ -23,6 +23,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import rdfconverter.datatypes.DatatypeController;
+import rdfconverter.datatypes.GenericDatatype;
 import rdfconverter.datatypes.PrefixController;
 import rdfconverter.file.FileConverter;
 
@@ -41,6 +43,7 @@ public class FileConverterTest {
     public static void setUpClass() {
         File inputFile = new File(FileConverterTest.class.getClassLoader().getResource("TestData.csv").getFile());
         testModel = ModelFactory.createDefaultModel();
+        DatatypeController.addPrefixDatatype("wkt", "http://www.opengis.net/ont/geosparql#wktLiteral");
         PrefixController.addPrefix("other", "http://example.org/other#");
         FileConverter.writeToModel(inputFile, testModel, new HashMap<>());
     }
@@ -338,6 +341,40 @@ public class FileConverterTest {
         Statement s = ResourceFactory.createStatement(subject, predicate, object);
         boolean result = testModel.contains(s);
         boolean expResult = false;
+        //System.out.println("Exp: " + expResult + " Res: " + result);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of WKT method, of class FileConverter. Check user datatype.
+     */
+    @Test
+    public void testUserDatatype() {
+        System.out.println("userDatatype");
+
+        Resource subject = ResourceFactory.createResource("http://example.org#PersonA");
+        Property predicate = ResourceFactory.createProperty("http://example.org#position");
+        String result = testModel.getProperty(subject, predicate).getLiteral().getLexicalForm();
+
+        String expResult = ResourceFactory.createTypedLiteral("POINT(10 10)", new GenericDatatype("http://www.opengis.net/ont/geosparql#wktLiteral")).getLexicalForm();
+
+        //System.out.println("Exp: " + expResult + " Res: " + result);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of WKT method, of class FileConverter. Check prefix for class type.
+     */
+    @Test
+    public void testPrefixDatatype() {
+        System.out.println("prefixDatatype");
+
+        Resource subject = ResourceFactory.createResource("http://example.org#PersonA");
+        Property predicate = ResourceFactory.createProperty("http://example.org#positionAccuracy");
+        String result = testModel.getProperty(subject, predicate).getLiteral().getLexicalForm();
+
+        String expResult = ResourceFactory.createTypedLiteral("5.1", new GenericDatatype("http://example.org/other#accuracy")).getLexicalForm();
+
         //System.out.println("Exp: " + expResult + " Res: " + result);
         assertEquals(expResult, result);
     }
