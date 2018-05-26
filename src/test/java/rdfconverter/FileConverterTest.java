@@ -212,8 +212,10 @@ public class FileConverterTest {
         Property predicate = RDF.type;
         Resource object = ResourceFactory.createResource("http://example.org#Person");
         Statement s = ResourceFactory.createStatement(subject, predicate, object);
+
         boolean result = testModel.contains(s);
         boolean expResult = true;
+
         //System.out.println("Exp: " + expResult + " Res: " + result);
         assertEquals(expResult, result);
     }

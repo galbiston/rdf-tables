@@ -93,67 +93,77 @@ public class FileConverter {
     }
 
     private static String readHeader(String[] headerLine, HashMap<Integer, String> datatypeURIs, HashMap<Integer, Property> propertyURIs, HashMap<Integer, Resource> classURIs, List<Integer> targetColumns) {
+        String baseURI;
+        String header = null;
+        String[] parts;
+        try {
+            //First column: BASE_URI CLASS_URI
+            header = headerLine[0];
+            parts = header.split(HEADER_ITEM_SEPARATOR);
+            baseURI = parts[0];
+            createClass(0, parts[1].startsWith(CLASS_CHARACTER) ? parts[1].substring(1) : parts[1], baseURI, classURIs);
+            targetColumns.add(0);
+        } catch (Exception ex) {
+            LOGGER.error("{} - Header column zero: {}", ex.getMessage(), header);
+            throw new AssertionError();
+        }
+        //Remaining Columns
+        for (int i = 1; i < headerLine.length; i++) {
+            try {
+                header = headerLine[i];
+                parts = header.split(HEADER_ITEM_SEPARATOR);
 
-        String baseURI = "";
+                //Extract datatype and propertyURI from header field.
+                String datatypeLabel = null;
+                String propertyLabel = parts[0];
+                String classLabel = null;
+                Integer targetColumn = 0;
 
-        for (int i = 0; i < headerLine.length; i++) {
-            String header = headerLine[i];
-            String[] parts = header.split(HEADER_ITEM_SEPARATOR);
+                switch (parts.length) {
+                    case 1:
+                        datatypeLabel = "string";
+                        break;
+                    case 2:
+                        if (integerCheck(parts[1])) {
+                            targetColumn = Integer.parseInt(parts[1]);
+                        } else {
 
-            //Extract datatype and propertyURI from header field.
-            String datatypeLabel = null;
-            String propertyLabel = parts[0];
-            String classLabel = null;
-            Integer targetColumn = 0;
-
-            switch (parts.length) {
-                case 1:
-                    datatypeLabel = "string";
-                    break;
-                case 2:
-                    //First column is always a resource so datatype specifies the BASE URI.
-                    if (i == 0) {
-                        baseURI = parts[0];
-                    }
-                    if (integerCheck(parts[1])) {
-                        targetColumn = Integer.parseInt(parts[1]);
-                    } else {
-
+                            if (parts[1].startsWith(CLASS_CHARACTER)) {
+                                classLabel = parts[1].substring(1);
+                            } else {
+                                datatypeLabel = parts[1];
+                            }
+                        }
+                        break;
+                    case 3:
                         if (parts[1].startsWith(CLASS_CHARACTER)) {
                             classLabel = parts[1].substring(1);
                         } else {
                             datatypeLabel = parts[1];
                         }
-                    }
-                    break;
-                case 3:
-                    if (parts[1].startsWith(CLASS_CHARACTER)) {
-                        classLabel = parts[1].substring(1);
-                    } else {
+
+                        if (parts[2].startsWith(CLASS_CHARACTER)) {
+                            classLabel = parts[2].substring(1);
+                        } else {
+                            targetColumn = Integer.parseInt(parts[2]);
+                        }
+                        break;
+                    default:
                         datatypeLabel = parts[1];
-                    }
-
-                    if (parts[2].startsWith(CLASS_CHARACTER)) {
-                        classLabel = parts[2].substring(1);
-                    } else {
                         targetColumn = Integer.parseInt(parts[2]);
-                    }
-                    break;
-                default:
-                    datatypeLabel = parts[1];
-                    targetColumn = Integer.parseInt(parts[2]);
-                    classLabel = parts[3];
-            }
+                        classLabel = parts[3];
+                }
 
-            //Record the target column
-            targetColumns.add(targetColumn);
+                //Record the target column
+                targetColumns.add(targetColumn);
 
-            if (i > 0) {
-                createDatatype(i, datatypeLabel, baseURI, datatypeURIs);
                 createProperty(i, propertyLabel, baseURI, propertyURIs);
+                createDatatype(i, datatypeLabel, baseURI, datatypeURIs);
+                createClass(i, classLabel, baseURI, classURIs);
+            } catch (NumberFormatException ex) {
+                LOGGER.error("{} - Header column {}: {}", ex.getMessage(), i, header);
+                throw new AssertionError();
             }
-
-            createClass(i, classLabel, baseURI, classURIs);
         }
         return baseURI;
     }
@@ -196,36 +206,50 @@ public class FileConverter {
         //Find all individuals
         for (Integer index : classURIs.keySet()) {
             //Create subject as individual with specified class.
-            String tidyData = dataLine[index].trim();
-            Resource subject = createIndividual(tidyData, model, baseURI, classURIs.get(index));
+            String data = dataLine[index];
+            //Skip early on empty or whitespace string.
+            if (data.isEmpty()) {
+                continue;
+            }
+            Resource subject = createIndividual(data, model, baseURI, classURIs.get(index));
             indviduals.put(index, subject);
         }
 
         //Extract the objects.
         for (int i = 1; i < dataLine.length; i++) {
-
             String data = dataLine[i];
+            try {
 
-            //Skip early on empty or whitespace string.
-            if (data.equals("")) {
-                continue;
+                //Skip early on empty or whitespace string.
+                if (data.isEmpty()) {
+                    continue;
+                }
+
+                Property property = propertyURIs.get(i);
+                RDFNode object;
+                if (datatypeURIs.containsKey(i)) {
+                    String datatypeURI = datatypeURIs.get(i);
+                    object = DatatypeController.extractLiteral(data, datatypeURI);
+                } else if (indviduals.containsKey(i)) {
+                    //No datatype so must be an individual.
+                    object = indviduals.get(i);
+                } else {
+                    LOGGER.error("Cannot find: {} in index: {}. Class URI may be missing from column header.", data, i);
+                    throw new AssertionError();
+                }
+
+                Resource targetSubject;
+                int targetColumn = targetColumns.get(i);
+                if (indviduals.containsKey(targetColumn)) {
+                    targetSubject = indviduals.get(targetColumn);
+                    targetSubject.addProperty(property, object);
+                } else {
+                    LOGGER.error("Target column {} for item: {} is empty on line: {}", targetColumn, data, dataLine);
+                    throw new AssertionError();
+                }
+            } catch (Exception ex) {
+                LOGGER.error("{} - Reading item: {} on line: {}", ex.getMessage(), data, dataLine);
             }
-
-            Property property = propertyURIs.get(i);
-            RDFNode object;
-            if (datatypeURIs.containsKey(i)) {
-                String datatypeURI = datatypeURIs.get(i);
-                object = DatatypeController.extractLiteral(data, datatypeURI);
-            } else if (indviduals.containsKey(i)) {
-                //No datatype so must be an individual.
-                object = indviduals.get(i);
-            } else {
-                LOGGER.error("Cannot find: {} in index: {}. Class URI may be missing from column header.", data, i);
-                throw new AssertionError();
-            }
-
-            Resource targetSubject = indviduals.get(targetColumns.get(i));
-            targetSubject.addProperty(property, object);
         }
     }
 
