@@ -59,11 +59,11 @@ public class FileConverter {
 
     private static final String CLASS_CHARACTER = ":";
 
-    public static final void writeToModel(File inputFile, Model model, HashMap<String, String> prefixMap) {
-        writeToModel(inputFile, model, prefixMap, ',');
+    public static final void writeToModel(File inputFile, Model model) {
+        writeToModel(inputFile, model, ',');
     }
 
-    public static final void writeToModel(File inputFile, Model model, HashMap<String, String> prefixMap, char separator) {
+    public static final void writeToModel(File inputFile, Model model, char separator) {
 
         LOGGER.info("File Conversion Started: {}", inputFile.getPath());
 
@@ -82,7 +82,7 @@ public class FileConverter {
                 lineNumber++;
                 readData(line, baseURI, datatypeURIs, propertyURIs, classURIs, targetColumns, model);
             }
-            model.setNsPrefixes(prefixMap);
+            model.setNsPrefixes(PrefixController.getPREFIXES());
 
         } catch (IOException | RuntimeException ex) {
 

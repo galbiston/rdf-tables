@@ -22,6 +22,7 @@ import org.apache.jena.riot.RDFFormat;
 import org.apache.jena.tdb.TDBFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import rdfconverter.datatypes.PrefixController;
 
 /**
  *
@@ -47,11 +48,12 @@ public class FileSupport {
     public static Model convertCSVFiles(List<File> dataFiles, List<File> excludedFiles, File targetFile, File prefixesFile) {
 
         HashMap<String, String> prefixMap = PrefixReader.read(prefixesFile);
-
+        PrefixController.addPrefixes(prefixMap);
+        
         Model model = ModelFactory.createDefaultModel();
         for (File inputFile : dataFiles) {
             if (!excludedFiles.contains(inputFile)) {
-                FileConverter.writeToModel(inputFile, model, prefixMap);
+                FileConverter.writeToModel(inputFile, model);
             }
         }
         try (FileOutputStream out = new FileOutputStream(targetFile)) {

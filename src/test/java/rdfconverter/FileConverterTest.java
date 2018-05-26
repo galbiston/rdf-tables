@@ -6,7 +6,6 @@
 package rdfconverter;
 
 import java.io.File;
-import java.util.HashMap;
 import org.apache.jena.datatypes.BaseDatatype;
 import org.apache.jena.datatypes.xsd.impl.XSDBaseNumericType;
 import org.apache.jena.rdf.model.Literal;
@@ -45,7 +44,7 @@ public class FileConverterTest {
         testModel = ModelFactory.createDefaultModel();
         DatatypeController.addPrefixDatatype("wkt", "http://www.opengis.net/ont/geosparql#wktLiteral");
         PrefixController.addPrefix("other", "http://example.org/other#");
-        FileConverter.writeToModel(inputFile, testModel, new HashMap<>());
+        FileConverter.writeToModel(inputFile, testModel);
     }
 
     @AfterClass
