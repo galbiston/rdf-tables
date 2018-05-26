@@ -365,7 +365,8 @@ public class FileConverterTest {
     }
 
     /**
-     * Test of WKT method, of class FileConverter. Check prefix for class type.
+     * Test of prefix datatype method, of class FileConverter. Check prefix for
+     * class type.
      */
     @Test
     public void testPrefixDatatype() {
@@ -376,6 +377,26 @@ public class FileConverterTest {
         String result = testModel.getProperty(subject, predicate).getLiteral().getLexicalForm();
 
         String expResult = ResourceFactory.createTypedLiteral("5.1", new BaseDatatype("http://example.org/other#accuracy")).getLexicalForm();
+
+        //System.out.println("Exp: " + expResult + " Res: " + result);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of prefix datatype using datatype URI lookup method, of class
+     * FileConverter. Check prefix for class type.
+     */
+    @Test
+    public void testPrefixDatatype2() {
+        System.out.println("prefixDatatype2");
+
+        Resource subject = ResourceFactory.createResource("http://example.org#PersonA");
+        Property predicate = ResourceFactory.createProperty("http://example.org#positionAccuracy");
+        Literal object = ResourceFactory.createTypedLiteral("5.1", DatatypeController.lookupDatatype("http://example.org/other#accuracy"));
+        Statement s = ResourceFactory.createStatement(subject, predicate, object);
+
+        boolean result = testModel.contains(s);
+        boolean expResult = true;
 
         //System.out.println("Exp: " + expResult + " Res: " + result);
         assertEquals(expResult, result);

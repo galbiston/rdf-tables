@@ -107,6 +107,16 @@ public class DatatypeController {
         }
     }
 
+    public static final BaseDatatype lookupDatatype(String datatypeURI) {
+        getDatatypes();
+        if (DATATYPES.containsKey(datatypeURI)) {
+            return DATATYPES.get(datatypeURI);
+        } else {
+            LOGGER.error("{} datatype URI not registered.", datatypeURI);
+            throw new AssertionError();
+        }
+    }
+
     public static final Literal extractLiteral(String data, String datatypeURI) {
         getDatatypes();
         if (DATATYPES.containsKey(datatypeURI)) {
