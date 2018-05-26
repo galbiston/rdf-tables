@@ -31,12 +31,10 @@ public class PrefixController {
     }
 
     private static void loadPrefixes() {
-        PREFIXES.put("fn", "http://www.w3.org/2005/xpath-functions#");
         PREFIXES.put("olo", "http://purl.org/ontology/olo/core#");
         PREFIXES.put("owl", "http://www.w3.org/2002/07/owl#");
         PREFIXES.put("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
         PREFIXES.put("rdfs", "http://www.w3.org/2000/01/rdf-schema#");
-        PREFIXES.put("sfn", "http://www.w3.org/ns/sparql#");
         PREFIXES.put("time", "http://www.w3.org/2006/time#");
         PREFIXES.put("xsd", "http://www.w3.org/2001/XMLSchema#");
     }
