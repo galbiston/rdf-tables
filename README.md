@@ -37,9 +37,9 @@ Gaps for columns are ignored with no warnings.
 Multiple columns with the same or similar items do not cause any issues.
 
 Objects:
-* Explicit URIs are preserved unchanged, e.g. "http://example.org/my#ClassA".
-* Prefixes are expanded using the loaded prefixes, e.g. "my:ClassA" becomes "http://example.org/my#ClassA".
-* All other cases the base URI is applied, e.g. "ClassA" becomes "http://example.org/my#ClassA".
+*  Explicit URIs are preserved unchanged, e.g. "http://example.org/my#ClassA".
+*  Prefixes are expanded using the loaded prefixes, e.g. "my:ClassA" becomes "http://example.org/my#ClassA".
+*  All other cases the base URI is applied, e.g. "ClassA" becomes "http://example.org/my#ClassA".
 
 Literals:
 * The Datatype URI specified in the column header is applied with the data in the cell to form a Literal.
@@ -61,12 +61,12 @@ Defaults to comma but any character string can be used except for reserved chara
 ### 4) Output Serialisation
 The file serialistion used for the RDF output.
 
-* JSON-LD		json-ld
-* NTriples		nt
-* NQUADS		nq
-* RDF/JSON		json
-* RDF/XML		xml
-* Turtle		ttl (Default)
+*  JSON-LD		json-ld
+*  NTriples		nt
+*  NQUADS		nq
+*  RDF/JSON		json
+*  RDF/XML		xml
+*  Turtle		ttl (Default)
 
 ### 5) Prefixes File
 A file of key value pairs with no header.
@@ -74,12 +74,12 @@ Key is the prefix label and value is the URI for the prefix.
 Defaults to searching the input folder and current directory for "prefixes.prop".
 
 Pre-loaded prefixes:
-* olo	http://purl.org/ontology/olo/core#
-* owl	http://www.w3.org/2002/07/owl#
-* rdf	http://www.w3.org/1999/02/22-rdf-syntax-ns#
-* rdfs	http://www.w3.org/2000/01/rdf-schema#
-* time	http://www.w3.org/2006/time#
-* xsd	http://www.w3.org/2001/XMLSchema#
+*  olo	http://purl.org/ontology/olo/core#
+*  owl	http://www.w3.org/2002/07/owl#
+*  rdf	http://www.w3.org/1999/02/22-rdf-syntax-ns#
+*  rdfs	http://www.w3.org/2000/01/rdf-schema#
+*  time	http://www.w3.org/2006/time#
+*  xsd	http://www.w3.org/2001/XMLSchema#
 
 ### 6) Datatypes File
 A file of key value pairs with no header.
@@ -87,19 +87,19 @@ Key is the datatype label and value is the URI for the datatype.
 Defaults to searching the input folder and current directory for "datatypes.prop".
 
 Pre-loaded XSD datatypes:
-* boolean
-* decimal
-* date
-* dateTime
-* double
-* duration 
-* int
-* integer
-* nonNegativeInteger
-* nonPositiveInteger
-* positiveInteger
-* string
-* time
+*  boolean
+*  decimal
+*  date
+*  dateTime
+*  double
+*  duration 
+*  int
+*  integer
+*  nonNegativeInteger
+*  nonPositiveInteger
+*  positiveInteger
+*  string
+*  time
 
 ## Future Work:
 Items that can be developed based on feedback and other suggestions.
