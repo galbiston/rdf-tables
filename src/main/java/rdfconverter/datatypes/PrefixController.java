@@ -23,8 +23,22 @@ public class PrefixController {
     private static final HashMap<String, String> PREFIXES = new HashMap<>();
     public static final String PREFIX_SEPARATOR = ":";
 
-    public static HashMap<String, String> getPREFIXES() {
+    public static HashMap<String, String> getPrefixes() {
+        if (PREFIXES.isEmpty()) {
+            loadPrefixes();
+        }
         return PREFIXES;
+    }
+
+    private static void loadPrefixes() {
+        PREFIXES.put("fn", "http://www.w3.org/2005/xpath-functions#");
+        PREFIXES.put("olo", "http://purl.org/ontology/olo/core#");
+        PREFIXES.put("owl", "http://www.w3.org/2002/07/owl#");
+        PREFIXES.put("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+        PREFIXES.put("rdfs", "http://www.w3.org/2000/01/rdf-schema#");
+        PREFIXES.put("sfn", "http://www.w3.org/ns/sparql#");
+        PREFIXES.put("time", "http://www.w3.org/2006/time#");
+        PREFIXES.put("xsd", "http://www.w3.org/2001/XMLSchema#");
     }
 
     public static final void addPrefixes(Map<String, String> prefixes) {
@@ -36,6 +50,7 @@ public class PrefixController {
     }
 
     public static final String lookupURI(String classLabel, String baseURI) {
+        getPrefixes();
         //Check property URI for HTTP prefix.
         if (checkURI(classLabel)) {
             return classLabel;

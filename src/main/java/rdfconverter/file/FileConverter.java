@@ -82,7 +82,7 @@ public class FileConverter {
                 lineNumber++;
                 readData(line, baseURI, datatypeURIs, propertyURIs, classURIs, targetColumns, model);
             }
-            model.setNsPrefixes(PrefixController.getPREFIXES());
+            model.setNsPrefixes(PrefixController.getPrefixes());
 
         } catch (IOException | RuntimeException ex) {
 
