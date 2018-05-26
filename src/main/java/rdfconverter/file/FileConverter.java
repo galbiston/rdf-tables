@@ -57,7 +57,7 @@ public class FileConverter {
 
     private static final Resource NAMED_INDIVIDUAL = ResourceFactory.createResource(OWL.NS + "NamedIndividual");
 
-    private static final String CLASS_CHARACTER = "#";
+    private static final String CLASS_CHARACTER = ":";
 
     public static final void writeToModel(File inputFile, Model model, HashMap<String, String> prefixMap) {
         writeToModel(inputFile, model, prefixMap, ',');
