@@ -25,7 +25,6 @@ import org.apache.jena.vocabulary.RDFS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rdfconverter.datatypes.DatatypeController;
-import static rdfconverter.datatypes.DatatypeController.HEADER_ITEM_SEPARATOR;
 import static rdfconverter.datatypes.DatatypeController.HTTP_PREFIX;
 import rdfconverter.datatypes.PrefixController;
 
@@ -56,7 +55,7 @@ public class FileConverter {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private static final Resource NAMED_INDIVIDUAL = ResourceFactory.createResource(OWL.NS + "NamedIndividual");
-
+    public static final String HEADER_ITEM_SEPARATOR = "\\|";
     private static final String CLASS_CHARACTER = ":";
 
     public static final void writeToModel(File inputFile, Model model) {

@@ -16,8 +16,8 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import static rdfconverter.datatypes.DatatypeController.HEADER_ITEM_SEPARATOR;
 import rdfconverter.datatypes.Datatypes;
+import static rdfconverter.file.FileConverter.HEADER_ITEM_SEPARATOR;
 
 /**
  *

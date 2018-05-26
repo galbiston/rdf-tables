@@ -12,5 +12,11 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        //1) Input folder/file to convert
+        //- folder then use input filename to build. Get extension from serialisation.
+        //2) Output folder/file to write to [optional], see above, default to same folder
+        //3) Output serialisation
+        //4) Separator value - COMMA, TAB, SPACE
+
     }
 }

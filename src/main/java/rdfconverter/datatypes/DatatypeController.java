@@ -26,7 +26,6 @@ public class DatatypeController {
     private static final HashMap<String, String> DATATYPE_PREFIXES = new HashMap<>();
     private static final HashMap<String, BaseDatatype> DATATYPES = new HashMap<>();
 
-    public static final String HEADER_ITEM_SEPARATOR = " ";
     public static final String HTTP_PREFIX = "http://";
     public static final String BOOLEAN_URI = XSDBaseNumericType.XSDboolean.getURI();
 
