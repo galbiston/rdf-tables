@@ -354,7 +354,7 @@ public class FileConverterTest {
     public void testUserDatatype() {
         System.out.println("userDatatype");
 
-        Resource subject = ResourceFactory.createResource("http://example.org#PersonA");
+        Resource subject = ResourceFactory.createResource("http://example.org#VehicleA");
         Property predicate = ResourceFactory.createProperty("http://example.org#position");
         String result = testModel.getProperty(subject, predicate).getLiteral().getLexicalForm();
 
@@ -372,7 +372,7 @@ public class FileConverterTest {
     public void testPrefixDatatype() {
         System.out.println("prefixDatatype");
 
-        Resource subject = ResourceFactory.createResource("http://example.org#PersonA");
+        Resource subject = ResourceFactory.createResource("http://example.org#VehicleA");
         Property predicate = ResourceFactory.createProperty("http://example.org#positionAccuracy");
         String result = testModel.getProperty(subject, predicate).getLiteral().getLexicalForm();
 
@@ -390,7 +390,7 @@ public class FileConverterTest {
     public void testPrefixDatatype2() {
         System.out.println("prefixDatatype2");
 
-        Resource subject = ResourceFactory.createResource("http://example.org#PersonA");
+        Resource subject = ResourceFactory.createResource("http://example.org#VehicleA");
         Property predicate = ResourceFactory.createProperty("http://example.org#positionAccuracy");
         Literal object = ResourceFactory.createTypedLiteral("5.1", DatatypeController.lookupDatatype("http://example.org/other#accuracy"));
         Statement s = ResourceFactory.createStatement(subject, predicate, object);
