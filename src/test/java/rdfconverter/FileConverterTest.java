@@ -7,6 +7,7 @@ package rdfconverter;
 
 import java.io.File;
 import java.util.HashMap;
+import org.apache.jena.datatypes.BaseDatatype;
 import org.apache.jena.datatypes.xsd.impl.XSDBaseNumericType;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
@@ -24,7 +25,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import rdfconverter.datatypes.DatatypeController;
-import rdfconverter.datatypes.GenericDatatype;
 import rdfconverter.datatypes.PrefixController;
 import rdfconverter.file.FileConverter;
 
@@ -358,7 +358,7 @@ public class FileConverterTest {
         Property predicate = ResourceFactory.createProperty("http://example.org#position");
         String result = testModel.getProperty(subject, predicate).getLiteral().getLexicalForm();
 
-        String expResult = ResourceFactory.createTypedLiteral("POINT(10 10)", new GenericDatatype("http://www.opengis.net/ont/geosparql#wktLiteral")).getLexicalForm();
+        String expResult = ResourceFactory.createTypedLiteral("POINT(10 10)", new BaseDatatype("http://www.opengis.net/ont/geosparql#wktLiteral")).getLexicalForm();
 
         //System.out.println("Exp: " + expResult + " Res: " + result);
         assertEquals(expResult, result);
@@ -375,7 +375,7 @@ public class FileConverterTest {
         Property predicate = ResourceFactory.createProperty("http://example.org#positionAccuracy");
         String result = testModel.getProperty(subject, predicate).getLiteral().getLexicalForm();
 
-        String expResult = ResourceFactory.createTypedLiteral("5.1", new GenericDatatype("http://example.org/other#accuracy")).getLexicalForm();
+        String expResult = ResourceFactory.createTypedLiteral("5.1", new BaseDatatype("http://example.org/other#accuracy")).getLexicalForm();
 
         //System.out.println("Exp: " + expResult + " Res: " + result);
         assertEquals(expResult, result);

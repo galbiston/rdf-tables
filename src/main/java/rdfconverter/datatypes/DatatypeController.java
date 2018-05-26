@@ -90,7 +90,7 @@ public class DatatypeController {
             LOGGER.error("Datatype URI is not a URI: {} {}", prefix, datatypeURI);
             throw new AssertionError();
         }
-        DATATYPES.put(datatypeURI, new GenericDatatype(datatypeURI));
+        DATATYPES.put(datatypeURI, new BaseDatatype(datatypeURI));
     }
 
     public static final String lookupDatatypeURI(String datatypeLabel, String baseURI) {
@@ -102,7 +102,7 @@ public class DatatypeController {
         } else {
             String datatypeURI = PrefixController.lookupURI(datatypeLabel, baseURI);
             DATATYPE_PREFIXES.put(datatypeLabel, datatypeURI);
-            DATATYPES.put(datatypeURI, new GenericDatatype(datatypeURI));
+            DATATYPES.put(datatypeURI, new BaseDatatype(datatypeURI));
             return datatypeURI;
         }
     }
