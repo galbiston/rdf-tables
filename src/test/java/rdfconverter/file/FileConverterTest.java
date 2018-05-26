@@ -25,7 +25,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import rdfconverter.datatypes.DatatypeController;
 import rdfconverter.datatypes.PrefixController;
-import rdfconverter.file.FileConverter;
 
 /**
  *
@@ -397,6 +396,25 @@ public class FileConverterTest {
         boolean result = testModel.contains(s);
         boolean expResult = true;
 
+        //System.out.println("Exp: " + expResult + " Res: " + result);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of InvertProperty method, of class FileConverter. Check inverting
+     * the property. type.
+     */
+    @Test
+    public void testInvertProperty() {
+        System.out.println("InvertProperty");
+
+        Resource subject = ResourceFactory.createResource("http://example.org#HouseA");
+        Property predicate = ResourceFactory.createProperty("http://example.org#hasOwner");
+        Resource object = ResourceFactory.createResource("http://example.org#PersonA");
+        Statement s = ResourceFactory.createStatement(subject, predicate, object);
+
+        boolean result = testModel.contains(s);
+        boolean expResult = true;
         //System.out.println("Exp: " + expResult + " Res: " + result);
         assertEquals(expResult, result);
     }

@@ -57,6 +57,7 @@ public class FileConverter {
     private static final Resource NAMED_INDIVIDUAL = ResourceFactory.createResource(OWL.NS + "NamedIndividual");
     public static final String HEADER_ITEM_SEPARATOR = "\\|";
     private static final String CLASS_CHARACTER = ":";
+    private static final char INVERT_CHARACTER = '^';
 
     public static final void writeToModel(File inputFile, Model model) {
         writeToModel(inputFile, model, ',');
@@ -70,16 +71,17 @@ public class FileConverter {
         HashMap<Integer, Property> propertyURIs = new HashMap<>();
         HashMap<Integer, Resource> classURIs = new HashMap<>();
         List<Integer> targetColumns = new ArrayList<>();
+        List<Boolean> propertyDirections = new ArrayList<>();
         int lineNumber = 1;
 
         try (CSVReader reader = new CSVReader(new FileReader(inputFile), separator)) {
 
-            String baseURI = readHeader(reader.readNext(), datatypeURIs, propertyURIs, classURIs, targetColumns);
+            String baseURI = readHeader(reader.readNext(), datatypeURIs, propertyURIs, classURIs, targetColumns, propertyDirections);
 
             String[] line;
             while ((line = reader.readNext()) != null) {
                 lineNumber++;
-                readData(line, baseURI, datatypeURIs, propertyURIs, classURIs, targetColumns, model);
+                readData(line, baseURI, datatypeURIs, propertyURIs, classURIs, targetColumns, propertyDirections, model);
             }
             model.setNsPrefixes(PrefixController.getPrefixes());
 
@@ -91,7 +93,7 @@ public class FileConverter {
         LOGGER.info("File Conversion Completed: {}", inputFile.getPath());
     }
 
-    private static String readHeader(String[] headerLine, HashMap<Integer, String> datatypeURIs, HashMap<Integer, Property> propertyURIs, HashMap<Integer, Resource> classURIs, List<Integer> targetColumns) {
+    private static String readHeader(String[] headerLine, HashMap<Integer, String> datatypeURIs, HashMap<Integer, Property> propertyURIs, HashMap<Integer, Resource> classURIs, List<Integer> targetColumns, List<Boolean> propertyDirections) {
         String baseURI;
         String header = null;
         String[] parts;
@@ -102,6 +104,7 @@ public class FileConverter {
             baseURI = parts[0];
             createClass(0, parts[1].startsWith(CLASS_CHARACTER) ? parts[1].substring(1) : parts[1], baseURI, classURIs);
             targetColumns.add(0);
+            propertyDirections.add(Boolean.TRUE);
         } catch (Exception ex) {
             LOGGER.error("{} - Header column zero: {}", ex.getMessage(), header);
             throw new AssertionError();
@@ -134,7 +137,7 @@ public class FileConverter {
                             }
                         }
                         break;
-                    case 3:
+                    default:
                         if (parts[1].startsWith(CLASS_CHARACTER)) {
                             classLabel = parts[1].substring(1);
                         } else {
@@ -147,14 +150,24 @@ public class FileConverter {
                             targetColumn = Integer.parseInt(parts[2]);
                         }
                         break;
-                    default:
-                        datatypeLabel = parts[1];
-                        targetColumn = Integer.parseInt(parts[2]);
-                        classLabel = parts[3];
                 }
 
                 //Record the target column
                 targetColumns.add(targetColumn);
+
+                //Check the property direction
+                if (propertyLabel.charAt(0) == INVERT_CHARACTER) {
+
+                    if (datatypeLabel == null) {
+                        propertyLabel = propertyLabel.substring(1);
+                        propertyDirections.add(Boolean.FALSE);
+                    } else {
+                        LOGGER.error("Cannot invert from Datatype {} : {}", i, header);
+                        throw new AssertionError();
+                    }
+                } else {
+                    propertyDirections.add(Boolean.TRUE);
+                }
 
                 createProperty(i, propertyLabel, baseURI, propertyURIs);
                 createDatatype(i, datatypeLabel, baseURI, datatypeURIs);
@@ -197,7 +210,7 @@ public class FileConverter {
         return true;
     }
 
-    private static void readData(String[] dataLine, String baseURI, HashMap<Integer, String> datatypeURIs, HashMap<Integer, Property> propertyURIs, HashMap<Integer, Resource> classURIs, List<Integer> targetColumns, Model model) {
+    private static void readData(String[] dataLine, String baseURI, HashMap<Integer, String> datatypeURIs, HashMap<Integer, Property> propertyURIs, HashMap<Integer, Resource> classURIs, List<Integer> targetColumns, List<Boolean> propertyDirections, Model model) {
 
         //Map of subject encountered in each row.
         HashMap<Integer, Resource> indviduals = new HashMap<>();
@@ -241,7 +254,18 @@ public class FileConverter {
                 int targetColumn = targetColumns.get(i);
                 if (indviduals.containsKey(targetColumn)) {
                     targetSubject = indviduals.get(targetColumn);
-                    targetSubject.addProperty(property, object);
+                    Boolean isSubjectObject = propertyDirections.get(i);
+                    if (isSubjectObject) {
+                        targetSubject.addProperty(property, object);
+                    } else {
+                        if (object instanceof Resource) {
+                            Resource targetObject = (Resource) object;
+                            targetObject.addProperty(property, targetSubject);
+                        } else {
+                            LOGGER.error("Literal: {} cannot be inverted: {}", data, dataLine);
+                            throw new AssertionError();
+                        }
+                    }
                 } else {
                     LOGGER.error("Target column {} for item: {} is empty on line: {}", targetColumn, data, dataLine);
                     throw new AssertionError();
