@@ -15,8 +15,13 @@ public class Main {
         //1) Input folder/file to convert
         //- folder then use input filename to build. Get extension from serialisation.
         //2) Output folder/file to write to [optional], see above, default to same folder
-        //3) Output serialisation
+        //- file then consildate into single file
+        //3) Output serialisation - ttl, nt, nq, json-ld, json, xml
         //4) Separator value - COMMA, TAB, SPACE
+        //5) Prefixes file
+        //6) Datatypes file
+        //--help switch
+        //--props file configuration
 
     }
 }
