@@ -9,6 +9,8 @@ import com.opencsv.CSVReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,6 +60,9 @@ public class FileConverter {
     public static final String HEADER_ITEM_SEPARATOR = "\\|";
     private static final String CLASS_CHARACTER = ":";
     private static final char INVERT_CHARACTER = '^';
+    private static final Boolean IS_OWL_INDIVIDUAL = FALSE;
+    private static final Boolean IS_RDFS_LABEL = TRUE;
+    private static final Resource NO_CLASS_ANON = ResourceFactory.createResource();
 
     public static final void writeToModel(File inputFile, Model model) {
         writeToModel(inputFile, model, ',');
@@ -123,7 +128,8 @@ public class FileConverter {
 
                 switch (parts.length) {
                     case 1:
-                        datatypeLabel = "string";
+                        //Indicate that no class was specified.
+                        classLabel = NO_CLASS_ANON.toString();
                         break;
                     case 2:
                         if (integerCheck(parts[1])) {
@@ -189,6 +195,11 @@ public class FileConverter {
     private static void createClass(Integer index, String classLabel, String baseURI, HashMap<Integer, Resource> classURIs) {
 
         if (classLabel != null) {
+            //Case when no class specified.
+            if (classLabel.equals(NO_CLASS_ANON.toString())) {
+                classURIs.put(index, NO_CLASS_ANON);
+            }
+
             String uri = PrefixController.lookupURI(classLabel, baseURI);
             Resource resource = ResourceFactory.createResource(uri);
             classURIs.put(index, resource);
@@ -288,16 +299,23 @@ public class FileConverter {
             label = tidyData;
         }
 
-        //Create the individual with specified class and owl:namedIndividual class
+        //Create the individual with specified class and owl:NamedIndividual class
         Resource subject = model.createResource(uri);
         if (classURI != null) {
-            subject.addProperty(RDF.type, classURI);
+            //Check whether the individual actually has a class specified.
+            if (!classURI.equals(NO_CLASS_ANON)) {
+                subject.addProperty(RDF.type, classURI);
+            }
         }
-        subject.addProperty(RDF.type, NAMED_INDIVIDUAL);
+        if (IS_OWL_INDIVIDUAL) {
+            subject.addProperty(RDF.type, NAMED_INDIVIDUAL);
+        }
 
         //Apply a label to the subject.
-        Literal labelLiteral = model.createLiteral(label);
-        subject.addLiteral(RDFS.label, labelLiteral);
+        if (IS_RDFS_LABEL) {
+            Literal labelLiteral = model.createLiteral(label);
+            subject.addLiteral(RDFS.label, labelLiteral);
+        }
         return subject;
     }
 

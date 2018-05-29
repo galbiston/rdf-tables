@@ -20,6 +20,7 @@ public class Main {
         //4) Separator value - COMMA, TAB, SPACE
         //5) Prefixes file
         //6) Datatypes file
+        //7) Owl NamedIndividual
         //--help switch
         //--props file configuration
 

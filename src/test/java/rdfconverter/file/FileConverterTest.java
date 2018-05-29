@@ -419,4 +419,22 @@ public class FileConverterTest {
         assertEquals(expResult, result);
     }
 
+    /**
+     * Test of Object created for single arg column header. type.
+     */
+    @Test
+    public void testDefaultObject() {
+        System.out.println("DefaultObject");
+
+        Resource subject = ResourceFactory.createResource("http://example.org#PersonA");
+        Property predicate = ResourceFactory.createProperty("http://example.org#hasFriend");
+        Resource object = ResourceFactory.createResource("http://example.org#PersonB");
+        Statement s = ResourceFactory.createStatement(subject, predicate, object);
+
+        boolean result = testModel.contains(s);
+        boolean expResult = true;
+        //System.out.println("Exp: " + expResult + " Res: " + result);
+        assertEquals(expResult, result);
+    }
+
 }

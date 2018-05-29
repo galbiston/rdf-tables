@@ -18,10 +18,10 @@ Features:
 
 Header items are separated by the reserved "|" (pipe) character.
 Column 0 header is treated differently, see below.
-Each header column can have one to three items.
+Each header column can have one to three items in the order:
 
 1. Property URI (predicate) between the target Object (subject) and this column (object). This relationship can be inverted (e.g. for a Foreign Key) by starting the Property URI with "^", but will be rejected if applied to a Literal/Datatype column.
-2. Datatype or Class. If not specified then xsd:string Datatype is assumed. Classes are identified by ":", 
+2. Datatype or Class. If not specified then an Object with no class is assumed. This allows Class to be inferred from the schema, asserted in another file or provided elsewhere. Class names are distinguished from Datatypes by ":", 
 e.g. ":test" uses the base URI to form a Class for an Object, while "test" uses the base URI to form a Datatype.
 e.g. ":my:test" uses the prefix "my" to form a Class for an Object, while ":http://example.org/my#test" explictly forms a Class.
 3. [OPTIONAL] The target column can be specified as an integer value (default: 0) to allow Properties to be added to Objects within the file.
@@ -40,6 +40,9 @@ Objects:
 *  Explicit URIs are preserved unchanged, e.g. "http://example.org/my#ClassA".
 *  Prefixes are expanded using the loaded prefixes, e.g. "my:ClassA" becomes "http://example.org/my#ClassA".
 *  All other cases the base URI is applied, e.g. "ClassA" becomes "http://example.org/my#ClassA".
+
+Objects will be created by default with rdfs:label using the local name portion of the URI, but can be switched off globally.
+It can also be switched on globablly for all Objects to be created as a members of the class owl:NamedIndividual, but switched off by default.
 
 Literals:
 * The Datatype URI specified in the column header is applied with the data in the cell to form a Literal.
