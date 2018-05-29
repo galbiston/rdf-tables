@@ -8,6 +8,7 @@ package rdfconverter.datatypes;
 import java.lang.invoke.MethodHandles;
 import java.util.HashMap;
 import org.apache.jena.datatypes.BaseDatatype;
+import org.apache.jena.datatypes.TypeMapper;
 import org.apache.jena.datatypes.xsd.impl.XSDBaseNumericType;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.ResourceFactory;
@@ -85,11 +86,18 @@ public class DatatypeController {
 
         if (PrefixController.checkURI(datatypeURI)) {
             DATATYPE_PREFIXES.put(prefix, datatypeURI);
+            if (!DATATYPES.containsKey(datatypeURI)) {
+                BaseDatatype datatype = new BaseDatatype(datatypeURI);
+                DATATYPES.put(datatypeURI, datatype);
+                TypeMapper.getInstance().registerDatatype(datatype);
+            } else {
+                LOGGER.warn("Datatype URI has already been defined a prefix: {} {}", prefix, datatypeURI);
+                throw new AssertionError();
+            }
         } else {
             LOGGER.error("Datatype URI is not a URI: {} {}", prefix, datatypeURI);
             throw new AssertionError();
         }
-        DATATYPES.put(datatypeURI, new BaseDatatype(datatypeURI));
     }
 
     public static final String lookupDatatypeURI(String datatypeLabel, String baseURI) {
