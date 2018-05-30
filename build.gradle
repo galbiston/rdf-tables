@@ -24,10 +24,20 @@ repositories {
 dependencies {
 
     ext.openCSVVersion = "3.9"
-    compile "com.opencsv:opencsv:$openCSVVersion"
+    compile ("com.opencsv:opencsv:$openCSVVersion"){
+        exclude group: 'commons-logging', module: 'commons-logging'
+    }
+
+    ext.slf4jVersion = "1.7.25"
+    compile "org.slf4j:jcl-over-slf4j:$slf4jVersion"
 
     ext.jenaVersion = "3.7.0"
-    compile ("org.apache.jena:apache-jena-libs:$jenaVersion" )
+    //compile "org.apache.jena:apache-jena-libs:$jenaVersion"
+    //Issue resolving apache-jena-libs in Maven projects. Use individual modules as provide jars.
+    compile "org.apache.jena:jena-core:$jenaVersion"
+    compile "org.apache.jena:jena-arq:$jenaVersion"
+    compile "org.apache.jena:jena-iri:$jenaVersion"
+    compile "org.apache.jena:jena-tdb:$jenaVersion"
 
     ext.logbackVersion = "1.2.3"
     compile "ch.qos.logback:logback-classic:$logbackVersion"
@@ -49,3 +59,9 @@ publishing {
 }
 
 build.finalizedBy(publishToMavenLocal)
+
+run {
+    if (project.hasProperty("appArgs")) {
+        args Eval.me(appArgs)
+    }
+}
