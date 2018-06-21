@@ -22,14 +22,13 @@ public class PrefixReader {
 
     //TODO - load default prefixes and from file.
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-    private static final char COLUMN_SEPARATOR = ',';
 
     public static final HashMap<String, String> read(File inputFile) {
 
         LOGGER.info("Prefix Parsing Started: {}", inputFile.getPath());
         HashMap<String, String> map = new HashMap<>();
         int lineNumber = 1;
-        try (CSVReader reader = new CSVReader(new FileReader(inputFile), COLUMN_SEPARATOR)) {
+        try (CSVReader reader = new CSVReader(new FileReader(inputFile), DefaultValues.COLUMN_SEPARATOR)) {
 
             if (reader.readNext().length != 2) {
                 LOGGER.error("Should only be two columns");

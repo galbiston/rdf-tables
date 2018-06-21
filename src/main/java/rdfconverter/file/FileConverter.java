@@ -9,8 +9,6 @@ import com.opencsv.CSVReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import static java.lang.Boolean.FALSE;
-import static java.lang.Boolean.TRUE;
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +19,6 @@ import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
-import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.slf4j.Logger;
@@ -55,14 +52,6 @@ import rdfconverter.datatypes.PrefixController;
 public class FileConverter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-
-    private static final Resource NAMED_INDIVIDUAL = ResourceFactory.createResource(OWL.NS + "NamedIndividual");
-    public static final String HEADER_ITEM_SEPARATOR = "\\|";
-    private static final String CLASS_CHARACTER = ":";
-    private static final char INVERT_CHARACTER = '^';
-    private static final Boolean IS_OWL_INDIVIDUAL = FALSE;
-    private static final Boolean IS_RDFS_LABEL = TRUE;
-    private static final Resource NO_CLASS_ANON = ResourceFactory.createResource();
 
     public static final void writeToModel(File inputFile, Model model) {
         writeToModel(inputFile, model, ',');
@@ -105,9 +94,9 @@ public class FileConverter {
         try {
             //First column: BASE_URI CLASS_URI
             header = headerLine[0];
-            parts = header.split(HEADER_ITEM_SEPARATOR);
+            parts = header.split(DefaultValues.HEADER_ITEM_SEPARATOR);
             baseURI = parts[0];
-            createClass(0, parts[1].startsWith(CLASS_CHARACTER) ? parts[1].substring(1) : parts[1], baseURI, classURIs);
+            createClass(0, parts[1].startsWith(DefaultValues.CLASS_CHARACTER) ? parts[1].substring(1) : parts[1], baseURI, classURIs);
             targetColumns.add(0);
             propertyDirections.add(Boolean.TRUE);
         } catch (Exception ex) {
@@ -118,7 +107,7 @@ public class FileConverter {
         for (int i = 1; i < headerLine.length; i++) {
             try {
                 header = headerLine[i];
-                parts = header.split(HEADER_ITEM_SEPARATOR);
+                parts = header.split(DefaultValues.HEADER_ITEM_SEPARATOR);
 
                 //Extract datatype and propertyURI from header field.
                 String datatypeLabel = null;
@@ -129,14 +118,14 @@ public class FileConverter {
                 switch (parts.length) {
                     case 1:
                         //Indicate that no class was specified.
-                        classLabel = NO_CLASS_ANON.toString();
+                        classLabel = DefaultValues.NO_CLASS_ANON.toString();
                         break;
                     case 2:
                         if (integerCheck(parts[1])) {
                             targetColumn = Integer.parseInt(parts[1]);
                         } else {
 
-                            if (parts[1].startsWith(CLASS_CHARACTER)) {
+                            if (parts[1].startsWith(DefaultValues.CLASS_CHARACTER)) {
                                 classLabel = parts[1].substring(1);
                             } else {
                                 datatypeLabel = parts[1];
@@ -144,13 +133,13 @@ public class FileConverter {
                         }
                         break;
                     default:
-                        if (parts[1].startsWith(CLASS_CHARACTER)) {
+                        if (parts[1].startsWith(DefaultValues.CLASS_CHARACTER)) {
                             classLabel = parts[1].substring(1);
                         } else {
                             datatypeLabel = parts[1];
                         }
 
-                        if (parts[2].startsWith(CLASS_CHARACTER)) {
+                        if (parts[2].startsWith(DefaultValues.CLASS_CHARACTER)) {
                             classLabel = parts[2].substring(1);
                         } else {
                             targetColumn = Integer.parseInt(parts[2]);
@@ -162,7 +151,7 @@ public class FileConverter {
                 targetColumns.add(targetColumn);
 
                 //Check the property direction
-                if (propertyLabel.charAt(0) == INVERT_CHARACTER) {
+                if (propertyLabel.charAt(0) == DefaultValues.INVERT_CHARACTER) {
 
                     if (datatypeLabel == null) {
                         propertyLabel = propertyLabel.substring(1);
@@ -196,8 +185,8 @@ public class FileConverter {
 
         if (classLabel != null) {
             //Case when no class specified.
-            if (classLabel.equals(NO_CLASS_ANON.toString())) {
-                classURIs.put(index, NO_CLASS_ANON);
+            if (classLabel.equals(DefaultValues.NO_CLASS_ANON.toString())) {
+                classURIs.put(index, DefaultValues.NO_CLASS_ANON);
             }
 
             String uri = PrefixController.lookupURI(classLabel, baseURI);
@@ -303,16 +292,16 @@ public class FileConverter {
         Resource subject = model.createResource(uri);
         if (classURI != null) {
             //Check whether the individual actually has a class specified.
-            if (!classURI.equals(NO_CLASS_ANON)) {
+            if (!classURI.equals(DefaultValues.NO_CLASS_ANON)) {
                 subject.addProperty(RDF.type, classURI);
             }
         }
-        if (IS_OWL_INDIVIDUAL) {
-            subject.addProperty(RDF.type, NAMED_INDIVIDUAL);
+        if (DefaultValues.IS_OWL_INDIVIDUAL) {
+            subject.addProperty(RDF.type, DefaultValues.NAMED_INDIVIDUAL);
         }
 
         //Apply a label to the subject.
-        if (IS_RDFS_LABEL) {
+        if (DefaultValues.IS_RDFS_LABEL) {
             Literal labelLiteral = model.createLiteral(label);
             subject.addLiteral(RDFS.label, labelLiteral);
         }

@@ -5,7 +5,6 @@
  */
 package csv_output;
 
-import java.lang.invoke.MethodHandles;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,10 +13,9 @@ import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import rdfconverter.datatypes.Datatypes;
-import static rdfconverter.file.FileConverter.HEADER_ITEM_SEPARATOR;
+import rdfconverter.file.DefaultValues;
+import static rdfconverter.file.DefaultValues.HEADER_ITEM_SEPARATOR;
 
 /**
  *
@@ -25,10 +23,7 @@ import static rdfconverter.file.FileConverter.HEADER_ITEM_SEPARATOR;
  */
 public abstract class CSVOutput {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-
     protected static String BASE_URI = "";
-    protected static final char[] ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
 
     public final static void setBaseURI(String baseURI) {
         BASE_URI = baseURI;
@@ -53,7 +48,7 @@ public abstract class CSVOutput {
     }
 
     protected static void writeBaseHeader(List<String> header, Resource classResource) {
-        header.add(BASE_URI + " " + classResource.getURI());
+        header.add(BASE_URI + HEADER_ITEM_SEPARATOR + classResource.getURI());
     }
 
     protected static void writeHeader(List<String> header, Property property, Datatypes propertyDatatype) {
@@ -74,7 +69,7 @@ public abstract class CSVOutput {
         String headerLabel;
         if (propertyDatatypes.containsKey(property)) {
             Datatypes datatype = propertyDatatypes.get(property);
-            headerLabel = property.getURI() + HEADER_ITEM_SEPARATOR + datatype;
+            headerLabel = property.getURI() + DefaultValues.HEADER_ITEM_SEPARATOR + datatype;
         } else {
             headerLabel = property.getURI();
         }
