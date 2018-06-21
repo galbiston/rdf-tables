@@ -54,8 +54,11 @@ public class DatatypeController {
         DATATYPE_PREFIXES.put("int", XSDBaseNumericType.XSDint.getURI());
         DATATYPE_PREFIXES.put("integer", XSDBaseNumericType.XSDinteger.getURI());
         DATATYPE_PREFIXES.put("positiveinteger", XSDBaseNumericType.XSDpositiveInteger.getURI());
+        DATATYPE_PREFIXES.put("positive_integer", XSDBaseNumericType.XSDpositiveInteger.getURI());
         DATATYPE_PREFIXES.put("nonnegativeinteger", XSDBaseNumericType.XSDnonNegativeInteger.getURI());
+        DATATYPE_PREFIXES.put("non_negative_integer", XSDBaseNumericType.XSDnonNegativeInteger.getURI());
         DATATYPE_PREFIXES.put("nonpositiveinteger", XSDBaseNumericType.XSDnonPositiveInteger.getURI());
+        DATATYPE_PREFIXES.put("non_positive_integer", XSDBaseNumericType.XSDnonPositiveInteger.getURI());
         DATATYPE_PREFIXES.put("double", XSDBaseNumericType.XSDdouble.getURI());
         DATATYPE_PREFIXES.put("decimal", XSDBaseNumericType.XSDdecimal.getURI());
         DATATYPE_PREFIXES.put("boolean", XSDBaseNumericType.XSDboolean.getURI());
