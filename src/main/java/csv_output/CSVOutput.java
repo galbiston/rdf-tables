@@ -53,7 +53,11 @@ public abstract class CSVOutput {
     }
 
     public static String getBaseHeader(String baseURI, Resource classResource) {
-        return baseURI + HEADER_ITEM_SEPARATOR + classResource.getURI();
+        return getBaseHeader(baseURI, classResource.getURI());
+    }
+
+    public static String getBaseHeader(String baseURI, String classURI) {
+        return baseURI + HEADER_ITEM_SEPARATOR + classURI;
     }
 
     protected static void writeHeader(List<String> header, Property property, Datatypes propertyDatatype) {
