@@ -23,6 +23,5 @@ public interface DefaultValues {
     public static final Boolean IS_RDFS_LABEL = Boolean.TRUE;
     public static final Resource NAMED_INDIVIDUAL = ResourceFactory.createResource(OWL.NS + "NamedIndividual");
     public static final char INVERT_CHARACTER = '^';
-    public static final char[] ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
 
 }

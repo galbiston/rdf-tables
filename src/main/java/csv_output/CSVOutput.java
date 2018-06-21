@@ -24,6 +24,7 @@ import static rdfconverter.file.DefaultValues.HEADER_ITEM_SEPARATOR;
 public abstract class CSVOutput {
 
     protected static String BASE_URI = "";
+    protected static final char[] ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
 
     public final static void setBaseURI(String baseURI) {
         BASE_URI = baseURI;
