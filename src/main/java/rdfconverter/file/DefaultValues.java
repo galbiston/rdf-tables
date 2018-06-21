@@ -16,7 +16,7 @@ import org.apache.jena.vocabulary.OWL;
 public interface DefaultValues {
 
     public static final char COLUMN_SEPARATOR = ',';
-    public static final Resource NO_CLASS_ANON = ResourceFactory.createResource();
+    public static final Resource NO_CLASS_ANON = ResourceFactory.createResource("http://example.org#NoClass");
     public static final String HEADER_ITEM_SEPARATOR = "\\|";
     public static final Boolean IS_OWL_INDIVIDUAL = Boolean.FALSE;
     public static final String CLASS_CHARACTER = ":";
