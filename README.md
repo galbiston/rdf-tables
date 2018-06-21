@@ -7,7 +7,7 @@ It is intended to be as brief to implement and unintrusive as possible.
 Features:
 * RDF structure is respected and reported.
 * A folder can be coverted into a single or multiple files.
-* The table does not have to be regularly formed. 
+* The table does not have to be regularly formed, i.e. sparse or ragged. 
 * Gaps and repeated columns/rows will not cause an issue.
 * Standard sets of prefixes and datatypes can be added to the predefined set for consistent conversion.
 * Range of RDF serialisations.
