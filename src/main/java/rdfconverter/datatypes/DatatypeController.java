@@ -86,14 +86,10 @@ public class DatatypeController {
 
         if (PrefixController.checkURI(datatypeURI)) {
             DATATYPE_PREFIXES.put(prefix, datatypeURI);
-            if (!DATATYPES.containsKey(datatypeURI)) {
-                BaseDatatype datatype = new BaseDatatype(datatypeURI);
-                DATATYPES.put(datatypeURI, datatype);
-                TypeMapper.getInstance().registerDatatype(datatype);
-            } else {
-                LOGGER.warn("Datatype URI has already been defined a prefix: {} {}", prefix, datatypeURI);
-                throw new AssertionError();
-            }
+            BaseDatatype datatype = new BaseDatatype(datatypeURI);
+            DATATYPES.put(datatypeURI, datatype);
+            TypeMapper.getInstance().registerDatatype(datatype);
+
         } else {
             LOGGER.error("Datatype URI is not a URI: {} {}", prefix, datatypeURI);
             throw new AssertionError();
