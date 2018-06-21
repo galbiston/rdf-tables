@@ -82,6 +82,7 @@ public class FileConverter {
         } catch (IOException | RuntimeException ex) {
 
             LOGGER.error("FileConverter: Line - {}, File - {}, Exception - {}", lineNumber, inputFile.getAbsolutePath(), ex.getMessage());
+            throw new AssertionError("Error loading file: " + inputFile.getAbsolutePath());
         }
 
         LOGGER.info("File Conversion Completed: {}", inputFile.getPath());
@@ -217,9 +218,14 @@ public class FileConverter {
 
         //Find all individuals
         for (Integer index : classURIs.keySet()) {
+            //Ensure that the line has the item, i.e. ragged.
+            if (index >= dataLine.length) {
+                continue;
+            }
+
             //Create subject as individual with specified class.
             String data = dataLine[index];
-            //Skip early on empty or whitespace string.
+            //Skip early on empty or whitespace string, i.e. sparse.
             if (data.isEmpty()) {
                 continue;
             }

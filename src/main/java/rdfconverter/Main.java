@@ -23,6 +23,8 @@ public class Main {
         //7) Owl NamedIndividual
         //--help switch
         //--props file configuration
-
+        //File inputFile = new File("");
+        //Model model = ModelFactory.createDefaultModel();
+        //FileConverter.writeToModel(inputFile, model);
     }
 }
