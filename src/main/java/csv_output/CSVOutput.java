@@ -16,6 +16,7 @@ import org.apache.jena.rdf.model.Resource;
 import rdfconverter.datatypes.Datatypes;
 import static rdfconverter.file.DefaultValues.CLASS_CHARACTER;
 import static rdfconverter.file.DefaultValues.HEADER_ITEM_SEPARATOR;
+import static rdfconverter.file.DefaultValues.HEADER_ITEM_SEPARATOR_CHARACTER;
 import static rdfconverter.file.DefaultValues.INVERT_CHARACTER;
 
 /**
@@ -74,26 +75,30 @@ public abstract class CSVOutput {
         return getPropertyDatatypeColumnHeader(propertyURI, datatypeURI, null);
     }
 
-    public static String getPropertyDatatypeColumnHeader(String propertyURI, String datatypeURI, Integer column) {
-        if (column != null && column < 0) {
+    public static String getPropertyDatatypeColumnHeader(String propertyURI, String datatypeURI, Integer columnPosition) {
+        if (columnPosition != null && columnPosition < 0) {
             return null;
         }
         String header = propertyURI + HEADER_ITEM_SEPARATOR + datatypeURI;
-        if (column != null) {
-            return header + HEADER_ITEM_SEPARATOR + column;
+        if (columnPosition != null) {
+            return header + HEADER_ITEM_SEPARATOR + columnPosition;
         }
 
         return header;
     }
 
     protected static void writeHeader(List<String> header, Property property, Datatypes propertyDatatype) {
+        writeHeader(header, property, propertyDatatype, null);
+    }
+
+    protected static void writeHeader(List<String> header, Property property, Datatypes propertyDatatype, Integer columnPosition) {
         HashMap<Property, Datatypes> propertyDatatypes = new HashMap<>();
         propertyDatatypes.put(property, propertyDatatype);
-        writeHeader(header, property, 1, propertyDatatypes);
+        writeHeader(header, property, 1, propertyDatatypes, columnPosition);
     }
 
     protected static void writeHeader(List<String> header, Property property) {
-        writeHeader(header, property, 1, new HashMap<>());
+        writeHeader(header, property, 1, new HashMap<>(), null);
     }
 
     protected static void writeHeader(List<String> header, Property property, Resource classResource) {
@@ -101,23 +106,31 @@ public abstract class CSVOutput {
     }
 
     protected static void writeHeader(List<String> header, Property property, Resource classResource, Integer maxCount) {
-        String headerLabel = property.getURI() + HEADER_ITEM_SEPARATOR + CLASS_CHARACTER + classResource.getURI();
+        String headerLabel = property.getURI() + HEADER_ITEM_SEPARATOR_CHARACTER + CLASS_CHARACTER + classResource.getURI();
         for (int i = 0; i < maxCount; i++) {
             header.add(headerLabel);
         }
     }
 
     protected static void writeHeader(List<String> header, Property property, Integer maxCount) {
-        writeHeader(header, property, maxCount, new HashMap<>());
+        writeHeader(header, property, maxCount, new HashMap<>(), null);
     }
 
-    protected static void writeHeader(List<String> header, Property property, Integer maxCount, HashMap<Property, Datatypes> propertyDatatypes) {
+    protected static void writeHeader(List<String> header, Property property, Integer maxCount, Integer columnPosition) {
+        writeHeader(header, property, maxCount, new HashMap<>(), columnPosition);
+    }
+
+    protected static void writeHeader(List<String> header, Property property, Integer maxCount, HashMap<Property, Datatypes> propertyDatatypes, Integer columnPosition) {
         String headerLabel;
         if (propertyDatatypes.containsKey(property)) {
             Datatypes datatype = propertyDatatypes.get(property);
-            headerLabel = property.getURI() + HEADER_ITEM_SEPARATOR + datatype;
+            headerLabel = property.getURI() + HEADER_ITEM_SEPARATOR_CHARACTER + datatype;
         } else {
             headerLabel = property.getURI();
+        }
+
+        if (columnPosition != null) {
+            headerLabel += HEADER_ITEM_SEPARATOR_CHARACTER + columnPosition;
         }
 
         for (int i = 0; i < maxCount; i++) {
@@ -132,10 +145,8 @@ public abstract class CSVOutput {
 
     protected static void writeHeader(List<String> header, HashMap<Property, Integer> countMap, HashMap<Property, Datatypes> propertyDatatypes) {
         for (Map.Entry<Property, Integer> entry : countMap.entrySet()) {
-            Property property = entry.getKey();
-
             //Build the header label from either the datatype and property or just the property.
-            writeHeader(header, property, entry.getValue(), propertyDatatypes);
+            writeHeader(header, entry.getKey(), entry.getValue(), propertyDatatypes, null);
         }
     }
 
