@@ -14,7 +14,7 @@ import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import rdfconverter.datatypes.Datatypes;
-import rdfconverter.file.DefaultValues;
+import static rdfconverter.file.DefaultValues.CLASS_CHARACTER;
 import static rdfconverter.file.DefaultValues.HEADER_ITEM_SEPARATOR;
 import static rdfconverter.file.DefaultValues.INVERT_CHARACTER;
 
@@ -96,6 +96,17 @@ public abstract class CSVOutput {
         writeHeader(header, property, 1, new HashMap<>());
     }
 
+    protected static void writeHeader(List<String> header, Property property, Resource objectClass) {
+        writeHeader(header, property, objectClass, 1);
+    }
+
+    protected static void writeHeader(List<String> header, Property property, Resource objectClass, Integer maxCount) {
+        String headerLabel = property.getURI() + HEADER_ITEM_SEPARATOR + CLASS_CHARACTER + objectClass.getURI();
+        for (int i = 0; i < maxCount; i++) {
+            header.add(headerLabel);
+        }
+    }
+
     protected static void writeHeader(List<String> header, Property property, Integer maxCount) {
         writeHeader(header, property, maxCount, new HashMap<>());
     }
@@ -104,7 +115,7 @@ public abstract class CSVOutput {
         String headerLabel;
         if (propertyDatatypes.containsKey(property)) {
             Datatypes datatype = propertyDatatypes.get(property);
-            headerLabel = property.getURI() + DefaultValues.HEADER_ITEM_SEPARATOR + datatype;
+            headerLabel = property.getURI() + HEADER_ITEM_SEPARATOR + datatype;
         } else {
             headerLabel = property.getURI();
         }
