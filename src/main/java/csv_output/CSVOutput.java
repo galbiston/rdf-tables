@@ -16,6 +16,7 @@ import org.apache.jena.rdf.model.Resource;
 import rdfconverter.datatypes.Datatypes;
 import rdfconverter.file.DefaultValues;
 import static rdfconverter.file.DefaultValues.HEADER_ITEM_SEPARATOR;
+import static rdfconverter.file.DefaultValues.INVERT_CHARACTER;
 
 /**
  *
@@ -57,7 +58,32 @@ public abstract class CSVOutput {
     }
 
     public static String getBaseHeader(String baseURI, String classURI) {
-        return baseURI + HEADER_ITEM_SEPARATOR + classURI;
+        return getPropertyDatatypeColumnHeader(baseURI, classURI, null);
+    }
+
+    public static String getPropertyClassHeader(String propertyURI, String classURI) {
+        return getPropertyDatatypeColumnHeader(propertyURI, classURI, null);
+    }
+
+    public static String getInvertedPropertyClassHeader(String propertyURI, String classURI) {
+        String header = getPropertyDatatypeColumnHeader(propertyURI, classURI, null);
+        return INVERT_CHARACTER + header;
+    }
+
+    public static String getPropertyDatatypeHeader(String propertyURI, String datatypeURI) {
+        return getPropertyDatatypeColumnHeader(propertyURI, datatypeURI, null);
+    }
+
+    public static String getPropertyDatatypeColumnHeader(String propertyURI, String datatypeURI, Integer column) {
+        if (column != null && column < 0) {
+            return null;
+        }
+        String header = propertyURI + HEADER_ITEM_SEPARATOR + datatypeURI;
+        if (column != null) {
+            return header + HEADER_ITEM_SEPARATOR + column;
+        }
+
+        return header;
     }
 
     protected static void writeHeader(List<String> header, Property property, Datatypes propertyDatatype) {
