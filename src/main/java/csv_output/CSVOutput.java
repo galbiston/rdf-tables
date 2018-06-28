@@ -96,12 +96,12 @@ public abstract class CSVOutput {
         writeHeader(header, property, 1, new HashMap<>());
     }
 
-    protected static void writeHeader(List<String> header, Property property, Resource objectClass) {
-        writeHeader(header, property, objectClass, 1);
+    protected static void writeHeader(List<String> header, Property property, Resource classResource) {
+        writeHeader(header, property, classResource, 1);
     }
 
-    protected static void writeHeader(List<String> header, Property property, Resource objectClass, Integer maxCount) {
-        String headerLabel = property.getURI() + HEADER_ITEM_SEPARATOR + CLASS_CHARACTER + objectClass.getURI();
+    protected static void writeHeader(List<String> header, Property property, Resource classResource, Integer maxCount) {
+        String headerLabel = property.getURI() + HEADER_ITEM_SEPARATOR + CLASS_CHARACTER + classResource.getURI();
         for (int i = 0; i < maxCount; i++) {
             header.add(headerLabel);
         }
