@@ -31,7 +31,7 @@ dependencies {
     ext.slf4jVersion = "1.7.25"
     compile "org.slf4j:jcl-over-slf4j:$slf4jVersion"
 
-    ext.jenaVersion = "3.7.0"
+    ext.jenaVersion = "3.8.0"
     //compile "org.apache.jena:apache-jena-libs:$jenaVersion"
     //Issue resolving apache-jena-libs in Maven projects. Use individual modules as provide jars.
     compile "org.apache.jena:jena-core:$jenaVersion"
