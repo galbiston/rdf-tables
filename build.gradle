@@ -40,7 +40,7 @@ dependencies {
     compile "org.apache.jena:jena-tdb:$jenaVersion"
 
     ext.logbackVersion = "1.2.3"
-    compile "ch.qos.logback:logback-classic:$logbackVersion"
+    testCompile "ch.qos.logback:logback-classic:$logbackVersion"
 
     ext.junitVersion = "4.12"
     testCompile "junit:junit:$junitVersion"
