@@ -109,3 +109,4 @@ Items that can be developed based on feedback and other suggestions.
 * URI checking is minimal when reading the file data but errors will be thrown when adding to the RDF model.
 * Multiple files to separate graphs - e.g. NQUADS serialisation. Graph name would be specified as third item in column 0.
 * Read configuration from a property file.
+* SHACL integration to importa schema and validate the data structure.
