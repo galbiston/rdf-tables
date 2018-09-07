@@ -1,4 +1,4 @@
-# RDFConverter
+# RDFTables
 Have you ever just wanted an easy way to convert or generate RDF data.
 This application converts separated value/tabular files, e.g. CSV or TSV, into a variety of RDF serialisation.
 Configuration is done by modifying the header of the file to provide Class, Property and Datatype information.

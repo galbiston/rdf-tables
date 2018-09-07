@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rdfconverter.file;
+package rdftables.file;
 
 import com.opencsv.CSVReader;
 import java.io.File;
@@ -23,9 +23,9 @@ import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import rdfconverter.datatypes.DatatypeController;
-import static rdfconverter.datatypes.DatatypeController.HTTP_PREFIX;
-import rdfconverter.datatypes.PrefixController;
+import rdftables.datatypes.DatatypeController;
+import static rdftables.datatypes.DatatypeController.HTTP_PREFIX;
+import rdftables.datatypes.PrefixController;
 
 /**
  * Read a CSV file of triples.

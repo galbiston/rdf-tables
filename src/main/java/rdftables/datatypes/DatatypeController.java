@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rdfconverter.datatypes;
+package rdftables.datatypes;
 
 import java.lang.invoke.MethodHandles;
 import java.util.HashMap;

@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rdfconverter.file;
+package rdftables.file;
 
+import rdftables.file.FileConverter;
 import java.io.File;
 import org.apache.jena.datatypes.BaseDatatype;
 import org.apache.jena.datatypes.xsd.impl.XSDBaseNumericType;
@@ -23,8 +24,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import rdfconverter.datatypes.DatatypeController;
-import rdfconverter.datatypes.PrefixController;
+import rdftables.datatypes.DatatypeController;
+import rdftables.datatypes.PrefixController;
 
 /**
  *

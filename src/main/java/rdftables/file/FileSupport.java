@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rdfconverter.file;
+package rdftables.file;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -22,7 +22,7 @@ import org.apache.jena.riot.RDFFormat;
 import org.apache.jena.tdb.TDBFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import rdfconverter.datatypes.PrefixController;
+import rdftables.datatypes.PrefixController;
 
 /**
  *

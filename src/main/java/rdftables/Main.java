@@ -1,4 +1,4 @@
-package rdfconverter;
+package rdftables;
 
 import java.lang.invoke.MethodHandles;
 import org.slf4j.Logger;

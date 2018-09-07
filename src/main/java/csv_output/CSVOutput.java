@@ -13,11 +13,11 @@ import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
-import rdfconverter.datatypes.Datatypes;
-import static rdfconverter.file.DefaultValues.CLASS_CHARACTER;
-import static rdfconverter.file.DefaultValues.HEADER_ITEM_SEPARATOR;
-import static rdfconverter.file.DefaultValues.HEADER_ITEM_SEPARATOR_CHARACTER;
-import static rdfconverter.file.DefaultValues.INVERT_CHARACTER;
+import rdftables.datatypes.Datatypes;
+import static rdftables.file.DefaultValues.CLASS_CHARACTER;
+import static rdftables.file.DefaultValues.HEADER_ITEM_SEPARATOR;
+import static rdftables.file.DefaultValues.HEADER_ITEM_SEPARATOR_CHARACTER;
+import static rdftables.file.DefaultValues.INVERT_CHARACTER;
 
 /**
  *
