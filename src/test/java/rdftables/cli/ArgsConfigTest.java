@@ -83,4 +83,48 @@ public class ArgsConfigTest {
         assertEquals(expResult, result);
     }
 
+    /**
+     * Test of isNamedIndividual method, of class ArgsConfig.
+     */
+    @Test
+    public void testIsNamedIndividual() {
+        System.out.println("getIsNamedIndividual");
+        ArgsConfig args = new ArgsConfig();
+
+        String[] argv = {"-i", "test.rdf"};
+        JCommander.newBuilder()
+                .addObject(args)
+                .build()
+                .parse(argv);
+
+        Boolean expResult = true;
+        Boolean result = args.isOwlNamedIndividual();
+
+        //System.out.println("Exp: " + expResult);
+        //System.out.println("Res: " + result);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of isNamedIndividual method, of class ArgsConfig.
+     */
+    @Test
+    public void testIsNamedIndividual_false() {
+        System.out.println("getIsNamedIndividual_false");
+        ArgsConfig args = new ArgsConfig();
+
+        String[] argv = {"-i", "test.rdf", "-n", "false"};
+        JCommander.newBuilder()
+                .addObject(args)
+                .build()
+                .parse(argv);
+
+        Boolean expResult = false;
+        Boolean result = args.isOwlNamedIndividual();
+
+        //System.out.println("Exp: " + expResult);
+        //System.out.println("Res: " + result);
+        assertEquals(expResult, result);
+    }
+
 }

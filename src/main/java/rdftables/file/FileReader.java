@@ -33,50 +33,50 @@ public class FileReader {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    public static Model convertCSVDirectory(File inputDirectory, File outputFile, File prefixesFile, RDFFormat rdfFormat, char separator) {
-        return convertCSVDirectory(inputDirectory, Arrays.asList(), outputFile, prefixesFile, rdfFormat, separator);
+    public static Model convertCSVDirectory(File inputDirectory, File outputFile, File prefixesFile, RDFFormat rdfFormat, char separator, Boolean isNamedIndividual) {
+        return convertCSVDirectory(inputDirectory, Arrays.asList(), outputFile, prefixesFile, rdfFormat, separator, isNamedIndividual);
     }
 
-    public static Model convertCSVDirectory(File inputDirectory, File excludedFile, File outputFile, File prefixesFile, RDFFormat rdfFormat, char separator) {
-        return convertCSVDirectory(inputDirectory, Arrays.asList(excludedFile), outputFile, prefixesFile, rdfFormat, separator);
+    public static Model convertCSVDirectory(File inputDirectory, File excludedFile, File outputFile, File prefixesFile, RDFFormat rdfFormat, char separator, Boolean isNamedIndividual) {
+        return convertCSVDirectory(inputDirectory, Arrays.asList(excludedFile), outputFile, prefixesFile, rdfFormat, separator, isNamedIndividual);
     }
 
-    public static Model convertCSVDirectory(File inputDirectory, List<File> excludedFiles, File outputFile, File prefixesFile, RDFFormat rdfFormat, char separator) {
+    public static Model convertCSVDirectory(File inputDirectory, List<File> excludedFiles, File outputFile, File prefixesFile, RDFFormat rdfFormat, char separator, Boolean isNamedIndividual) {
         List<File> inputFiles = Arrays.asList(inputDirectory.listFiles());
-        return convertCSVFiles(inputFiles, excludedFiles, outputFile, prefixesFile, rdfFormat, separator);
+        return convertCSVFiles(inputFiles, excludedFiles, outputFile, prefixesFile, rdfFormat, separator, isNamedIndividual);
     }
 
-    public static Model convertCSVDirectory(File inputDirectory, List<File> excludedFiles, File outputFile, RDFFormat rdfFormat, char separator) {
+    public static Model convertCSVDirectory(File inputDirectory, List<File> excludedFiles, File outputFile, RDFFormat rdfFormat, char separator, Boolean isNamedIndividual) {
         List<File> inputFiles = Arrays.asList(inputDirectory.listFiles());
-        return convertCSVFiles(inputFiles, excludedFiles, outputFile, null, rdfFormat, separator);
+        return convertCSVFiles(inputFiles, excludedFiles, outputFile, null, rdfFormat, separator, isNamedIndividual);
     }
 
-    public static Model convertCSVDirectory(File inputDirectory, File outputFile, RDFFormat rdfFormat, char separator) {
-        return convertCSVDirectory(inputDirectory, Arrays.asList(), outputFile, null, rdfFormat, separator);
+    public static Model convertCSVDirectory(File inputDirectory, File outputFile, RDFFormat rdfFormat, char separator, Boolean isNamedIndividual) {
+        return convertCSVDirectory(inputDirectory, Arrays.asList(), outputFile, null, rdfFormat, separator, isNamedIndividual);
     }
 
-    public static Model convertCSVFile(File inputFile, List<File> excludedFiles, File outputFile, RDFFormat rdfFormat, char separator) {
+    public static Model convertCSVFile(File inputFile, List<File> excludedFiles, File outputFile, RDFFormat rdfFormat, char separator, Boolean isNamedIndividual) {
         List<File> inputFiles = Arrays.asList(inputFile);
-        return convertCSVFiles(inputFiles, excludedFiles, outputFile, null, rdfFormat, separator);
+        return convertCSVFiles(inputFiles, excludedFiles, outputFile, null, rdfFormat, separator, isNamedIndividual);
     }
 
-    public static Model convertCSVFile(File inputFile, List<File> excludedFiles, File outputFile, File prefixesFile, RDFFormat rdfFormat, char separator) {
+    public static Model convertCSVFile(File inputFile, List<File> excludedFiles, File outputFile, File prefixesFile, RDFFormat rdfFormat, char separator, Boolean isNamedIndividual) {
         List<File> inputFiles = Arrays.asList(inputFile);
-        return convertCSVFiles(inputFiles, excludedFiles, outputFile, prefixesFile, rdfFormat, separator);
+        return convertCSVFiles(inputFiles, excludedFiles, outputFile, prefixesFile, rdfFormat, separator, isNamedIndividual);
     }
 
-    public static HashMap<String, Model> convertCSVDirectories(File inputDirectory, List<File> excludedFiles, File outputDirectory, RDFFormat rdfFormat, char separator) {
+    public static HashMap<String, Model> convertCSVDirectories(File inputDirectory, List<File> excludedFiles, File outputDirectory, RDFFormat rdfFormat, char separator, Boolean isNamedIndividual) {
         HashMap<String, Model> models = new HashMap<>();
         List<File> inputFiles = Arrays.asList(inputDirectory.listFiles());
         for (File inputFile : inputFiles) {
             File outputFile = new File(outputDirectory.getAbsoluteFile(), FormatConverter.buildFilename(inputFile, rdfFormat));
-            Model model = convertCSVFiles(Arrays.asList(inputFile), excludedFiles, outputFile, null, rdfFormat, separator);
+            Model model = convertCSVFiles(Arrays.asList(inputFile), excludedFiles, outputFile, null, rdfFormat, separator, isNamedIndividual);
             models.put(inputFile.getName(), model);
         }
         return models;
     }
 
-    public static Model convertCSVFiles(List<File> inputFiles, List<File> excludedFiles, File outputFile, File prefixesFile, RDFFormat rdfFormat, char separator) {
+    public static Model convertCSVFiles(List<File> inputFiles, List<File> excludedFiles, File outputFile, File prefixesFile, RDFFormat rdfFormat, char separator, Boolean isNamedIndividual) {
 
         if (prefixesFile != null) {
             HashMap<String, String> prefixMap = PrefixReader.read(prefixesFile);
@@ -86,7 +86,7 @@ public class FileReader {
         Model model = ModelFactory.createDefaultModel();
         for (File inputFile : inputFiles) {
             if (!excludedFiles.contains(inputFile)) {
-                FileConverter.writeToModel(inputFile, model, separator);
+                FileConverter.writeToModel(inputFile, model, separator, isNamedIndividual);
             }
         }
         try (FileOutputStream out = new FileOutputStream(outputFile)) {
@@ -97,7 +97,7 @@ public class FileReader {
         return model;
     }
 
-    public static void compileCSVFolder(File tdbStorageFolder, File sourceCSVFolder, File outputRDFFile, Resource targetGraph, File prefixesFile, RDFFormat rdfFormat, char separator) {
+    public static void compileCSVFolder(File tdbStorageFolder, File sourceCSVFolder, File outputRDFFile, Resource targetGraph, File prefixesFile, RDFFormat rdfFormat, char separator, Boolean isNamedIndividual) {
 
         LOGGER.info("Reading CSV Folder Started: {}", sourceCSVFolder);
         if (!sourceCSVFolder.exists()) {
@@ -105,7 +105,7 @@ public class FileReader {
             return;
         }
 
-        Model model = convertCSVDirectory(sourceCSVFolder, outputRDFFile, prefixesFile, rdfFormat, separator);
+        Model model = convertCSVDirectory(sourceCSVFolder, outputRDFFile, prefixesFile, rdfFormat, separator, isNamedIndividual);
 
         Dataset dataset = TDBFactory.createDataset(tdbStorageFolder.getAbsolutePath());
         dataset.begin(ReadWrite.WRITE);

@@ -54,10 +54,10 @@ public class FileConverter {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     public static final void writeToModel(File inputFile, Model model) {
-        writeToModel(inputFile, model, ',');
+        writeToModel(inputFile, model, ',', true);
     }
 
-    public static final void writeToModel(File inputFile, Model model, char separator) {
+    public static final void writeToModel(File inputFile, Model model, char separator, Boolean isNamedIndividual) {
 
         LOGGER.info("File Conversion Started: {}", inputFile.getPath());
 
@@ -75,7 +75,7 @@ public class FileConverter {
             String[] line;
             while ((line = reader.readNext()) != null) {
                 lineNumber++;
-                readData(line, baseURI, datatypeURIs, propertyURIs, classURIs, targetColumns, propertyDirections, model);
+                readData(line, baseURI, datatypeURIs, propertyURIs, classURIs, targetColumns, propertyDirections, model, isNamedIndividual);
             }
             model.setNsPrefixes(PrefixController.getPrefixes());
 
@@ -211,7 +211,7 @@ public class FileConverter {
         return true;
     }
 
-    private static void readData(String[] dataLine, String baseURI, HashMap<Integer, String> datatypeURIs, HashMap<Integer, Property> propertyURIs, HashMap<Integer, Resource> classURIs, List<Integer> targetColumns, List<Boolean> propertyDirections, Model model) {
+    private static void readData(String[] dataLine, String baseURI, HashMap<Integer, String> datatypeURIs, HashMap<Integer, Property> propertyURIs, HashMap<Integer, Resource> classURIs, List<Integer> targetColumns, List<Boolean> propertyDirections, Model model, Boolean isNamedIndividual) {
 
         //Map of subject encountered in each row.
         HashMap<Integer, Resource> indviduals = new HashMap<>();
@@ -229,7 +229,7 @@ public class FileConverter {
             if (data.isEmpty()) {
                 continue;
             }
-            Resource subject = createIndividual(data, model, baseURI, classURIs.get(index));
+            Resource subject = createIndividual(data, model, baseURI, classURIs.get(index), isNamedIndividual);
             indviduals.put(index, subject);
         }
 
@@ -282,7 +282,7 @@ public class FileConverter {
         }
     }
 
-    private static Resource createIndividual(String tidyData, Model model, String baseURI, Resource classURI) {
+    private static Resource createIndividual(String tidyData, Model model, String baseURI, Resource classURI, Boolean isNamedIndividual) {
         //Check whether the subject contains an explicit URI already.
         String uri;
         String label;
@@ -302,7 +302,7 @@ public class FileConverter {
                 subject.addProperty(RDF.type, classURI);
             }
         }
-        if (DefaultValues.IS_OWL_INDIVIDUAL) {
+        if (isNamedIndividual) {
             subject.addProperty(RDF.type, DefaultValues.NAMED_INDIVIDUAL);
         }
 
