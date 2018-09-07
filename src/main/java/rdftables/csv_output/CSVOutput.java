@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package csv_output;
+package rdftables.csv_output;
 
 import java.util.HashMap;
 import java.util.List;
