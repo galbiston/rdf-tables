@@ -80,9 +80,15 @@ The file serialistion used for the RDF output.
 *  JSON-LD		json-ld
 *  NTriples		nt
 *  NQUADS		nq
-*  RDF/JSON		json
+*  RDF/JSON		json-rdf
 *  RDF/XML		xml
+*  RDF/XML PLAIN		xml-plain
+*  RDF/XML PRETTY		xml-pretty
+*  RDF/THRIFT			thrift
+*  TRIX			trix
+*  TRIG			trig
 *  Turtle		ttl (Default)
+*  Turtle Pretty		ttl-pretty
 
 ### 5) Prefixes File
 ```
@@ -123,18 +129,25 @@ Pre-loaded XSD datatypes:
 *  string
 *  time
 
-### 9) OWL NamedIndividual
+### 7) OWL NamedIndividual
 ```
 --named, -n
 ```
 Boolean value for creating OWL NamedIndividuals in the data. Default: true
 
+### 8) Excluded Files
+```
+--exclude, -x
+```
+Excluded files not to be used as input from a folder.
 
-### 8) Properties File
+### 9) Properties File
 Supply the above parameters as a file:
 ```console
 $ java Main @/tmp/parameters
 ```
+
+
 
 ## Future Work:
 Items that can be developed based on feedback and other suggestions.
