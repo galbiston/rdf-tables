@@ -84,6 +84,10 @@ public class DatatypeController {
         DATATYPES.put(XSDBaseNumericType.XSDduration.getURI(), XSDBaseNumericType.XSDduration);
     }
 
+    public static final void addPrefixDatatypes(HashMap<String, String> prefixDatatypes) {
+        prefixDatatypes.forEach((k, v) -> addPrefixDatatype(k, v));
+    }
+
     public static final void addPrefixDatatype(String prefix, String datatypeURI) {
         getDatatypes();
 
