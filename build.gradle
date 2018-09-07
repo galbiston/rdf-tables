@@ -46,7 +46,7 @@ dependencies {
     testCompile "junit:junit:$junitVersion"
 
     ext.jcommanderVersion = "1.72"
-    compile 'com.beust:jcommander:$jcommanderVersion'
+    compile "com.beust:jcommander:$jcommanderVersion"
 }
 
 group = 'org.ntu'
