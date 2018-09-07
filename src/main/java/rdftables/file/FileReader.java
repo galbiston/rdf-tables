@@ -97,6 +97,20 @@ public class FileReader {
         return model;
     }
 
+    /**
+     * Default input format TTL, comma separated with creation of OWL Named
+     * Individuals.
+     *
+     * @param tdbStorageFolder
+     * @param sourceCSVFolder
+     * @param outputRDFFile
+     * @param targetGraph
+     * @param prefixesFile
+     */
+    public static void compileCSVFolder(File tdbStorageFolder, File sourceCSVFolder, File outputRDFFile, Resource targetGraph, File prefixesFile) {
+        compileCSVFolder(tdbStorageFolder, sourceCSVFolder, outputRDFFile, targetGraph, prefixesFile, RDFFormat.TTL, ',', true);
+    }
+
     public static void compileCSVFolder(File tdbStorageFolder, File sourceCSVFolder, File outputRDFFile, Resource targetGraph, File prefixesFile, RDFFormat rdfFormat, char separator, Boolean isNamedIndividual) {
 
         LOGGER.info("Reading CSV Folder Started: {}", sourceCSVFolder);
