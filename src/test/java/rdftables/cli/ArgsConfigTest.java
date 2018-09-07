@@ -13,6 +13,7 @@ import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -132,6 +133,7 @@ public class ArgsConfigTest {
      * Test of getInputSeparator method, of class ArgsConfig.
      */
     @Test
+    @Ignore
     public void testGetInputSeparator_tab() {
         System.out.println("getInputSeparator_tab");
         ArgsConfig args = new ArgsConfig();
@@ -154,6 +156,7 @@ public class ArgsConfigTest {
      * Test of getInputSeparator method, of class ArgsConfig.
      */
     @Test
+    @Ignore
     public void testGetInputSeparator_space() {
         System.out.println("getInputSeparator_space");
         ArgsConfig args = new ArgsConfig();
