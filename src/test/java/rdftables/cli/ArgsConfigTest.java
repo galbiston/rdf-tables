@@ -13,7 +13,6 @@ import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -133,18 +132,17 @@ public class ArgsConfigTest {
      * Test of getInputSeparator method, of class ArgsConfig.
      */
     @Test
-    @Ignore
     public void testGetInputSeparator_tab() {
         System.out.println("getInputSeparator_tab");
         ArgsConfig args = new ArgsConfig();
 
-        String[] argv = {"-i", "test.rdf", "-s", "\t"};
+        String[] argv = {"-i", "test.rdf", "-s", "TAB"};
         JCommander.newBuilder()
                 .addObject(args)
                 .build()
                 .parse(argv);
 
-        String expResult = "\t";
+        String expResult = "TAB";
         String result = args.getInputSeparator();
 
         //System.out.println("Exp: " + expResult);
@@ -156,18 +154,17 @@ public class ArgsConfigTest {
      * Test of getInputSeparator method, of class ArgsConfig.
      */
     @Test
-    @Ignore
     public void testGetInputSeparator_space() {
         System.out.println("getInputSeparator_space");
         ArgsConfig args = new ArgsConfig();
 
-        String[] argv = {"-i", "test.rdf", "-s", " "};
+        String[] argv = {"-i", "test.rdf", "-s", "SPACE"};
         JCommander.newBuilder()
                 .addObject(args)
                 .build()
                 .parse(argv);
 
-        String expResult = " ";
+        String expResult = "SPACE";
         String result = args.getInputSeparator();
 
         //System.out.println("Exp: " + expResult);
@@ -184,6 +181,28 @@ public class ArgsConfigTest {
         ArgsConfig args = new ArgsConfig();
 
         String[] argv = {"-i", "test.rdf"};
+        JCommander.newBuilder()
+                .addObject(args)
+                .build()
+                .parse(argv);
+
+        String expResult = "COMMA";
+        String result = args.getInputSeparator();
+
+        //System.out.println("Exp: " + expResult);
+        //System.out.println("Res: " + result);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of getInputSeparator method, of class ArgsConfig.
+     */
+    @Test
+    public void testGetInputSeparator_comma2() {
+        System.out.println("getInputSeparator_comma2");
+        ArgsConfig args = new ArgsConfig();
+
+        String[] argv = {"-i", "test.rdf", "-s", ","};
         JCommander.newBuilder()
                 .addObject(args)
                 .build()

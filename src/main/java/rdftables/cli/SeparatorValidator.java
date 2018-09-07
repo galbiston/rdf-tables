@@ -17,12 +17,13 @@ import java.util.List;
 public class SeparatorValidator implements IParameterValidator {
 
     private static final List<String> RESERVED_CHARACTERS = Arrays.asList(":", "^", "|");
+    private static final List<String> KEYWORDS = Arrays.asList("tab", "space", "comma");
 
     @Override
     public void validate(String name, String value) throws ParameterException {
         String val = value.toLowerCase();
 
-        if (value.length() > 1) {
+        if (!KEYWORDS.contains(val) && value.length() > 1) {
             throw new ParameterException("Parameter " + name + " and value " + value + " is longer than a single character.");
         }
 
@@ -31,7 +32,21 @@ public class SeparatorValidator implements IParameterValidator {
                 throw new ParameterException("Parameter " + name + " and value " + value + " contains reserved character from " + String.join(", ", RESERVED_CHARACTERS) + ".");
             }
         }
-        int i = 0;
+    }
+
+    public static char getSeparatorCharacter(String separator) {
+
+        switch (separator.toLowerCase()) {
+            case "space":
+                return ' ';
+            case "tab":
+                return '\t';
+            case "comma":
+                return ',';
+            default:
+                return separator.charAt(0);
+        }
+
     }
 
 }

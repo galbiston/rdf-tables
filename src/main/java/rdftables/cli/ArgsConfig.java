@@ -34,8 +34,8 @@ public class ArgsConfig {
     private RDFFormat outputFormat = RDFFormat.TTL;
 
     //4) Separator value - COMMA, TAB, SPACE
-    @Parameter(names = {"--sep", "-s"}, description = "Column separator in the input file. Any character except ':', '^' and '|'. Default: ',' ", validateWith = SeparatorValidator.class)
-    private String inputSeparator = ",";
+    @Parameter(names = {"--sep", "-s"}, description = "Column separator in the input file. Any character except ':', '^' and '|'. Keywords TAB, SPACE and COMMA are also supported. Default: ',' ", validateWith = SeparatorValidator.class)
+    private String inputSeparator = "COMMA";
 
     //5) Prefixes file
     @Parameter(names = {"--prefixes", "-p"}, description = "Prefix definition file of key=value pairs with no header (Java Properties format).", converter = PropsConverter.class)

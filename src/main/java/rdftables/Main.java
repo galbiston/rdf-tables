@@ -5,6 +5,7 @@ import java.io.File;
 import java.util.List;
 import org.apache.jena.riot.RDFFormat;
 import rdftables.cli.ArgsConfig;
+import rdftables.cli.SeparatorValidator;
 import rdftables.datatypes.DatatypeController;
 import rdftables.datatypes.PrefixController;
 import rdftables.file.FileReader;
@@ -34,7 +35,7 @@ public class Main {
         RDFFormat rdfFormat = argsConfig.getOutputFormat();
         File outputFile = FileSupport.checkOutputFile(inputFile, argsConfig.getOutputFile(), rdfFormat);
         List<File> excludedFiles = argsConfig.getExcludedFiles();
-        char separator = argsConfig.getInputSeparator().charAt(0);
+        char separator = SeparatorValidator.getSeparatorCharacter(argsConfig.getInputSeparator());
         Boolean isNamedIndividual = argsConfig.isOwlNamedIndividual();
 
         //Convert files.

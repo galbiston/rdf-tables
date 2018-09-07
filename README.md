@@ -69,6 +69,7 @@ Combining an input folder with an output file will consolidate the output into a
 ```
 The column delimiter/separator in the input file.
 Defaults to comma but any character string can be used except for reserved characters ":", "^" and "|".
+Keywords TAB, SPACE and COMMA are also supported.
 
 ### 4) Output Format/Serialisation
 ```
