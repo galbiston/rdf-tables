@@ -50,18 +50,31 @@ Literals:
 ## Command Line Arguments
 
 ### 1) Input File/Folder
+```
+--input, -i
+```
+
 The source for the conversion process.
 
 ### 2) Output File/Folder
+```
+--output, -o
+```
 The destination for the conversion process.
 Specifying a folder will re-use the file/s name.
 Combining an input folder with an output file will consolidate the output into a single file.
 
 ### 3) Separator Value
+```
+--sep, -s
+```
 The column separator in the input file.
 Defaults to comma but any character string can be used except for reserved characters ":", "^" and "|".
 
-### 4) Output Serialisation
+### 4) Output Format/Serialisation
+```
+--format, -f
+```
 The file serialistion used for the RDF output.
 
 *  JSON-LD		json-ld
@@ -72,7 +85,10 @@ The file serialistion used for the RDF output.
 *  Turtle		ttl (Default)
 
 ### 5) Prefixes File
-A file of key value pairs with no header.
+```
+--prefixes, -p
+```
+A file of key=value pairs with no header (Java Properties format).
 Key is the prefix label and value is the URI for the prefix.
 Defaults to searching the input folder and current directory for "prefixes.prop".
 
@@ -88,7 +104,7 @@ Pre-loaded prefixes:
 ```
 --datatypes, -d
 ```
-A file of key value pairs with no header.
+A file of key=value pairs with no header (Java Properties format).
 Key is the datatype label and value is the URI for the datatype.
 Defaults to searching the input folder and current directory for "datatypes.prop".
 
@@ -107,7 +123,14 @@ Pre-loaded XSD datatypes:
 *  string
 *  time
 
-### 7) Properties File
+### 9) OWL NamedIndividual
+```
+--named, -n
+```
+Boolean value for creating OWL NamedIndividuals in the data. Default: true
+
+
+### 8) Properties File
 Supply the above parameters as a file:
 ```console
 $ java Main @/tmp/parameters
