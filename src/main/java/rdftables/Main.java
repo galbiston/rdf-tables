@@ -1,14 +1,16 @@
 package rdftables;
 
 import com.beust.jcommander.JCommander;
-import java.lang.invoke.MethodHandles;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.File;
+import java.util.List;
+import org.apache.jena.riot.RDFFormat;
 import rdftables.cli.ArgsConfig;
+import rdftables.datatypes.DatatypeController;
+import rdftables.datatypes.PrefixController;
+import rdftables.file.FileReader;
+import rdftables.file.FileSupport;
 
 public class Main {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     /**
      * @param args the command line arguments
@@ -21,8 +23,38 @@ public class Main {
                 .build()
                 .parse(args);
 
-        //File inputFile = new File("");
-        //Model model = ModelFactory.createDefaultModel();
-        //FileConverter.writeToModel(inputFile, model);
+        //Load prefixes.
+        PrefixController.addPrefixes(argsConfig.getPrefixProps());
+
+        //Load datatypes.
+        DatatypeController.addPrefixDatatypes(argsConfig.getDatatypeProps());
+
+        //Organise input and output files.
+        File inputFile = argsConfig.getInputFile();
+        RDFFormat rdfFormat = argsConfig.getOutputFormat();
+        File outputFile = FileSupport.checkOutputFile(inputFile, argsConfig.getOutputFile(), rdfFormat);
+        List<File> excludedFiles = argsConfig.getExcludedFiles();
+        char separator = argsConfig.getInputSeparator();
+
+        //Convert files.
+        Boolean isDirectoryInput = inputFile.isDirectory();
+        Boolean isDirectoryOutput = outputFile.isDirectory();
+        if (isDirectoryInput && !isDirectoryOutput) {
+            //Directory to File.
+            FileReader.convertCSVDirectory(inputFile, excludedFiles, outputFile, rdfFormat, separator);
+        } else if (!isDirectoryInput && !isDirectoryOutput) {
+            //File to File.
+            FileReader.convertCSVFile(inputFile, excludedFiles, outputFile, rdfFormat, separator);
+        } else if (!isDirectoryInput && isDirectoryOutput) {
+            //File to Directory.
+            //Use input filename and output directory path to create output file.
+            File outputFile2 = new File(outputFile.getAbsoluteFile(), inputFile.getName());
+            FileReader.convertCSVFile(inputFile, excludedFiles, outputFile2, rdfFormat, separator);
+        } else {
+            //Directory to Directory.
+            FileReader.convertCSVDirectories(inputFile, excludedFiles, outputFile, rdfFormat, separator);
+        }
+
     }
+
 }

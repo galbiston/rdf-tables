@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class FormatValidator implements IParameterValidator {
 
-    private static final List<String> PERMITTED_FORMATS = Arrays.asList("json-ld", "nt", "nq", "json", "xml", "ttl");
+    private static final List<String> PERMITTED_FORMATS = Arrays.asList("json-ld", "nt", "nq", "json-rdf", "xml-plain", "xml-plain", "xml", "thrift", "trig", "trix", "ttl", "ttl-pretty");
 
     @Override
     public void validate(String name, String value) throws ParameterException {

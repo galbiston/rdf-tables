@@ -22,6 +22,10 @@ public class SeparatorValidator implements IParameterValidator {
     public void validate(String name, String value) throws ParameterException {
         String val = value.toLowerCase();
 
+        if (value.length() > 1) {
+            throw new ParameterException("Parameter " + name + " and value " + value + " is longer than a single character.");
+        }
+
         for (String reserved : RESERVED_CHARACTERS) {
             if (val.contains(reserved)) {
                 throw new ParameterException("Parameter " + name + " and value " + value + " contains reserved character from " + String.join(", ", RESERVED_CHARACTERS) + ".");

@@ -8,25 +8,29 @@ package rdftables.cli;
 import com.beust.jcommander.IStringConverter;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Properties;
 
 /**
  *
  *
  */
-public class PropsConverter implements IStringConverter<Properties> {
+public class PropsConverter implements IStringConverter<HashMap<String, String>> {
 
     @Override
-    public Properties convert(String propsFilePath) {
+    public HashMap<String, String> convert(String propsFilePath) {
 
-        Properties props = new Properties();
+        HashMap<String, String> map = new HashMap<>();
+
         try {
+            Properties props = new Properties();
             props.load(new FileInputStream(propsFilePath));
+            props.forEach((k, v) -> map.put((String) k, (String) v));
         } catch (IOException ex) {
             throw new AssertionError(ex.getLocalizedMessage());
         }
 
-        return props;
+        return map;
     }
 
 }
