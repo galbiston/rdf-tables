@@ -63,11 +63,11 @@ The destination for the conversion process.
 Specifying a folder will re-use the file/s name.
 Combining an input folder with an output file will consolidate the output into a single file.
 
-### 3) Delimiter Value
+### 3) Delimiter/Separator Value
 ```
 --sep, -s
 ```
-The column delimiter in the input file.
+The column delimiter/separator in the input file.
 Defaults to comma but any character string can be used except for reserved characters ":", "^" and "|".
 
 ### 4) Output Format/Serialisation
