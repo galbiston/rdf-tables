@@ -85,6 +85,9 @@ Pre-loaded prefixes:
 *  xsd	http://www.w3.org/2001/XMLSchema#
 
 ### 6) Datatypes File
+```
+--datatypes, -d
+```
 A file of key value pairs with no header.
 Key is the datatype label and value is the URI for the datatype.
 Defaults to searching the input folder and current directory for "datatypes.prop".
@@ -103,6 +106,12 @@ Pre-loaded XSD datatypes:
 *  positiveInteger
 *  string
 *  time
+
+### 7) Properties File
+Supply the above parameters as a file:
+```console
+$ java Main @/tmp/parameters
+```
 
 ## Future Work:
 Items that can be developed based on feedback and other suggestions.
