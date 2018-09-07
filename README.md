@@ -1,6 +1,5 @@
 # RDFTables
-Have you ever just wanted an easy way to convert or generate RDF data.
-This application converts separated value/tabular files, e.g. CSV or TSV, into a variety of RDF serialisation.
+This application and library converts delimited value/tabular files, e.g. CSV or TSV, into a variety of RDF serialisation.
 Configuration is done by modifying the header of the file to provide Class, Property and Datatype information.
 It is intended to be as brief to implement and unintrusive as possible.
 
@@ -16,7 +15,7 @@ Features:
 
 ### Header
 
-Header items are separated by the reserved "|" (pipe) character.
+Header items are delimited by the reserved "|" (pipe) character.
 Column 0 header is treated differently, see below.
 Each header column can have one to three items in the order:
 
@@ -64,11 +63,11 @@ The destination for the conversion process.
 Specifying a folder will re-use the file/s name.
 Combining an input folder with an output file will consolidate the output into a single file.
 
-### 3) Separator Value
+### 3) Delimiter Value
 ```
 --sep, -s
 ```
-The column separator in the input file.
+The column delimiter in the input file.
 Defaults to comma but any character string can be used except for reserved characters ":", "^" and "|".
 
 ### 4) Output Format/Serialisation
@@ -83,12 +82,10 @@ The file serialistion used for the RDF output.
 *  RDF/JSON		json-rdf
 *  RDF/XML		xml
 *  RDF/XML PLAIN		xml-plain
-*  RDF/XML PRETTY		xml-pretty
 *  RDF/THRIFT			thrift
 *  TRIX			trix
 *  TRIG			trig
 *  Turtle		ttl (Default)
-*  Turtle Pretty		ttl-pretty
 
 ### 5) Prefixes File
 ```
