@@ -35,7 +35,7 @@ public class ArgsConfig {
 
     //4) Separator value - COMMA, TAB, SPACE
     @Parameter(names = {"--sep", "-s"}, description = "Column separator in the input file. Any character except ':', '^' and '|'. Default: ',' ", validateWith = SeparatorValidator.class)
-    private char inputSeparator = ',';
+    private String inputSeparator = ",";
 
     //5) Prefixes file
     @Parameter(names = {"--prefixes", "-p"}, description = "Prefix definition file of key=value pairs with no header (Java Properties format).", converter = PropsConverter.class)
@@ -65,7 +65,7 @@ public class ArgsConfig {
         return outputFormat;
     }
 
-    public char getInputSeparator() {
+    public String getInputSeparator() {
         return inputSeparator;
     }
 
@@ -83,6 +83,11 @@ public class ArgsConfig {
 
     public List<File> getExcludedFiles() {
         return excludedFiles;
+    }
+
+    @Override
+    public String toString() {
+        return "ArgsConfig{" + "inputFile=" + inputFile + ", outputFile=" + outputFile + ", outputFormat=" + outputFormat + ", inputSeparator=" + inputSeparator + ", prefixProps=" + prefixProps + ", datatypeProps=" + datatypeProps + ", owlNamedIndividual=" + owlNamedIndividual + ", excludedFiles=" + excludedFiles + '}';
     }
 
 }

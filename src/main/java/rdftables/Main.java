@@ -34,7 +34,7 @@ public class Main {
         RDFFormat rdfFormat = argsConfig.getOutputFormat();
         File outputFile = FileSupport.checkOutputFile(inputFile, argsConfig.getOutputFile(), rdfFormat);
         List<File> excludedFiles = argsConfig.getExcludedFiles();
-        char separator = argsConfig.getInputSeparator();
+        char separator = argsConfig.getInputSeparator().charAt(0);
         Boolean isNamedIndividual = argsConfig.isOwlNamedIndividual();
 
         //Convert files.

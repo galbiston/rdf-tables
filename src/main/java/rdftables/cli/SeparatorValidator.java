@@ -31,7 +31,7 @@ public class SeparatorValidator implements IParameterValidator {
                 throw new ParameterException("Parameter " + name + " and value " + value + " contains reserved character from " + String.join(", ", RESERVED_CHARACTERS) + ".");
             }
         }
-
+        int i = 0;
     }
 
 }

@@ -6,6 +6,7 @@
 package rdftables.cli;
 
 import com.beust.jcommander.JCommander;
+import com.beust.jcommander.ParameterException;
 import org.apache.jena.riot.RDFFormat;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -121,6 +122,94 @@ public class ArgsConfigTest {
 
         Boolean expResult = false;
         Boolean result = args.isOwlNamedIndividual();
+
+        //System.out.println("Exp: " + expResult);
+        //System.out.println("Res: " + result);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of getInputSeparator method, of class ArgsConfig.
+     */
+    @Test
+    public void testGetInputSeparator_tab() {
+        System.out.println("getInputSeparator_tab");
+        ArgsConfig args = new ArgsConfig();
+
+        String[] argv = {"-i", "test.rdf", "-s", "\t"};
+        JCommander.newBuilder()
+                .addObject(args)
+                .build()
+                .parse(argv);
+
+        String expResult = "\t";
+        String result = args.getInputSeparator();
+
+        //System.out.println("Exp: " + expResult);
+        //System.out.println("Res: " + result);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of getInputSeparator method, of class ArgsConfig.
+     */
+    @Test
+    public void testGetInputSeparator_space() {
+        System.out.println("getInputSeparator_space");
+        ArgsConfig args = new ArgsConfig();
+
+        String[] argv = {"-i", "test.rdf", "-s", " "};
+        JCommander.newBuilder()
+                .addObject(args)
+                .build()
+                .parse(argv);
+
+        String expResult = " ";
+        String result = args.getInputSeparator();
+
+        //System.out.println("Exp: " + expResult);
+        //System.out.println("Res: " + result);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of getInputSeparator method, of class ArgsConfig.
+     */
+    @Test
+    public void testGetInputSeparator_comma() {
+        System.out.println("getInputSeparator_comma");
+        ArgsConfig args = new ArgsConfig();
+
+        String[] argv = {"-i", "test.rdf"};
+        JCommander.newBuilder()
+                .addObject(args)
+                .build()
+                .parse(argv);
+
+        String expResult = ",";
+        String result = args.getInputSeparator();
+
+        //System.out.println("Exp: " + expResult);
+        //System.out.println("Res: " + result);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of getInputSeparator method, of class ArgsConfig.
+     */
+    @Test(expected = ParameterException.class)
+    public void testGetInputSeparator_reserved() {
+        System.out.println("getInputSeparator_reserved");
+        ArgsConfig args = new ArgsConfig();
+
+        String[] argv = {"-i", "test.rdf", "-s", "|"};
+        JCommander.newBuilder()
+                .addObject(args)
+                .build()
+                .parse(argv);
+
+        String expResult = ",";
+        String result = args.getInputSeparator();
 
         //System.out.println("Exp: " + expResult);
         //System.out.println("Res: " + result);
