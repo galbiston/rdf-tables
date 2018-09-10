@@ -42,7 +42,7 @@ public class ArgsConfig {
     private File outputFile = null;
 
     //3) Output format/serialisation - ttl, nt, nq, json-ld, json, xml
-    @Parameter(names = {"--format", "-f"}, description = "The file serialistion used for the RDF output: json-ld, nt, nq, json, xml, ttl. Default: ttl", validateWith = FormatValidator.class, converter = FormatConverter.class)
+    @Parameter(names = {"--format", "-f"}, description = "The file serialistion used for the RDF output: json-ld, nt, nq, json, xml, ttl. Default: ttl", validateWith = FormatParameter.class, converter = FormatParameter.class)
     private RDFFormat outputFormat = RDFFormat.TTL;
 
     //4) Separator value - COMMA, TAB, SPACE

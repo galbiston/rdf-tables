@@ -22,7 +22,7 @@ import java.lang.invoke.MethodHandles;
 import org.apache.jena.riot.RDFFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import rdftables.cli.FormatConverter;
+import rdftables.cli.FormatParameter;
 
 /**
  *
@@ -38,7 +38,7 @@ public class FileSupport {
             if (inputFile.isDirectory()) {
                 outputFile = inputFile;
             } else {
-                String outputFilename = FormatConverter.buildFilename(inputFile, rdfFormat);
+                String outputFilename = FormatParameter.buildFilename(inputFile, rdfFormat);
                 outputFile = new File(inputFile.getParentFile(), outputFilename);
             }
         }

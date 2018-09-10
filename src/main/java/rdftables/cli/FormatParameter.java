@@ -17,15 +17,19 @@
  */
 package rdftables.cli;
 
+import com.beust.jcommander.IParameterValidator;
 import com.beust.jcommander.IStringConverter;
+import com.beust.jcommander.ParameterException;
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 import org.apache.jena.riot.RDFFormat;
 
 /**
  *
  *
  */
-public class FormatConverter implements IStringConverter<RDFFormat> {
+public class FormatParameter implements IStringConverter<RDFFormat>, IParameterValidator {
 
     @Override
     public RDFFormat convert(String rdfFormat) {
@@ -58,6 +62,17 @@ public class FormatConverter implements IStringConverter<RDFFormat> {
             default:
                 return RDFFormat.TTL;
         }
+    }
+
+    private static final List<String> PERMITTED_FORMATS = Arrays.asList("json-ld", "nt", "nq", "json-rdf", "xml-plain", "xml-pretty", "xml", "thrift", "trig", "trix", "ttl", "ttl-pretty");
+
+    @Override
+    public void validate(String name, String value) throws ParameterException {
+        String val = value.toLowerCase();
+        if (!PERMITTED_FORMATS.contains(val)) {
+            throw new ParameterException("Parameter " + name + " and value " + value + " should be one of " + String.join(", ", PERMITTED_FORMATS) + ".");
+        }
+
     }
 
     public static final String fileExtension(RDFFormat rdfFormat) {

@@ -30,7 +30,7 @@ import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import rdftables.cli.FormatConverter;
+import rdftables.cli.FormatParameter;
 import rdftables.datatypes.PrefixController;
 
 /**
@@ -77,7 +77,7 @@ public class FileReader {
         HashMap<String, Model> models = new HashMap<>();
         List<File> inputFiles = Arrays.asList(inputDirectory.listFiles());
         for (File inputFile : inputFiles) {
-            File outputFile = new File(outputDirectory.getAbsoluteFile(), FormatConverter.buildFilename(inputFile, rdfFormat));
+            File outputFile = new File(outputDirectory.getAbsoluteFile(), FormatParameter.buildFilename(inputFile, rdfFormat));
             Model model = convertCSVFiles(Arrays.asList(inputFile), excludedFiles, outputFile, null, rdfFormat, separator, isNamedIndividual);
             models.put(inputFile.getName(), model);
         }
