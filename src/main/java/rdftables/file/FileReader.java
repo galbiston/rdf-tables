@@ -24,14 +24,10 @@ import java.lang.invoke.MethodHandles;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import org.apache.jena.query.Dataset;
-import org.apache.jena.query.ReadWrite;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFFormat;
-import org.apache.jena.tdb.TDBFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rdftables.cli.FormatConverter;
@@ -101,52 +97,15 @@ public class FileReader {
                 FileConverter.writeToModel(inputFile, model, separator, isNamedIndividual);
             }
         }
-        try (FileOutputStream out = new FileOutputStream(outputFile)) {
-            RDFDataMgr.write(out, model, rdfFormat);
-        } catch (IOException ex) {
-            LOGGER.error("IOException: {}, File: {}", ex.getMessage(), outputFile);
+
+        if (outputFile != null) {
+            try (FileOutputStream out = new FileOutputStream(outputFile)) {
+                RDFDataMgr.write(out, model, rdfFormat);
+            } catch (IOException ex) {
+                LOGGER.error("IOException: {}, File: {}", ex.getMessage(), outputFile);
+            }
         }
         return model;
-    }
-
-    /**
-     * Default input format TTL, comma separated with creation of OWL Named
-     * Individuals.
-     *
-     * @param tdbStorageFolder
-     * @param sourceCSVFolder
-     * @param outputRDFFile
-     * @param targetGraph
-     * @param prefixesFile
-     */
-    public static void compileCSVFolder(File tdbStorageFolder, File sourceCSVFolder, File outputRDFFile, Resource targetGraph, File prefixesFile) {
-        compileCSVFolder(tdbStorageFolder, sourceCSVFolder, outputRDFFile, targetGraph, prefixesFile, RDFFormat.TTL, ',', true);
-    }
-
-    public static void compileCSVFolder(File tdbStorageFolder, File sourceCSVFolder, File outputRDFFile, Resource targetGraph, File prefixesFile, RDFFormat rdfFormat, char separator, Boolean isNamedIndividual) {
-
-        LOGGER.info("Reading CSV Folder Started: {}", sourceCSVFolder);
-        if (!sourceCSVFolder.exists()) {
-            LOGGER.info("CSV Folder Not Found - Skipping: {}", sourceCSVFolder);
-            return;
-        }
-
-        Model model = convertCSVDirectory(sourceCSVFolder, outputRDFFile, prefixesFile, rdfFormat, separator, isNamedIndividual);
-
-        Dataset dataset = TDBFactory.createDataset(tdbStorageFolder.getAbsolutePath());
-        dataset.begin(ReadWrite.WRITE);
-        if (dataset.containsNamedModel(targetGraph.getURI())) {
-            Model existingModel = dataset.getNamedModel(targetGraph.getURI());
-            existingModel.add(model);
-        } else {
-            dataset.addNamedModel(targetGraph.getURI(), model);
-        }
-
-        dataset.commit();
-        dataset.end();
-        dataset.close();
-        TDBFactory.release(dataset);
-        LOGGER.info("Reading RDF Completed: {}", sourceCSVFolder);
     }
 
 }

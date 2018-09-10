@@ -145,7 +145,8 @@ Supply the above parameters as a file:
 $ java Main @/tmp/parameters
 ```
 
-
+## TDB Compilation
+Library methods are provided for compiling to TDB graphstore by named graph, see _TDBBuilder.compileCSVFolder_.
 
 ## Future Work:
 Items that can be developed based on feedback and other suggestions.
