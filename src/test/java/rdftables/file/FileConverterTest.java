@@ -53,7 +53,7 @@ public class FileConverterTest {
     public static void setUpClass() {
         File inputFile = new File(FileConverterTest.class.getClassLoader().getResource("TestData.csv").getFile());
         testModel = ModelFactory.createDefaultModel();
-        DatatypeController.addPrefixDatatype("wkt", "http://www.opengis.net/ont/geosparql#wktLiteral");
+        DatatypeController.addPrefixDatatypeURI("wkt", "http://www.opengis.net/ont/geosparql#wktLiteral");
         PrefixController.addPrefix("other", "http://example.org/other#");
         FileConverter.writeToModel(inputFile, testModel);
     }

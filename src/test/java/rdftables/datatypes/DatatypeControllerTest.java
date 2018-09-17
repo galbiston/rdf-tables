@@ -53,7 +53,7 @@ public class DatatypeControllerTest {
     }
 
     /**
-     * Test of extractLiteral DateTime method, of class DataTypeExtract.
+     * Test of createLiteral DateTime method, of class DataTypeExtract.
      */
     @Test
     public void testExtractLiteralDate() {
@@ -63,13 +63,13 @@ public class DatatypeControllerTest {
 
         Literal expResult = ResourceFactory.createTypedLiteral(dateTime, XSDBaseNumericType.XSDdate);
 
-        Literal result = DatatypeController.extractLiteral(dateTime, dataTypeURI);
+        Literal result = DatatypeController.createLiteral(dateTime, dataTypeURI);
         //System.out.println("Exp: " + expResult + " Res: " + result);
         assertEquals(expResult, result);
     }
 
     /**
-     * Test of extractLiteral DateTime method, of class DataTypeExtract.
+     * Test of createLiteral DateTime method, of class DataTypeExtract.
      */
     @Test
     public void testExtractLiteralDateTime() {
@@ -79,13 +79,13 @@ public class DatatypeControllerTest {
 
         Literal expResult = ResourceFactory.createTypedLiteral(dateTime, XSDBaseNumericType.XSDdateTime);
 
-        Literal result = DatatypeController.extractLiteral(dateTime, dataTypeURI);
+        Literal result = DatatypeController.createLiteral(dateTime, dataTypeURI);
         //System.out.println("Exp: " + expResult + " Res: " + result);
         assertEquals(expResult, result);
     }
 
     /**
-     * Test of extractLiteral Time method, of class DataTypeExtract.
+     * Test of createLiteral Time method, of class DataTypeExtract.
      */
     @Test
     public void testExtractLiteralTime() {
@@ -95,13 +95,13 @@ public class DatatypeControllerTest {
 
         Literal expResult = ResourceFactory.createTypedLiteral(time, XSDBaseNumericType.XSDtime);
 
-        Literal result = DatatypeController.extractLiteral(time, dataTypeURI);
+        Literal result = DatatypeController.createLiteral(time, dataTypeURI);
         //System.out.println("Exp: " + expResult + " Res: " + result);
         assertEquals(expResult, result);
     }
 
     /**
-     * Test of extractLiteral Duration method, of class DataTypeExtract.
+     * Test of createLiteral Duration method, of class DataTypeExtract.
      */
     @Test
     public void testExtractLiteralDuration() {
@@ -111,13 +111,13 @@ public class DatatypeControllerTest {
 
         Literal expResult = ResourceFactory.createTypedLiteral(duration, XSDBaseNumericType.XSDduration);
 
-        Literal result = DatatypeController.extractLiteral(duration, dataTypeURI);
+        Literal result = DatatypeController.createLiteral(duration, dataTypeURI);
         //System.out.println("Exp: " + expResult + " Res: " + result);
         assertEquals(expResult, result);
     }
 
     /**
-     * Test of extractLiteral Double method, of class DataTypeExtract.
+     * Test of createLiteral Double method, of class DataTypeExtract.
      */
     @Test
     public void testExtractLiteralDouble() {
@@ -128,13 +128,13 @@ public class DatatypeControllerTest {
         Double doubleValue = Double.parseDouble(data);
         Literal expResult = ResourceFactory.createTypedLiteral(doubleValue);
 
-        Literal result = DatatypeController.extractLiteral(data, dataTypeURI);
+        Literal result = DatatypeController.createLiteral(data, dataTypeURI);
         //System.out.println("Exp: " + expResult + " Res: " + result);
         assertEquals(expResult, result);
     }
 
     /**
-     * Test of extractLiteral Decimal method, of class DataTypeExtract.
+     * Test of createLiteral Decimal method, of class DataTypeExtract.
      */
     @Test
     public void testExtractLiteralDecimal() {
@@ -144,13 +144,13 @@ public class DatatypeControllerTest {
 
         Literal expResult = ResourceFactory.createTypedLiteral(data, XSDBaseNumericType.XSDdecimal);
 
-        Literal result = DatatypeController.extractLiteral(data, dataTypeURI);
+        Literal result = DatatypeController.createLiteral(data, dataTypeURI);
         //System.out.println("Exp: " + expResult + " Res: " + result);
         assertEquals(expResult, result);
     }
 
     /**
-     * Test of extractLiteral Integer method, of class DataTypeExtract.
+     * Test of createLiteral Integer method, of class DataTypeExtract.
      */
     @Test
     public void testExtractLiteralInteger() {
@@ -160,13 +160,13 @@ public class DatatypeControllerTest {
 
         Literal expResult = ResourceFactory.createTypedLiteral(data, XSDBaseNumericType.XSDinteger);
 
-        Literal result = DatatypeController.extractLiteral(data, dataTypeURI);
+        Literal result = DatatypeController.createLiteral(data, dataTypeURI);
         //System.out.println("Exp: " + expResult + " Res: " + result);
         assertEquals(expResult, result);
     }
 
     /**
-     * Test of extractLiteral Int method, of class DataTypeExtract.
+     * Test of createLiteral Int method, of class DataTypeExtract.
      */
     @Test
     public void testExtractLiteralInt() {
@@ -177,13 +177,13 @@ public class DatatypeControllerTest {
         int integerValue = Integer.parseInt(data);
         Literal expResult = ResourceFactory.createTypedLiteral(integerValue);
 
-        Literal result = DatatypeController.extractLiteral(data, dataTypeURI);
+        Literal result = DatatypeController.createLiteral(data, dataTypeURI);
         //System.out.println("Exp: " + expResult + " Res: " + result);
         assertEquals(expResult, result);
     }
 
     /**
-     * Test of extractLiteral Positive Int method, of class DataTypeExtract.
+     * Test of createLiteral Positive Int method, of class DataTypeExtract.
      */
     @Test
     public void testExtractLiteralPositiveInt() {
@@ -193,13 +193,13 @@ public class DatatypeControllerTest {
 
         Literal expResult = ResourceFactory.createTypedLiteral(data, XSDBaseNumericType.XSDpositiveInteger);
 
-        Literal result = DatatypeController.extractLiteral(data, dataTypeURI);
+        Literal result = DatatypeController.createLiteral(data, dataTypeURI);
         //System.out.println("Exp: " + expResult + " Res: " + result);
         assertEquals(expResult, result);
     }
 
     /**
-     * Test of extractLiteral Boolean method, of class DataTypeExtract.
+     * Test of createLiteral Boolean method, of class DataTypeExtract.
      */
     @Test
     public void testExtractLiteralBoolean() {
@@ -210,13 +210,13 @@ public class DatatypeControllerTest {
         boolean booleanValue = Boolean.valueOf(data);
         Literal expResult = ResourceFactory.createTypedLiteral(booleanValue);
 
-        Literal result = DatatypeController.extractLiteral(data, dataTypeURI);
+        Literal result = DatatypeController.createLiteral(data, dataTypeURI);
         //System.out.println("Exp: " + expResult + " Res: " + result);
         assertEquals(expResult, result);
     }
 
     /**
-     * Test of extractLiteral String method, of class DataTypeExtract.
+     * Test of createLiteral String method, of class DataTypeExtract.
      */
     @Test
     public void testExtractLiteralString() {
@@ -226,7 +226,7 @@ public class DatatypeControllerTest {
 
         Literal expResult = ResourceFactory.createTypedLiteral(data);
 
-        Literal result = DatatypeController.extractLiteral(data, dataTypeURI);
+        Literal result = DatatypeController.createLiteral(data, dataTypeURI);
         //System.out.println("Exp: " + expResult + " Res: " + result);
         assertEquals(expResult, result);
     }

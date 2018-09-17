@@ -259,7 +259,7 @@ public class FileConverter {
                 RDFNode object;
                 if (datatypeURIs.containsKey(i)) {
                     String datatypeURI = datatypeURIs.get(i);
-                    object = DatatypeController.extractLiteral(data, datatypeURI);
+                    object = DatatypeController.createLiteral(data, datatypeURI);
                 } else if (indviduals.containsKey(i)) {
                     //No datatype so must be an individual.
                     object = indviduals.get(i);

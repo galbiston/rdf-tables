@@ -96,14 +96,50 @@ public class DatatypeController {
         DATATYPES.put(XSDBaseNumericType.XSDduration.getURI(), XSDBaseNumericType.XSDduration);
     }
 
-    public static final void addPrefixDatatypes(HashMap<String, String> prefixDatatypes) {
-        prefixDatatypes.forEach((k, v) -> addPrefixDatatype(k, v));
+    /**
+     * Register a map of prefix and datatype URI.<br>
+     * This will create a new datatype instance which will overwrite any
+     * previously registered datatype instances using the same datatype prefix
+     * or URI.
+     *
+     * @param prefixDatatypes
+     */
+    public static final void addPrefixDatatypeURIs(HashMap<String, String> prefixDatatypes) {
+        prefixDatatypes.forEach((k, v) -> addPrefixDatatypeURI(k, v));
     }
 
-    public static final void addPrefixDatatype(String prefix, String datatypeURI) {
+    /**
+     * Register a prefix and datatype URI.<br>
+     * This will create a new datatype instance which will overwrite any
+     * previously registered datatype instances using the same datatype prefix
+     * or URI.
+     *
+     * @param prefix
+     * @param datatypeURI
+     */
+    public static final void addPrefixDatatypeURI(String prefix, String datatypeURI) {
         addPrefixDatatype(prefix, new BaseDatatype(datatypeURI));
     }
 
+    /**
+     * Register a map of prefix and datatype URI.<br>
+     * This will create a new datatype instance which will overwrite any
+     * previously registered datatype instances using the same datatype prefix.
+     *
+     * @param prefixDatatypes
+     */
+    public static final void addPrefixDatatypes(HashMap<String, BaseDatatype> prefixDatatypes) {
+        prefixDatatypes.forEach((k, v) -> addPrefixDatatype(k, v));
+    }
+
+    /**
+     * Register a map of prefix and datatype URI.<br>
+     * This will create a new datatype instance which will overwrite any
+     * previously registered datatype instances using the same datatype prefix.
+     *
+     * @param prefix
+     * @param datatype
+     */
     public static final void addPrefixDatatype(String prefix, BaseDatatype datatype) {
         getDatatypes();
         String datatypeURI = datatype.getURI();
@@ -117,6 +153,15 @@ public class DatatypeController {
         }
     }
 
+    /**
+     * Lookup the datatypeURI according to the label.<br>
+     * The label is used as a prefix reference. If no result is found the label
+     * and base URI are used to create a new datatype URI.
+     *
+     * @param datatypeLabel
+     * @param baseURI
+     * @return
+     */
     public static final String lookupDatatypeURI(String datatypeLabel, String baseURI) {
         getDatatypes();
         //Check if datatypeLabel is a URI and if so return.
@@ -131,6 +176,12 @@ public class DatatypeController {
         }
     }
 
+    /**
+     * Lookup the datatype associated with a datatype URI.
+     *
+     * @param datatypeURI
+     * @return
+     */
     public static final BaseDatatype lookupDatatype(String datatypeURI) {
         getDatatypes();
         if (DATATYPES.containsKey(datatypeURI)) {
@@ -141,7 +192,14 @@ public class DatatypeController {
         }
     }
 
-    public static final Literal extractLiteral(String data, String datatypeURI) {
+    /**
+     * Create a literal according to the datatype URI.
+     *
+     * @param data
+     * @param datatypeURI
+     * @return
+     */
+    public static final Literal createLiteral(String data, String datatypeURI) {
         getDatatypes();
         if (DATATYPES.containsKey(datatypeURI)) {
             BaseDatatype datatype = DATATYPES.get(datatypeURI);

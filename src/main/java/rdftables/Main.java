@@ -45,7 +45,7 @@ public class Main {
         PrefixController.addPrefixes(argsConfig.getPrefixProps());
 
         //Load datatypes.
-        DatatypeController.addPrefixDatatypes(argsConfig.getDatatypeProps());
+        DatatypeController.addPrefixDatatypeURIs(argsConfig.getDatatypeProps());
 
         //Organise input and output files.
         File inputFile = argsConfig.getInputFile();
