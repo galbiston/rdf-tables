@@ -49,7 +49,7 @@ dependencies {
     compile "com.beust:jcommander:$jcommanderVersion"
 }
 
-group = 'org.ntu'
+group = 'io.github.galbiston'
 version = '1.0.0'
 
 apply plugin: 'maven-publish'
