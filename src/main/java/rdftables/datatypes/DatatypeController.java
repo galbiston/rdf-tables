@@ -20,6 +20,7 @@ package rdftables.datatypes;
 import java.lang.invoke.MethodHandles;
 import java.util.HashMap;
 import org.apache.jena.datatypes.BaseDatatype;
+import org.apache.jena.datatypes.RDFDatatype;
 import org.apache.jena.datatypes.TypeMapper;
 import org.apache.jena.datatypes.xsd.impl.XSDBaseNumericType;
 import org.apache.jena.rdf.model.Literal;
@@ -37,7 +38,7 @@ public class DatatypeController {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private static final HashMap<String, String> DATATYPE_PREFIXES = new HashMap<>();
-    private static final HashMap<String, BaseDatatype> DATATYPES = new HashMap<>();
+    private static final TypeMapper TYPE_MAPPER = TypeMapper.getInstance();
 
     public static final String HTTP_PREFIX = "http://";
     public static final String BOOLEAN_URI = XSDBaseNumericType.XSDboolean.getURI();
@@ -46,18 +47,8 @@ public class DatatypeController {
 
         if (DATATYPE_PREFIXES.isEmpty()) {
             loadXSDDatatypePrefixes();
-            loadXSDDatatypes();
         }
         return DATATYPE_PREFIXES;
-    }
-
-    public static final HashMap<String, BaseDatatype> getDatatypes() {
-
-        if (DATATYPES.isEmpty()) {
-            loadXSDDatatypePrefixes();
-            loadXSDDatatypes();
-        }
-        return DATATYPES;
     }
 
     private static void loadXSDDatatypePrefixes() {
@@ -78,22 +69,6 @@ public class DatatypeController {
         DATATYPE_PREFIXES.put("datetime", XSDBaseNumericType.XSDdateTime.getURI());
         DATATYPE_PREFIXES.put("time", XSDBaseNumericType.XSDtime.getURI());
         DATATYPE_PREFIXES.put("duration", XSDBaseNumericType.XSDduration.getURI());
-    }
-
-    private static void loadXSDDatatypes() {
-        DATATYPES.put(XSDBaseNumericType.XSDstring.getURI(), XSDBaseNumericType.XSDstring);
-        DATATYPES.put(XSDBaseNumericType.XSDint.getURI(), XSDBaseNumericType.XSDint);
-        DATATYPES.put(XSDBaseNumericType.XSDinteger.getURI(), XSDBaseNumericType.XSDinteger);
-        DATATYPES.put(XSDBaseNumericType.XSDpositiveInteger.getURI(), XSDBaseNumericType.XSDpositiveInteger);
-        DATATYPES.put(XSDBaseNumericType.XSDnonNegativeInteger.getURI(), XSDBaseNumericType.XSDnonNegativeInteger);
-        DATATYPES.put(XSDBaseNumericType.XSDnonPositiveInteger.getURI(), XSDBaseNumericType.XSDnonPositiveInteger);
-        DATATYPES.put(XSDBaseNumericType.XSDdouble.getURI(), XSDBaseNumericType.XSDdouble);
-        DATATYPES.put(XSDBaseNumericType.XSDdecimal.getURI(), XSDBaseNumericType.XSDdecimal);
-        DATATYPES.put(XSDBaseNumericType.XSDboolean.getURI(), XSDBaseNumericType.XSDboolean);
-        DATATYPES.put(XSDBaseNumericType.XSDdate.getURI(), XSDBaseNumericType.XSDdate);
-        DATATYPES.put(XSDBaseNumericType.XSDdateTime.getURI(), XSDBaseNumericType.XSDdateTime);
-        DATATYPES.put(XSDBaseNumericType.XSDtime.getURI(), XSDBaseNumericType.XSDtime);
-        DATATYPES.put(XSDBaseNumericType.XSDduration.getURI(), XSDBaseNumericType.XSDduration);
     }
 
     /**
@@ -141,12 +116,11 @@ public class DatatypeController {
      * @param datatype
      */
     public static final void addPrefixDatatype(String prefix, BaseDatatype datatype) {
-        getDatatypes();
+        getDatatypePrefixes();
         String datatypeURI = datatype.getURI();
         if (PrefixController.checkURI(datatypeURI)) {
             DATATYPE_PREFIXES.put(prefix, datatypeURI);
-            DATATYPES.put(datatypeURI, datatype);
-            TypeMapper.getInstance().registerDatatype(datatype);
+            TYPE_MAPPER.registerDatatype(datatype);
         } else {
             LOGGER.error("Datatype URI is not a URI: {} {}", prefix, datatypeURI);
             throw new AssertionError();
@@ -163,7 +137,7 @@ public class DatatypeController {
      * @return
      */
     public static final String lookupDatatypeURI(String datatypeLabel, String baseURI) {
-        getDatatypes();
+        getDatatypePrefixes();
         //Check if datatypeLabel is a URI and if so return.
         String tidyLabel = datatypeLabel.toLowerCase();
         if (DATATYPE_PREFIXES.containsKey(tidyLabel)) {
@@ -171,7 +145,7 @@ public class DatatypeController {
         } else {
             String datatypeURI = PrefixController.lookupURI(datatypeLabel, baseURI);
             DATATYPE_PREFIXES.put(datatypeLabel, datatypeURI);
-            DATATYPES.put(datatypeURI, new BaseDatatype(datatypeURI));
+            TYPE_MAPPER.registerDatatype(new BaseDatatype(datatypeURI));
             return datatypeURI;
         }
     }
@@ -182,10 +156,12 @@ public class DatatypeController {
      * @param datatypeURI
      * @return
      */
-    public static final BaseDatatype lookupDatatype(String datatypeURI) {
-        getDatatypes();
-        if (DATATYPES.containsKey(datatypeURI)) {
-            return DATATYPES.get(datatypeURI);
+    public static final RDFDatatype lookupDatatype(String datatypeURI) {
+        getDatatypePrefixes();
+        RDFDatatype datatype = TYPE_MAPPER.getTypeByName(datatypeURI);
+
+        if (datatype != null) {
+            return datatype;
         } else {
             LOGGER.error("{} datatype URI not registered.", datatypeURI);
             throw new AssertionError();
@@ -200,9 +176,10 @@ public class DatatypeController {
      * @return
      */
     public static final Literal createLiteral(String data, String datatypeURI) {
-        getDatatypes();
-        if (DATATYPES.containsKey(datatypeURI)) {
-            BaseDatatype datatype = DATATYPES.get(datatypeURI);
+        getDatatypePrefixes();
+        RDFDatatype datatype = TYPE_MAPPER.getTypeByName(datatypeURI);
+
+        if (datatype != null) {
             String tidyData = tidyDatatype(data, datatypeURI);
             return ResourceFactory.createTypedLiteral(tidyData, datatype);
         } else {
