@@ -101,14 +101,16 @@ public class DatatypeController {
     }
 
     public static final void addPrefixDatatype(String prefix, String datatypeURI) {
-        getDatatypes();
+        addPrefixDatatype(prefix, new BaseDatatype(datatypeURI));
+    }
 
+    public static final void addPrefixDatatype(String prefix, BaseDatatype datatype) {
+        getDatatypes();
+        String datatypeURI = datatype.getURI();
         if (PrefixController.checkURI(datatypeURI)) {
             DATATYPE_PREFIXES.put(prefix, datatypeURI);
-            BaseDatatype datatype = new BaseDatatype(datatypeURI);
             DATATYPES.put(datatypeURI, datatype);
             TypeMapper.getInstance().registerDatatype(datatype);
-
         } else {
             LOGGER.error("Datatype URI is not a URI: {} {}", prefix, datatypeURI);
             throw new AssertionError();
