@@ -154,3 +154,5 @@ Items that can be developed based on feedback and other suggestions.
 * Multiple files to separate graphs - e.g. NQUADS serialisation. Graph name would be specified as third item in column 0.
 * Read configuration from a property file.
 * SHACL integration to importa schema and validate the data structure.
+
+![alt text](https://www.apache.org/logos/comdev-test/poweredby/jena.png "Powered by Apache Jena")
