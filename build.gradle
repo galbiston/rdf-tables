@@ -11,10 +11,12 @@ sourceCompatibility = '1.8'
 // prefer. In this case NetBeans will not add these tasks but you may rely on
 // your own implementation.
 if (!hasProperty('mainClass')) {
-    ext.mainClass = 'rdftables.Main'
+    ext.mainClass = "rdftables.Main"
 }
+mainClassName = "rdftables.Main"
 
 repositories {
+    mavenLocal()
     mavenCentral()
     // You may define additional repositories, or even remove "mavenCentral()".
     // Read more about repositories here:
@@ -24,29 +26,29 @@ repositories {
 dependencies {
 
     ext.openCSVVersion = "3.9"
-    compile ("com.opencsv:opencsv:$openCSVVersion"){
+    implementation ("com.opencsv:opencsv:$openCSVVersion"){
         exclude group: 'commons-logging', module: 'commons-logging'
     }
 
     ext.slf4jVersion = "1.7.25"
-    compile "org.slf4j:jcl-over-slf4j:$slf4jVersion"
+    implementation "org.slf4j:jcl-over-slf4j:$slf4jVersion"
 
     ext.jenaVersion = "3.8.0"
-    //compile "org.apache.jena:apache-jena-libs:$jenaVersion"
+    //implementation "org.apache.jena:apache-jena-libs:$jenaVersion"
     //Issue resolving apache-jena-libs in Maven projects. Use individual modules as provide jars.
-    compile "org.apache.jena:jena-core:$jenaVersion"
-    compile "org.apache.jena:jena-arq:$jenaVersion"
-    compile "org.apache.jena:jena-iri:$jenaVersion"
-    compile "org.apache.jena:jena-tdb:$jenaVersion"
+    implementation "org.apache.jena:jena-core:$jenaVersion"
+    implementation "org.apache.jena:jena-arq:$jenaVersion"
+    implementation "org.apache.jena:jena-iri:$jenaVersion"
+    implementation "org.apache.jena:jena-tdb:$jenaVersion"
 
     ext.logbackVersion = "1.2.3"
     testCompile "ch.qos.logback:logback-classic:$logbackVersion"
 
     ext.junitVersion = "4.12"
-    testCompile "junit:junit:$junitVersion"
+    testImplementation "junit:junit:$junitVersion"
 
     ext.jcommanderVersion = "1.72"
-    compile "com.beust:jcommander:$jcommanderVersion"
+    implementation "com.beust:jcommander:$jcommanderVersion"
 }
 
 group = 'io.github.galbiston'
