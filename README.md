@@ -155,4 +155,4 @@ Items that can be developed based on feedback and other suggestions.
 * Read configuration from a property file.
 * SHACL integration to importa schema and validate the data structure.
 
-![alt text](https://www.apache.org/logos/comdev-test/poweredby/jena.png "Powered by Apache Jena")
+![Powered by Apache Jena](https://www.apache.org/logos/comdev-test/poweredby/jena.png "Powered by Apache Jena"){:height="36px" width="36px"}
