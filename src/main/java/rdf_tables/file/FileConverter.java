@@ -69,7 +69,7 @@ public class FileConverter {
         writeToModel(inputFile, model, ',', true);
     }
 
-    public static final void writeToModel(File inputFile, Model model, char separator, Boolean isNamedIndividual) {
+    public static final void writeToModel(File inputFile, Model model, char delimiter, Boolean isNamedIndividual) {
 
         LOGGER.info("File Conversion Started: {}", inputFile.getPath());
 
@@ -80,7 +80,7 @@ public class FileConverter {
         List<Boolean> propertyDirections = new ArrayList<>();
         int lineNumber = 1;
 
-        try (CSVReader reader = new CSVReader(new FileReader(inputFile), separator)) {
+        try (CSVReader reader = new CSVReader(new FileReader(inputFile), delimiter)) {
 
             String baseURI = readHeader(reader.readNext(), datatypeURIs, propertyURIs, classURIs, targetColumns, propertyDirections);
 
