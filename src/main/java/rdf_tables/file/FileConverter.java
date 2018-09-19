@@ -107,7 +107,7 @@ public class FileConverter {
         try {
             //First column: BASE_URI CLASS_URI
             header = headerLine[0];
-            parts = header.split(DefaultValues.HEADER_ITEM_SEPARATOR);
+            parts = header.split(DefaultValues.HEADER_ITEM_DELIMITER);
             baseURI = parts[0];
             createClass(0, parts[1].startsWith(DefaultValues.CLASS_CHARACTER) ? parts[1].substring(1) : parts[1], baseURI, classURIs);
             targetColumns.add(0);
@@ -120,7 +120,7 @@ public class FileConverter {
         for (int i = 1; i < headerLine.length; i++) {
             try {
                 header = headerLine[i];
-                parts = header.split(DefaultValues.HEADER_ITEM_SEPARATOR);
+                parts = header.split(DefaultValues.HEADER_ITEM_DELIMITER);
 
                 //Extract datatype and propertyURI from header field.
                 String datatypeLabel = null;

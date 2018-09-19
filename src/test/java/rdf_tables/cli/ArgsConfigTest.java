@@ -17,7 +17,6 @@
  */
 package rdf_tables.cli;
 
-import rdf_tables.cli.ArgsConfig;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
 import org.apache.jena.riot.RDFFormat;
@@ -142,11 +141,11 @@ public class ArgsConfigTest {
     }
 
     /**
-     * Test of getInputSeparator method, of class ArgsConfig.
+     * Test of getInputDelimiter method, of class ArgsConfig.
      */
     @Test
-    public void testGetInputSeparator_tab() {
-        System.out.println("getInputSeparator_tab");
+    public void testGetInputDelimiter_tab() {
+        System.out.println("getInputDelimiter_tab");
         ArgsConfig args = new ArgsConfig();
 
         String[] argv = {"-i", "test.rdf", "-s", "TAB"};
@@ -156,7 +155,7 @@ public class ArgsConfigTest {
                 .parse(argv);
 
         String expResult = "TAB";
-        String result = args.getInputSeparator();
+        String result = args.getInputDelimiter();
 
         //System.out.println("Exp: " + expResult);
         //System.out.println("Res: " + result);
@@ -164,11 +163,11 @@ public class ArgsConfigTest {
     }
 
     /**
-     * Test of getInputSeparator method, of class ArgsConfig.
+     * Test of getInputDelimiter method, of class ArgsConfig.
      */
     @Test
-    public void testGetInputSeparator_space() {
-        System.out.println("getInputSeparator_space");
+    public void testGetInputDelimiter_space() {
+        System.out.println("getInputDelimiter_space");
         ArgsConfig args = new ArgsConfig();
 
         String[] argv = {"-i", "test.rdf", "-s", "SPACE"};
@@ -178,7 +177,7 @@ public class ArgsConfigTest {
                 .parse(argv);
 
         String expResult = "SPACE";
-        String result = args.getInputSeparator();
+        String result = args.getInputDelimiter();
 
         //System.out.println("Exp: " + expResult);
         //System.out.println("Res: " + result);
@@ -186,11 +185,11 @@ public class ArgsConfigTest {
     }
 
     /**
-     * Test of getInputSeparator method, of class ArgsConfig.
+     * Test of getInputDelimiter method, of class ArgsConfig.
      */
     @Test
-    public void testGetInputSeparator_comma() {
-        System.out.println("getInputSeparator_comma");
+    public void testGetInputDelimiter_comma() {
+        System.out.println("getInputDelimiter_comma");
         ArgsConfig args = new ArgsConfig();
 
         String[] argv = {"-i", "test.rdf"};
@@ -200,7 +199,7 @@ public class ArgsConfigTest {
                 .parse(argv);
 
         String expResult = "COMMA";
-        String result = args.getInputSeparator();
+        String result = args.getInputDelimiter();
 
         //System.out.println("Exp: " + expResult);
         //System.out.println("Res: " + result);
@@ -208,11 +207,11 @@ public class ArgsConfigTest {
     }
 
     /**
-     * Test of getInputSeparator method, of class ArgsConfig.
+     * Test of getInputDelimiter method, of class ArgsConfig.
      */
     @Test
-    public void testGetInputSeparator_comma2() {
-        System.out.println("getInputSeparator_comma2");
+    public void testGetInputDelimiter_comma2() {
+        System.out.println("getInputDelimiter_comma2");
         ArgsConfig args = new ArgsConfig();
 
         String[] argv = {"-i", "test.rdf", "-s", ","};
@@ -222,7 +221,7 @@ public class ArgsConfigTest {
                 .parse(argv);
 
         String expResult = ",";
-        String result = args.getInputSeparator();
+        String result = args.getInputDelimiter();
 
         //System.out.println("Exp: " + expResult);
         //System.out.println("Res: " + result);
@@ -230,11 +229,11 @@ public class ArgsConfigTest {
     }
 
     /**
-     * Test of getInputSeparator method, of class ArgsConfig.
+     * Test of getInputDelimiter method, of class ArgsConfig.
      */
     @Test(expected = ParameterException.class)
-    public void testGetInputSeparator_reserved() {
-        System.out.println("getInputSeparator_reserved");
+    public void testGetInputDelimiter_reserved() {
+        System.out.println("getInputDelimiter_reserved");
         ArgsConfig args = new ArgsConfig();
 
         String[] argv = {"-i", "test.rdf", "-s", "|"};
@@ -244,7 +243,7 @@ public class ArgsConfigTest {
                 .parse(argv);
 
         String expResult = ",";
-        String result = args.getInputSeparator();
+        String result = args.getInputDelimiter();
 
         //System.out.println("Exp: " + expResult);
         //System.out.println("Res: " + result);

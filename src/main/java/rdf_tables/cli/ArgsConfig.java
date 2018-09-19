@@ -45,9 +45,9 @@ public class ArgsConfig {
     @Parameter(names = {"--format", "-f"}, description = "The file serialistion used for the RDF output: json-ld, json-rdf, nt, nq, thrift, trig, trix, ttl, ttl-pretty, xml, xml-plain, xml-pretty. Default: ttl", validateWith = FormatParameter.class, converter = FormatParameter.class)
     private RDFFormat outputFormat = RDFFormat.TTL;
 
-    //4) Separator value - COMMA, TAB, SPACE
-    @Parameter(names = {"--sep", "-s"}, description = "Column separator in the input file. Any character except ':', '^' and '|'. Keywords TAB, SPACE and COMMA are also supported. Default: ',' ", validateWith = SeparatorValidator.class)
-    private String inputSeparator = "COMMA";
+    //4) Delimiter/Separator value - COMMA, TAB, SPACE
+    @Parameter(names = {"--delim", "-l"}, description = "Column delimiter in the input file. Any character except ':', '^' and '|'. Keywords TAB, SPACE and COMMA are also supported. Default: ',' ", validateWith = DelimiterValidator.class)
+    private String inputDelimiter = "COMMA";
 
     //5) Prefixes file
     @Parameter(names = {"--prefixes", "-p"}, description = "Prefix definition file of key=value pairs with no header (Java Properties format).", converter = PropsConverter.class)
@@ -77,8 +77,8 @@ public class ArgsConfig {
         return outputFormat;
     }
 
-    public String getInputSeparator() {
-        return inputSeparator;
+    public String getInputDelimiter() {
+        return inputDelimiter;
     }
 
     public HashMap<String, String> getPrefixProps() {
@@ -99,7 +99,7 @@ public class ArgsConfig {
 
     @Override
     public String toString() {
-        return "ArgsConfig{" + "inputFile=" + inputFile + ", outputFile=" + outputFile + ", outputFormat=" + outputFormat + ", inputSeparator=" + inputSeparator + ", prefixProps=" + prefixProps + ", datatypeProps=" + datatypeProps + ", owlNamedIndividual=" + owlNamedIndividual + ", excludedFiles=" + excludedFiles + '}';
+        return "ArgsConfig{" + "inputFile=" + inputFile + ", outputFile=" + outputFile + ", outputFormat=" + outputFormat + ", inputSeparator=" + inputDelimiter + ", prefixProps=" + prefixProps + ", datatypeProps=" + datatypeProps + ", owlNamedIndividual=" + owlNamedIndividual + ", excludedFiles=" + excludedFiles + '}';
     }
 
 }

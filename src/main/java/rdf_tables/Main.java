@@ -22,7 +22,7 @@ import java.io.File;
 import java.util.List;
 import org.apache.jena.riot.RDFFormat;
 import rdf_tables.cli.ArgsConfig;
-import rdf_tables.cli.SeparatorValidator;
+import rdf_tables.cli.DelimiterValidator;
 import rdf_tables.datatypes.DatatypeController;
 import rdf_tables.datatypes.PrefixController;
 import rdf_tables.file.FileReader;
@@ -52,7 +52,7 @@ public class Main {
         RDFFormat rdfFormat = argsConfig.getOutputFormat();
         File outputFile = FileSupport.checkOutputFile(inputFile, argsConfig.getOutputFile(), rdfFormat);
         List<File> excludedFiles = argsConfig.getExcludedFiles();
-        char separator = SeparatorValidator.getSeparatorCharacter(argsConfig.getInputSeparator());
+        char delimiter = DelimiterValidator.getDelimiterCharacter(argsConfig.getInputDelimiter());
         Boolean isNamedIndividual = argsConfig.isOwlNamedIndividual();
 
         //Convert files.
@@ -60,18 +60,18 @@ public class Main {
         Boolean isDirectoryOutput = outputFile.isDirectory();
         if (isDirectoryInput && !isDirectoryOutput) {
             //Directory to File.
-            FileReader.convertCSVDirectory(inputFile, excludedFiles, outputFile, rdfFormat, separator, isNamedIndividual);
+            FileReader.convertCSVDirectory(inputFile, excludedFiles, outputFile, rdfFormat, delimiter, isNamedIndividual);
         } else if (!isDirectoryInput && !isDirectoryOutput) {
             //File to File.
-            FileReader.convertCSVFile(inputFile, excludedFiles, outputFile, rdfFormat, separator, isNamedIndividual);
+            FileReader.convertCSVFile(inputFile, excludedFiles, outputFile, rdfFormat, delimiter, isNamedIndividual);
         } else if (!isDirectoryInput && isDirectoryOutput) {
             //File to Directory.
             //Use input filename and output directory path to create output file.
             File outputFile2 = new File(outputFile.getAbsoluteFile(), inputFile.getName());
-            FileReader.convertCSVFile(inputFile, excludedFiles, outputFile2, rdfFormat, separator, isNamedIndividual);
+            FileReader.convertCSVFile(inputFile, excludedFiles, outputFile2, rdfFormat, delimiter, isNamedIndividual);
         } else {
             //Directory to Directory.
-            FileReader.convertCSVDirectories(inputFile, excludedFiles, outputFile, rdfFormat, separator, isNamedIndividual);
+            FileReader.convertCSVDirectories(inputFile, excludedFiles, outputFile, rdfFormat, delimiter, isNamedIndividual);
         }
 
     }

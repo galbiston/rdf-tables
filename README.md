@@ -6,7 +6,7 @@ It is intended to be as brief to implement and unintrusive as possible.
 Features:
 * RDF structure is respected and reported.
 * A folder can be coverted into a single or multiple files.
-* The table does not have to be regularly formed, i.e. sparse or ragged. 
+* The table does not have to be regularly formed, i.e. sparse or ragged.
 * Gaps and repeated columns/rows will not cause an issue.
 * Standard sets of prefixes and datatypes can be added to the predefined set for consistent conversion.
 * Range of RDF serialisations.
@@ -20,7 +20,7 @@ Column 0 header is treated differently, see below.
 Each header column can have one to three items in the order:
 
 1. Property URI (predicate) between the target Object (subject) and this column (object). This relationship can be inverted (e.g. for a Foreign Key) by starting the Property URI with "^", but will be rejected if applied to a Literal/Datatype column.
-2. Datatype or Class. If not specified then an Object with no class is assumed. This allows Class to be inferred from the schema, asserted in another file or provided elsewhere. Class names are distinguished from Datatypes by ":", 
+2. Datatype or Class. If not specified then an Object with no class is assumed. This allows Class to be inferred from the schema, asserted in another file or provided elsewhere. Class names are distinguished from Datatypes by ":",
 e.g. ":test" uses the base URI to form a Class for an Object, while "test" uses the base URI to form a Datatype.
 e.g. ":my:test" uses the prefix "my" to form a Class for an Object, while ":http://example.org/my#test" explictly forms a Class.
 3. [OPTIONAL] The target column can be specified as an integer value (default: 0) to allow Properties to be added to Objects within the file.
@@ -65,7 +65,7 @@ Combining an input folder with an output file will consolidate the output into a
 
 ### 3) Delimiter/Separator Value
 ```
---sep, -s
+--delim, -l
 ```
 The column delimiter/separator in the input file.
 Defaults to comma but any character string can be used except for reserved characters ":", "^" and "|".
@@ -118,7 +118,7 @@ Pre-loaded XSD datatypes:
 *  date
 *  dateTime
 *  double
-*  duration 
+*  duration
 *  int
 *  integer
 *  nonNegativeInteger

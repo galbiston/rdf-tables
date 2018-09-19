@@ -33,7 +33,7 @@ public class PrefixController {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private static final HashMap<String, String> PREFIXES = new HashMap<>();
-    public static final String PREFIX_SEPARATOR = ":";
+    public static final String PREFIX_DELIMITER = ":";
 
     public static HashMap<String, String> getPrefixes() {
         if (PREFIXES.isEmpty()) {
@@ -68,7 +68,7 @@ public class PrefixController {
             return PREFIXES.get(classLabel);
         } else {
 
-            String[] parts = classLabel.split(PREFIX_SEPARATOR);
+            String[] parts = classLabel.split(PREFIX_DELIMITER);
 
             if (parts.length > 1) {
                 if (PREFIXES.containsKey(parts[0])) {

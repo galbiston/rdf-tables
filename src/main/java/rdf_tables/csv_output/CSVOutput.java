@@ -27,9 +27,9 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import rdf_tables.datatypes.Datatypes;
 import static rdf_tables.file.DefaultValues.CLASS_CHARACTER;
-import static rdf_tables.file.DefaultValues.HEADER_ITEM_SEPARATOR;
-import static rdf_tables.file.DefaultValues.HEADER_ITEM_SEPARATOR_CHARACTER;
 import static rdf_tables.file.DefaultValues.INVERT_CHARACTER;
+import static rdf_tables.file.DefaultValues.HEADER_ITEM_DELIMITER;
+import static rdf_tables.file.DefaultValues.HEADER_ITEM_DELIMITER_CHARACTER;
 
 /**
  *
@@ -91,9 +91,9 @@ public abstract class CSVOutput {
         if (columnPosition != null && columnPosition < 0) {
             return null;
         }
-        String header = propertyURI + HEADER_ITEM_SEPARATOR + datatypeURI;
+        String header = propertyURI + HEADER_ITEM_DELIMITER + datatypeURI;
         if (columnPosition != null) {
-            return header + HEADER_ITEM_SEPARATOR + columnPosition;
+            return header + HEADER_ITEM_DELIMITER + columnPosition;
         }
 
         return header;
@@ -118,7 +118,7 @@ public abstract class CSVOutput {
     }
 
     protected static void writeHeader(List<String> header, Property property, Resource classResource, Integer maxCount) {
-        String headerLabel = property.getURI() + HEADER_ITEM_SEPARATOR_CHARACTER + CLASS_CHARACTER + classResource.getURI();
+        String headerLabel = property.getURI() + HEADER_ITEM_DELIMITER_CHARACTER + CLASS_CHARACTER + classResource.getURI();
         for (int i = 0; i < maxCount; i++) {
             header.add(headerLabel);
         }
@@ -136,13 +136,13 @@ public abstract class CSVOutput {
         String headerLabel;
         if (propertyDatatypes.containsKey(property)) {
             Datatypes datatype = propertyDatatypes.get(property);
-            headerLabel = property.getURI() + HEADER_ITEM_SEPARATOR_CHARACTER + datatype;
+            headerLabel = property.getURI() + HEADER_ITEM_DELIMITER_CHARACTER + datatype;
         } else {
             headerLabel = property.getURI();
         }
 
         if (columnPosition != null) {
-            headerLabel += HEADER_ITEM_SEPARATOR_CHARACTER + columnPosition;
+            headerLabel += HEADER_ITEM_DELIMITER_CHARACTER + columnPosition;
         }
 
         for (int i = 0; i < maxCount; i++) {

@@ -40,7 +40,7 @@ public class PrefixReader {
         LOGGER.info("Prefix Parsing Started: {}", inputFile.getPath());
         HashMap<String, String> map = new HashMap<>();
         int lineNumber = 1;
-        try (CSVReader reader = new CSVReader(new FileReader(inputFile), DefaultValues.COLUMN_SEPARATOR)) {
+        try (CSVReader reader = new CSVReader(new FileReader(inputFile), DefaultValues.COLUMN_DELIMITER)) {
 
             if (reader.readNext().length != 2) {
                 LOGGER.error("Should only be two columns");

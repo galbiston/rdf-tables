@@ -52,11 +52,11 @@ public class TDBBuilder {
         compileCSVFolder(sourceCSVFolder, tdbStorageFolder, outputFile, targetGraph, prefixesFile, RDFFormat.TTL, ',', true);
     }
 
-    public static void compileCSVFolder(File sourceCSVFolder, File tdbStorageFolder, Resource targetGraph, File prefixesFile, RDFFormat rdfFormat, char separator, Boolean isNamedIndividual) {
-        compileCSVFolder(sourceCSVFolder, tdbStorageFolder, null, targetGraph, prefixesFile, rdfFormat, separator, isNamedIndividual);
+    public static void compileCSVFolder(File sourceCSVFolder, File tdbStorageFolder, Resource targetGraph, File prefixesFile, RDFFormat rdfFormat, char delimiter, Boolean isNamedIndividual) {
+        compileCSVFolder(sourceCSVFolder, tdbStorageFolder, null, targetGraph, prefixesFile, rdfFormat, delimiter, isNamedIndividual);
     }
 
-    public static void compileCSVFolder(File sourceCSVFolder, File tdbStorageFolder, File outputFile, Resource targetGraph, File prefixesFile, RDFFormat rdfFormat, char separator, Boolean isNamedIndividual) {
+    public static void compileCSVFolder(File sourceCSVFolder, File tdbStorageFolder, File outputFile, Resource targetGraph, File prefixesFile, RDFFormat rdfFormat, char delimiter, Boolean isNamedIndividual) {
 
         LOGGER.info("Reading CSV Folder Started: {}", sourceCSVFolder);
         if (!sourceCSVFolder.exists()) {
@@ -64,7 +64,7 @@ public class TDBBuilder {
             return;
         }
 
-        Model model = convertCSVDirectory(sourceCSVFolder, outputFile, prefixesFile, rdfFormat, separator, isNamedIndividual);
+        Model model = convertCSVDirectory(sourceCSVFolder, outputFile, prefixesFile, rdfFormat, delimiter, isNamedIndividual);
 
         Dataset dataset = TDBFactory.createDataset(tdbStorageFolder.getAbsolutePath());
         dataset.begin(ReadWrite.WRITE);

@@ -26,7 +26,7 @@ import java.util.List;
  *
  *
  */
-public class SeparatorValidator implements IParameterValidator {
+public class DelimiterValidator implements IParameterValidator {
 
     private static final List<String> RESERVED_CHARACTERS = Arrays.asList(":", "^", "|");
     private static final List<String> KEYWORDS = Arrays.asList("tab", "space", "comma");
@@ -46,9 +46,9 @@ public class SeparatorValidator implements IParameterValidator {
         }
     }
 
-    public static char getSeparatorCharacter(String separator) {
+    public static char getDelimiterCharacter(String delimiter) {
 
-        switch (separator.toLowerCase()) {
+        switch (delimiter.toLowerCase()) {
             case "space":
                 return ' ';
             case "tab":
@@ -56,7 +56,7 @@ public class SeparatorValidator implements IParameterValidator {
             case "comma":
                 return ',';
             default:
-                return separator.charAt(0);
+                return delimiter.charAt(0);
         }
 
     }
