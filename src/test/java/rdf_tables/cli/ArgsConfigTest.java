@@ -148,7 +148,7 @@ public class ArgsConfigTest {
         System.out.println("getInputDelimiter_tab");
         ArgsConfig args = new ArgsConfig();
 
-        String[] argv = {"-i", "test.rdf", "-s", "TAB"};
+        String[] argv = {"-i", "test.rdf", "-l", "TAB"};
         JCommander.newBuilder()
                 .addObject(args)
                 .build()
@@ -157,8 +157,8 @@ public class ArgsConfigTest {
         String expResult = "TAB";
         String result = args.getInputDelimiter();
 
-        //System.out.println("Exp: " + expResult);
-        //System.out.println("Res: " + result);
+        System.out.println("Exp: " + expResult);
+        System.out.println("Res: " + result);
         assertEquals(expResult, result);
     }
 
@@ -170,7 +170,7 @@ public class ArgsConfigTest {
         System.out.println("getInputDelimiter_space");
         ArgsConfig args = new ArgsConfig();
 
-        String[] argv = {"-i", "test.rdf", "-s", "SPACE"};
+        String[] argv = {"-i", "test.rdf", "-l", "SPACE"};
         JCommander.newBuilder()
                 .addObject(args)
                 .build()
@@ -214,7 +214,7 @@ public class ArgsConfigTest {
         System.out.println("getInputDelimiter_comma2");
         ArgsConfig args = new ArgsConfig();
 
-        String[] argv = {"-i", "test.rdf", "-s", ","};
+        String[] argv = {"-i", "test.rdf", "-l", ","};
         JCommander.newBuilder()
                 .addObject(args)
                 .build()
@@ -236,7 +236,7 @@ public class ArgsConfigTest {
         System.out.println("getInputDelimiter_reserved");
         ArgsConfig args = new ArgsConfig();
 
-        String[] argv = {"-i", "test.rdf", "-s", "|"};
+        String[] argv = {"-i", "test.rdf", "-l", "|"};
         JCommander.newBuilder()
                 .addObject(args)
                 .build()
