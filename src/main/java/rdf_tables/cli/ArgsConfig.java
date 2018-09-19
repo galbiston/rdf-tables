@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package rdftables.cli;
+package rdf_tables.cli;
 
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.converters.FileConverter;

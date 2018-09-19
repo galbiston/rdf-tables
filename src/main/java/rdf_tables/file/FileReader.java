@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package rdftables.file;
+package rdf_tables.file;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -30,8 +30,8 @@ import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import rdftables.cli.FormatParameter;
-import rdftables.datatypes.PrefixController;
+import rdf_tables.cli.FormatParameter;
+import rdf_tables.datatypes.PrefixController;
 
 /**
  *

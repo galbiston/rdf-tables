@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package rdftables.file;
+package rdf_tables.file;
 
 import com.opencsv.CSVReader;
 import java.io.File;

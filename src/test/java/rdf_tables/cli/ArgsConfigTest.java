@@ -15,8 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package rdftables.cli;
+package rdf_tables.cli;
 
+import rdf_tables.cli.ArgsConfig;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
 import org.apache.jena.riot.RDFFormat;

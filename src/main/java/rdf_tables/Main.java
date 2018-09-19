@@ -15,18 +15,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package rdftables;
+package rdf_tables;
 
 import com.beust.jcommander.JCommander;
 import java.io.File;
 import java.util.List;
 import org.apache.jena.riot.RDFFormat;
-import rdftables.cli.ArgsConfig;
-import rdftables.cli.SeparatorValidator;
-import rdftables.datatypes.DatatypeController;
-import rdftables.datatypes.PrefixController;
-import rdftables.file.FileReader;
-import rdftables.file.FileSupport;
+import rdf_tables.cli.ArgsConfig;
+import rdf_tables.cli.SeparatorValidator;
+import rdf_tables.datatypes.DatatypeController;
+import rdf_tables.datatypes.PrefixController;
+import rdf_tables.file.FileReader;
+import rdf_tables.file.FileSupport;
 
 public class Main {
 

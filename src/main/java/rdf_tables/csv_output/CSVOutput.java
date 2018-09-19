@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package rdftables.csv_output;
+package rdf_tables.csv_output;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,11 +25,11 @@ import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
-import rdftables.datatypes.Datatypes;
-import static rdftables.file.DefaultValues.CLASS_CHARACTER;
-import static rdftables.file.DefaultValues.HEADER_ITEM_SEPARATOR;
-import static rdftables.file.DefaultValues.HEADER_ITEM_SEPARATOR_CHARACTER;
-import static rdftables.file.DefaultValues.INVERT_CHARACTER;
+import rdf_tables.datatypes.Datatypes;
+import static rdf_tables.file.DefaultValues.CLASS_CHARACTER;
+import static rdf_tables.file.DefaultValues.HEADER_ITEM_SEPARATOR;
+import static rdf_tables.file.DefaultValues.HEADER_ITEM_SEPARATOR_CHARACTER;
+import static rdf_tables.file.DefaultValues.INVERT_CHARACTER;
 
 /**
  *

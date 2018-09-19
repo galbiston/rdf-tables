@@ -15,8 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package rdftables.file;
+package rdf_tables.file;
 
+import rdf_tables.file.FileConverter;
 import java.io.File;
 import org.apache.jena.datatypes.BaseDatatype;
 import org.apache.jena.datatypes.xsd.impl.XSDBaseNumericType;
@@ -35,8 +36,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import rdftables.datatypes.DatatypeController;
-import rdftables.datatypes.PrefixController;
+import rdf_tables.datatypes.DatatypeController;
+import rdf_tables.datatypes.PrefixController;
 
 /**
  *
