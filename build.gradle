@@ -51,13 +51,13 @@ dependencies {
     implementation "com.beust:jcommander:$jcommanderVersion"
 }
 
-group = 'io.github.galbiston'
-version = '1.0.0'
-
 apply plugin: 'maven-publish'
 publishing {
     publications {
         mavenJava(MavenPublication) {
+            group = 'io.github.galbiston'
+            version = '1.0.0'
+            artifactId = 'rdf-tables'
             from components.java
         }
     }
