@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -63,6 +64,11 @@ public class FileReader {
         return convertCSVDirectory(inputDirectory, Arrays.asList(), outputFile, null, rdfFormat, separator, isNamedIndividual);
     }
 
+    public static Model convertCSVFile(File inputFile, char separator) {
+        List<File> inputFiles = Arrays.asList(inputFile);
+        return convertCSVFiles(inputFiles, new ArrayList<>(), null, null, RDFFormat.TTL, separator, false);
+    }
+
     public static Model convertCSVFile(File inputFile, List<File> excludedFiles, File outputFile, RDFFormat rdfFormat, char separator, Boolean isNamedIndividual) {
         List<File> inputFiles = Arrays.asList(inputFile);
         return convertCSVFiles(inputFiles, excludedFiles, outputFile, null, rdfFormat, separator, isNamedIndividual);
@@ -93,7 +99,7 @@ public class FileReader {
 
         Model model = ModelFactory.createDefaultModel();
         for (File inputFile : inputFiles) {
-            if (!excludedFiles.contains(inputFile)) {
+            if (excludedFiles != null && !excludedFiles.contains(inputFile)) {
                 FileConverter.writeToModel(inputFile, model, separator, isNamedIndividual);
             }
         }
