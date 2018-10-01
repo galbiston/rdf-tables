@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package rdf_tables.cli;
+package io.github.galbiston.rdf_tables.cli;
 
 import com.beust.jcommander.IStringConverter;
 import java.io.FileInputStream;

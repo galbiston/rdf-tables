@@ -15,9 +15,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package rdf_tables.file;
+package io.github.galbiston.rdf_tables.file;
 
-import rdf_tables.file.FileConverter;
+import io.github.galbiston.rdf_tables.datatypes.DatatypeController;
+import io.github.galbiston.rdf_tables.datatypes.PrefixController;
 import java.io.File;
 import org.apache.jena.datatypes.BaseDatatype;
 import org.apache.jena.datatypes.xsd.impl.XSDBaseNumericType;
@@ -36,8 +37,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import rdf_tables.datatypes.DatatypeController;
-import rdf_tables.datatypes.PrefixController;
 
 /**
  *

@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package rdf_tables.file;
+package io.github.galbiston.rdf_tables.file;
 
 import com.opencsv.CSVReader;
 import java.io.File;
@@ -35,9 +35,9 @@ import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import rdf_tables.datatypes.DatatypeController;
-import static rdf_tables.datatypes.DatatypeController.HTTP_PREFIX;
-import rdf_tables.datatypes.PrefixController;
+import io.github.galbiston.rdf_tables.datatypes.DatatypeController;
+import static io.github.galbiston.rdf_tables.datatypes.DatatypeController.HTTP_PREFIX;
+import io.github.galbiston.rdf_tables.datatypes.PrefixController;
 
 /**
  * Read a CSV file of triples.

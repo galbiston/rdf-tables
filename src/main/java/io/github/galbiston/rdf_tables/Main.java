@@ -15,18 +15,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package rdf_tables;
+package io.github.galbiston.rdf_tables;
 
 import com.beust.jcommander.JCommander;
 import java.io.File;
 import java.util.List;
 import org.apache.jena.riot.RDFFormat;
-import rdf_tables.cli.ArgsConfig;
-import rdf_tables.cli.DelimiterValidator;
-import rdf_tables.datatypes.DatatypeController;
-import rdf_tables.datatypes.PrefixController;
-import rdf_tables.file.FileReader;
-import rdf_tables.file.FileSupport;
+import io.github.galbiston.rdf_tables.cli.ArgsConfig;
+import io.github.galbiston.rdf_tables.cli.DelimiterValidator;
+import io.github.galbiston.rdf_tables.datatypes.DatatypeController;
+import io.github.galbiston.rdf_tables.datatypes.PrefixController;
+import io.github.galbiston.rdf_tables.file.FileReader;
+import io.github.galbiston.rdf_tables.file.FileSupport;
 
 public class Main {
 

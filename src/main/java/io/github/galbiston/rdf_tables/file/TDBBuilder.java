@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rdf_tables.file;
+package io.github.galbiston.rdf_tables.file;
 
 import java.io.File;
 import java.lang.invoke.MethodHandles;
@@ -15,7 +15,7 @@ import org.apache.jena.riot.RDFFormat;
 import org.apache.jena.tdb.TDBFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import static rdf_tables.file.FileReader.convertCSVDirectory;
+import static io.github.galbiston.rdf_tables.file.FileReader.convertCSVDirectory;
 
 /**
  *

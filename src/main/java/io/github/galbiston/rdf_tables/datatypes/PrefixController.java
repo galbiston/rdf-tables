@@ -15,14 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package rdf_tables.datatypes;
+package io.github.galbiston.rdf_tables.datatypes;
 
 import java.lang.invoke.MethodHandles;
 import java.util.HashMap;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import static rdf_tables.datatypes.DatatypeController.HTTP_PREFIX;
+import static io.github.galbiston.rdf_tables.datatypes.DatatypeController.HTTP_PREFIX;
 
 /**
  *

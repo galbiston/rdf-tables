@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package rdf_tables.csv_output;
+package io.github.galbiston.rdf_tables.csv_output;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,11 +25,11 @@ import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
-import rdf_tables.datatypes.Datatypes;
-import static rdf_tables.file.DefaultValues.CLASS_CHARACTER;
-import static rdf_tables.file.DefaultValues.INVERT_CHARACTER;
-import static rdf_tables.file.DefaultValues.HEADER_ITEM_DELIMITER;
-import static rdf_tables.file.DefaultValues.HEADER_ITEM_DELIMITER_CHARACTER;
+import io.github.galbiston.rdf_tables.datatypes.Datatypes;
+import static io.github.galbiston.rdf_tables.file.DefaultValues.CLASS_CHARACTER;
+import static io.github.galbiston.rdf_tables.file.DefaultValues.INVERT_CHARACTER;
+import static io.github.galbiston.rdf_tables.file.DefaultValues.HEADER_ITEM_DELIMITER;
+import static io.github.galbiston.rdf_tables.file.DefaultValues.HEADER_ITEM_DELIMITER_CHARACTER;
 
 /**
  *
