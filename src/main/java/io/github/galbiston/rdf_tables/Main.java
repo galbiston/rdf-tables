@@ -18,15 +18,15 @@
 package io.github.galbiston.rdf_tables;
 
 import com.beust.jcommander.JCommander;
-import java.io.File;
-import java.util.List;
-import org.apache.jena.riot.RDFFormat;
 import io.github.galbiston.rdf_tables.cli.ArgsConfig;
 import io.github.galbiston.rdf_tables.cli.DelimiterValidator;
 import io.github.galbiston.rdf_tables.datatypes.DatatypeController;
 import io.github.galbiston.rdf_tables.datatypes.PrefixController;
 import io.github.galbiston.rdf_tables.file.FileReader;
 import io.github.galbiston.rdf_tables.file.FileSupport;
+import java.io.File;
+import java.util.List;
+import org.apache.jena.riot.RDFFormat;
 
 public class Main {
 
@@ -36,11 +36,16 @@ public class Main {
     public static void main(String[] args) {
 
         ArgsConfig argsConfig = new ArgsConfig();
-        JCommander.newBuilder()
+        JCommander jCommander = JCommander.newBuilder()
                 .addObject(argsConfig)
-                .build()
-                .parse(args);
+                .build();
 
+        jCommander.setProgramName("RDFTables");
+        jCommander.parse(args);
+        if (argsConfig.isHelp()) {
+            jCommander.usage();
+            return;
+        }
         //Load prefixes.
         PrefixController.addPrefixes(argsConfig.getPrefixProps());
 

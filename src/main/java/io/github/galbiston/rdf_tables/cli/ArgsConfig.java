@@ -65,6 +65,10 @@ public class ArgsConfig {
     @Parameter(names = {"-excluded", "-x"}, description = "Excluded files not to be used as input from a folder.")
     private List<File> excludedFiles = new ArrayList<>();
 
+    //9) Help
+    @Parameter(names = {"--help", "-h"}, help = true)
+    private boolean help = false;
+
     public File getInputFile() {
         return inputFile;
     }
@@ -97,9 +101,17 @@ public class ArgsConfig {
         return excludedFiles;
     }
 
+    public boolean isHelp() {
+        return help;
+    }
+
+    public void setHelp(boolean help) {
+        this.help = help;
+    }
+
     @Override
     public String toString() {
-        return "ArgsConfig{" + "inputFile=" + inputFile + ", outputFile=" + outputFile + ", outputFormat=" + outputFormat + ", inputDelimiter=" + inputDelimiter + ", prefixProps=" + prefixProps + ", datatypeProps=" + datatypeProps + ", owlNamedIndividual=" + owlNamedIndividual + ", excludedFiles=" + excludedFiles + '}';
+        return "ArgsConfig{" + "inputFile=" + inputFile + ", outputFile=" + outputFile + ", outputFormat=" + outputFormat + ", inputDelimiter=" + inputDelimiter + ", prefixProps=" + prefixProps + ", datatypeProps=" + datatypeProps + ", owlNamedIndividual=" + owlNamedIndividual + ", excludedFiles=" + excludedFiles + ", help=" + help + '}';
     }
 
 }
