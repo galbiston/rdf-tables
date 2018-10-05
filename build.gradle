@@ -4,9 +4,9 @@ sourceCompatibility = '1.8'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 if (!hasProperty('mainClass')) {
-    ext.mainClass = "rdftables.Main"
+    ext.mainClass = "io.github.galbiston.rdf_tables.Main"
 }
-mainClassName = "rdftables.Main"
+mainClassName = "io.github.galbiston.rdf_tables.Main"
 
 repositories {
     mavenLocal()
@@ -42,11 +42,11 @@ dependencies {
 }
 
 apply plugin: 'maven-publish'
+group = 'io.github.galbiston'
+version = '1.0.0'
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            group = 'io.github.galbiston'
-            version = '1.0.0'
             artifactId = 'rdf-tables'
             from components.java
         }
