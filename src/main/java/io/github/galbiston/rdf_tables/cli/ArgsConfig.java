@@ -42,11 +42,11 @@ public class ArgsConfig {
     private File outputFile = null;
 
     //3) Output format/serialisation - ttl, nt, nq, json-ld, json, xml
-    @Parameter(names = {"--format", "-f"}, description = "The file serialistion used for the RDF output: json-ld, json-rdf, nt, nq, thrift, trig, trix, ttl, ttl-pretty, xml, xml-plain, xml-pretty. Default: ttl", validateWith = FormatParameter.class, converter = FormatParameter.class)
+    @Parameter(names = {"--format", "-f"}, description = "The file serialistion used for the RDF output: json-ld, json-rdf, nt, nq, thrift, trig, trix, ttl, ttl-pretty, xml, xml-plain, xml-pretty.", validateWith = FormatParameter.class, converter = FormatParameter.class)
     private RDFFormat outputFormat = RDFFormat.TTL;
 
     //4) Delimiter/Separator value - COMMA, TAB, SPACE
-    @Parameter(names = {"--delim", "-l"}, description = "Column delimiter in the input file. Any character except ':', '^' and '|'. Keywords TAB, SPACE and COMMA are also supported. Default: ',' ", validateWith = DelimiterValidator.class)
+    @Parameter(names = {"--delim", "-l"}, description = "Column delimiter in the input file. Any character except ':', '^' and '|'. Keywords TAB, SPACE and COMMA are also supported.", validateWith = DelimiterValidator.class)
     private String inputDelimiter = "COMMA";
 
     //5) Prefixes file
@@ -58,7 +58,7 @@ public class ArgsConfig {
     private HashMap<String, String> datatypeProps;
 
     //7) Owl NamedIndividual
-    @Parameter(names = {"-named", "-n"}, description = "Boolean value for creating OWL NamedIndividuals in the data. Default: true", arity = 1)
+    @Parameter(names = {"-named", "-n"}, description = "Boolean value for creating OWL NamedIndividuals in the data.", arity = 1)
     private boolean owlNamedIndividual = true;
 
     //8) Excluded Files
@@ -66,7 +66,7 @@ public class ArgsConfig {
     private List<File> excludedFiles = new ArrayList<>();
 
     //9) Help
-    @Parameter(names = {"--help", "-h"}, help = true)
+    @Parameter(names = {"--help", "-h"}, description = "Application help.", help = true)
     private boolean help = false;
 
     public File getInputFile() {
