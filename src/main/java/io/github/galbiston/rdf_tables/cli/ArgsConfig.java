@@ -66,7 +66,7 @@ public class ArgsConfig {
     private List<File> excludedFiles = new ArrayList<>();
 
     //9) Help
-    @Parameter(names = {"--help", "-h"}, description = "Application help.", help = true)
+    @Parameter(names = {"--help", "-h"}, description = "Application help. @path/to/file can be used to submit parameters in a file.", help = true)
     private boolean help = false;
 
     public File getInputFile() {
