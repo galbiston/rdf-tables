@@ -163,7 +163,7 @@ $ java Main @/tmp/parameters
 ### TDB Compilation
 Library methods are provided for compiling to TDB graphstore by named graph, see `TDBBuilder.compileFolder()`.
 
-## Future Work:
+## Future Work
 Items that can be developed based on feedback and other suggestions.
 * URI checking is minimal when reading the file data but errors will be thrown when adding to the RDF model.
 * Multiple files to separate graphs - e.g. NQUADS serialisation. Graph name would be specified as third item in column 0.
