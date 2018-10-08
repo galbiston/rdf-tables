@@ -134,7 +134,7 @@ public class DatatypeController {
      *
      * @param datatypeLabel
      * @param baseURI
-     * @return
+     * @return Datatype URI
      */
     public static final String lookupDatatypeURI(String datatypeLabel, String baseURI) {
         getDatatypePrefixes();
@@ -154,7 +154,7 @@ public class DatatypeController {
      * Lookup the datatype associated with a datatype URI.
      *
      * @param datatypeURI
-     * @return
+     * @return RDFDatatype
      */
     public static final RDFDatatype lookupDatatype(String datatypeURI) {
         getDatatypePrefixes();
@@ -173,7 +173,7 @@ public class DatatypeController {
      *
      * @param data
      * @param datatypeURI
-     * @return
+     * @return Literal
      */
     public static final Literal createLiteral(String data, String datatypeURI) {
         getDatatypePrefixes();

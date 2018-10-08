@@ -113,6 +113,14 @@ javadoc {
     }
 }
 
+if (JavaVersion.current().isJava8Compatible()) {
+    allprojects {
+        tasks.withType(Javadoc) {
+            options.addStringOption('Xdoclint:none', '-quiet')
+        }
+    }
+}
+
 run {
     if (project.hasProperty("appArgs")) {
         args Eval.me(appArgs)
