@@ -25,7 +25,7 @@ dependencies {
     ext.slf4jVersion = "1.7.25"
     implementation "org.slf4j:jcl-over-slf4j:$slf4jVersion"
 
-    ext.jenaVersion = "3.8.0"
+    ext.jenaVersion = "3.9.0"
     //implementation "org.apache.jena:apache-jena-libs:$jenaVersion"
     //Issue resolving apache-jena-libs in Maven projects. Use individual modules as provide jars.
     implementation "org.apache.jena:jena-core:$jenaVersion"
@@ -44,7 +44,7 @@ dependencies {
 }
 
 group = 'io.github.galbiston'
-version = '1.0.1'
+version = '1.0.2'
 
 task sourcesJar(type: Jar) {
     from sourceSets.main.allJava
