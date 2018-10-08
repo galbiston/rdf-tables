@@ -11,17 +11,6 @@ Features:
 * Standard sets of prefixes and datatypes can be added to the predefined set for consistent conversion.
 * Range of RDF serialisations.
 
-## Getting Started
-RDFTables can be accessed as a library using Maven etc. from Maven Central or on the command line.
-
-```
-<dependency>
-    <groupId>io.github.galbiston</groupId>
-    <artifactId>rdf-tables</artifactId>
-    <version>1.0.0</version>
-</dependency>
-```
-
 ## File Structure
 
 ### Header
@@ -57,16 +46,31 @@ It can also be switched on globablly for all Objects to be created as a members 
 Literals:
 * The Datatype URI specified in the column header is applied with the data in the cell to form a Literal.
 
-## Command Line Arguments
+## Getting Started
+RDFTables can be accessed as a library using Maven etc. from Maven Central or on the command line.
 
-### 1) Input File/Folder
+```
+<dependency>
+    <groupId>io.github.galbiston</groupId>
+    <artifactId>rdf-tables</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
+### API
+File and Folder conversion methods are contained in the `FileReader` class.
+Arguments follow the same conventions as the command line arguments below.
+
+### Command Line Arguments
+
+#### 1) Input File/Folder
 ```
 --input, -i
 ```
 
 The source for the conversion process.
 
-### 2) Output File/Folder
+#### 2) Output File/Folder
 ```
 --output, -o
 ```
@@ -74,7 +78,7 @@ The destination for the conversion process.
 Specifying a folder will re-use the file/s name.
 Combining an input folder with an output file will consolidate the output into a single file.
 
-### 3) Delimiter/Separator Value
+#### 3) Delimiter/Separator Value
 ```
 --delim, -l
 ```
@@ -82,7 +86,7 @@ The column delimiter/separator in the input file.
 Defaults to comma but any character string can be used except for reserved characters ":", "^" and "|".
 Keywords TAB, SPACE and COMMA are also supported.
 
-### 4) Output Format/Serialisation
+#### 4) Output Format/Serialisation
 ```
 --format, -f
 ```
@@ -99,7 +103,7 @@ The file serialistion used for the RDF output.
 *  TRIG			trig
 *  Turtle		ttl (Default)
 
-### 5) Prefixes File
+#### 5) Prefixes File
 ```
 --prefixes, -p
 ```
@@ -115,7 +119,7 @@ Pre-loaded prefixes:
 *  time	http://www.w3.org/2006/time#
 *  xsd	http://www.w3.org/2001/XMLSchema#
 
-### 6) Datatypes File
+#### 6) Datatypes File
 ```
 --datatypes, -d
 ```
@@ -138,26 +142,26 @@ Pre-loaded XSD datatypes:
 *  string
 *  time
 
-### 7) OWL NamedIndividual
+#### 7) OWL NamedIndividual
 ```
 --named, -n
 ```
 Boolean value for creating OWL NamedIndividuals in the data. Default: true
 
-### 8) Excluded Files
+#### 8) Excluded Files
 ```
 --exclude, -x
 ```
 Excluded files not to be used as input from a folder.
 
-### 9) Properties File
+#### 9) Properties File
 Supply the above parameters as a file:
 ```console
 $ java Main @/tmp/parameters
 ```
 
-## TDB Compilation
-Library methods are provided for compiling to TDB graphstore by named graph, see _TDBBuilder.compileCSVFolder_.
+### TDB Compilation
+Library methods are provided for compiling to TDB graphstore by named graph, see `TDBBuilder.compileCSVFolder()`.
 
 ## Future Work:
 Items that can be developed based on feedback and other suggestions.
