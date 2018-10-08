@@ -53,7 +53,7 @@ RDFTables can be accessed as a library using Maven etc. from Maven Central or on
 <dependency>
     <groupId>io.github.galbiston</groupId>
     <artifactId>rdf-tables</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 
