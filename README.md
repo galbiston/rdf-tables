@@ -11,7 +11,7 @@ Features:
 * Standard sets of prefixes and datatypes can be added to the predefined set for consistent conversion.
 * Range of RDF serialisations.
 
-## Access
+## Getting Started
 RDFTables can be accessed as a library using Maven etc. from Maven Central or on the command line.
 
 ```
