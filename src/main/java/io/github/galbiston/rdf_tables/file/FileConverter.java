@@ -18,6 +18,9 @@
 package io.github.galbiston.rdf_tables.file;
 
 import com.opencsv.CSVReader;
+import io.github.galbiston.rdf_tables.datatypes.DatatypeController;
+import static io.github.galbiston.rdf_tables.datatypes.DatatypeController.HTTP_PREFIX;
+import io.github.galbiston.rdf_tables.datatypes.PrefixController;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -35,12 +38,9 @@ import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import io.github.galbiston.rdf_tables.datatypes.DatatypeController;
-import static io.github.galbiston.rdf_tables.datatypes.DatatypeController.HTTP_PREFIX;
-import io.github.galbiston.rdf_tables.datatypes.PrefixController;
 
 /**
- * Read a CSV file of triples.
+ * Read a Tabular file of triples.
  *
  * First column is subject and subsequent columns are objects.
  *

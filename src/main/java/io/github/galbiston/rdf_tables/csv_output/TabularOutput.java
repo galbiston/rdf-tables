@@ -35,7 +35,7 @@ import static io.github.galbiston.rdf_tables.file.DefaultValues.HEADER_ITEM_DELI
  *
  *
  */
-public abstract class CSVOutput {
+public abstract class TabularOutput {
 
     protected static String BASE_URI = "";
     protected static final char[] ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();

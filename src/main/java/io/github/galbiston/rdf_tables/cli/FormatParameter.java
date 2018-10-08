@@ -113,7 +113,7 @@ public class FormatParameter implements IStringConverter<RDFFormat>, IParameterV
         String inputFilename = inputFile.getName();
 
         int endIndex = inputFilename.indexOf(".");
-        //No CSV file extension so set to the end of the file.
+        //No file extension so set to the end of the file.
         if (endIndex == -1) {
             endIndex = inputFilename.length();
         }

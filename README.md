@@ -161,7 +161,7 @@ $ java Main @/tmp/parameters
 ```
 
 ### TDB Compilation
-Library methods are provided for compiling to TDB graphstore by named graph, see `TDBBuilder.compileCSVFolder()`.
+Library methods are provided for compiling to TDB graphstore by named graph, see `TDBBuilder.compileFolder()`.
 
 ## Future Work:
 Items that can be developed based on feedback and other suggestions.
