@@ -33,40 +33,40 @@ public class ArgsConfig {
 
     //1) Input folder/file to convert
     //- folder then use input filename to build. Get extension from serialisation.
-    @Parameter(names = {"--input", "-i"}, description = "Input file or folder path for conversion process.", converter = FileConverter.class, required = true)
+    @Parameter(names = {"--input", "-i"}, description = "Input file or folder path for conversion process.", converter = FileConverter.class, required = true, order = 0)
     private File inputFile;
 
     //2) Output folder/file to write to [optional], see above, default to same folder
     //- file then consildate into single file
-    @Parameter(names = {"--output", "-o"}, description = "Output file or folder path for conversion process. Folder option will replicate input filenames. Single output file will consolidate an input folder.", converter = FileConverter.class)
+    @Parameter(names = {"--output", "-o"}, description = "Output file or folder path for conversion process. Folder option will replicate input filenames. Single output file will consolidate an input folder.", converter = FileConverter.class, order = 1)
     private File outputFile = null;
 
     //3) Output format/serialisation - ttl, nt, nq, json-ld, json, xml
-    @Parameter(names = {"--format", "-f"}, description = "The file serialistion used for the RDF output: json-ld, json-rdf, nt, nq, thrift, trig, trix, ttl, ttl-pretty, xml, xml-plain, xml-pretty.", validateWith = FormatParameter.class, converter = FormatParameter.class)
+    @Parameter(names = {"--format", "-f"}, description = "The file serialistion used for the RDF output: json-ld, json-rdf, nt, nq, thrift, trig, trix, ttl, ttl-pretty, xml, xml-plain, xml-pretty.", validateWith = FormatParameter.class, converter = FormatParameter.class, order = 2)
     private RDFFormat outputFormat = RDFFormat.TTL;
 
     //4) Delimiter/Separator value - COMMA, TAB, SPACE
-    @Parameter(names = {"--delim", "-l"}, description = "Column delimiter in the input file. Any character except ':', '^' and '|'. Keywords TAB, SPACE and COMMA are also supported.", validateWith = DelimiterValidator.class)
+    @Parameter(names = {"--delim", "-l"}, description = "Column delimiter in the input file. Any character except ':', '^' and '|'. Keywords TAB, SPACE and COMMA are also supported.", validateWith = DelimiterValidator.class, order = 3)
     private String inputDelimiter = "COMMA";
 
     //5) Prefixes file
-    @Parameter(names = {"--prefixes", "-p"}, description = "Prefix definition file of key=value pairs with no header (Java Properties format).", converter = PropsConverter.class)
+    @Parameter(names = {"--prefixes", "-p"}, description = "Prefix definition file of key=value pairs with no header (Java Properties format).", converter = PropsConverter.class, order = 4)
     private HashMap<String, String> prefixProps;
 
     //6) Datatypes file
-    @Parameter(names = {"--datatypes", "-d"}, description = "Datatype definition file of key=value pairs with no header (Java Properties format).", converter = PropsConverter.class)
+    @Parameter(names = {"--datatypes", "-d"}, description = "Datatype definition file of key=value pairs with no header (Java Properties format).", converter = PropsConverter.class, order = 5)
     private HashMap<String, String> datatypeProps;
 
     //7) Owl NamedIndividual
-    @Parameter(names = {"-named", "-n"}, description = "Boolean value for creating OWL NamedIndividuals in the data.", arity = 1)
+    @Parameter(names = {"-named", "-n"}, description = "Boolean value for creating OWL NamedIndividuals in the data.", arity = 1, order = 6)
     private boolean owlNamedIndividual = true;
 
     //8) Excluded Files
-    @Parameter(names = {"-excluded", "-x"}, description = "Excluded files not to be used as input from a folder.")
+    @Parameter(names = {"-excluded", "-x"}, description = "Excluded files not to be used as input from a folder.", order = 7)
     private List<File> excludedFiles = new ArrayList<>();
 
     //9) Help
-    @Parameter(names = {"--help", "-h"}, description = "Application help. @path/to/file can be used to submit parameters in a file.", help = true)
+    @Parameter(names = {"--help", "-h"}, description = "Application help. @path/to/file can be used to submit parameters in a file.", help = true, order = 8)
     private boolean help = false;
 
     public File getInputFile() {
