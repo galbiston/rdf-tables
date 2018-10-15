@@ -34,7 +34,7 @@ dependencies {
     implementation "org.apache.jena:jena-tdb:$jenaVersion"
 
     ext.logbackVersion = "1.2.3"
-    testCompile "ch.qos.logback:logback-classic:$logbackVersion"
+    testImplementation "ch.qos.logback:logback-classic:$logbackVersion"
 
     ext.junitVersion = "4.12"
     testImplementation "junit:junit:$junitVersion"
