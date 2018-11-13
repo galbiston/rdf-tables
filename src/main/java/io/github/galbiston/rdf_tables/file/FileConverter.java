@@ -264,8 +264,8 @@ public class FileConverter {
                     //No datatype so must be an individual.
                     object = indviduals.get(i);
                 } else {
-                    LOGGER.error("Cannot find: {} in index: {}. Class URI may be missing from column header.", data, i);
-                    throw new AssertionError();
+                    LOGGER.warn("Cannot find: {} in index: {}. Class URI may be missing from column header. Creating as an Object as provided by input.", data, i);
+                    object = ResourceFactory.createResource(data);
                 }
 
                 Resource targetSubject;
