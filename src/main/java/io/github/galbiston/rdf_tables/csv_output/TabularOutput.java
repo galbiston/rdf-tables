@@ -17,6 +17,11 @@
  */
 package io.github.galbiston.rdf_tables.csv_output;
 
+import io.github.galbiston.rdf_tables.datatypes.Datatypes;
+import static io.github.galbiston.rdf_tables.file.DefaultValues.CLASS_CHARACTER;
+import static io.github.galbiston.rdf_tables.file.DefaultValues.HEADER_ITEM_DELIMITER;
+import static io.github.galbiston.rdf_tables.file.DefaultValues.HEADER_ITEM_DELIMITER_CHARACTER;
+import static io.github.galbiston.rdf_tables.file.DefaultValues.INVERT_CHARACTER;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,11 +30,6 @@ import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
-import io.github.galbiston.rdf_tables.datatypes.Datatypes;
-import static io.github.galbiston.rdf_tables.file.DefaultValues.CLASS_CHARACTER;
-import static io.github.galbiston.rdf_tables.file.DefaultValues.INVERT_CHARACTER;
-import static io.github.galbiston.rdf_tables.file.DefaultValues.HEADER_ITEM_DELIMITER;
-import static io.github.galbiston.rdf_tables.file.DefaultValues.HEADER_ITEM_DELIMITER_CHARACTER;
 
 /**
  *
@@ -119,6 +119,13 @@ public abstract class TabularOutput {
 
     protected static void writeHeader(List<String> header, Property property, Resource classResource, Integer maxCount) {
         String headerLabel = property.getURI() + HEADER_ITEM_DELIMITER_CHARACTER + CLASS_CHARACTER + classResource.getURI();
+        for (int i = 0; i < maxCount; i++) {
+            header.add(headerLabel);
+        }
+    }
+
+    protected static void writeHeader(List<String> header, Property property, Resource classResource, Integer maxCount, Integer columnPosition) {
+        String headerLabel = property.getURI() + HEADER_ITEM_DELIMITER_CHARACTER + CLASS_CHARACTER + classResource.getURI() + HEADER_ITEM_DELIMITER_CHARACTER + columnPosition;
         for (int i = 0; i < maxCount; i++) {
             header.add(headerLabel);
         }
