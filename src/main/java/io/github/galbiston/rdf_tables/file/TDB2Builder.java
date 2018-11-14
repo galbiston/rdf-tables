@@ -5,15 +5,12 @@
  */
 package io.github.galbiston.rdf_tables.file;
 
-import static io.github.galbiston.rdf_tables.file.FileReader.convertDirectory;
 import java.io.File;
 import java.lang.invoke.MethodHandles;
 import org.apache.jena.query.Dataset;
-import org.apache.jena.query.ReadWrite;
-import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.riot.RDFFormat;
-import org.apache.jena.tdb.TDBFactory;
+import org.apache.jena.tdb2.TDB2Factory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +18,7 @@ import org.slf4j.LoggerFactory;
  *
  *
  */
-public class TDBBuilder {
+public class TDB2Builder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
@@ -58,32 +55,8 @@ public class TDBBuilder {
 
     public static void compileFolder(File sourceFolder, File tdbStorageFolder, File outputFile, Resource targetGraph, File prefixesFile, RDFFormat rdfFormat, char delimiter, Boolean isNamedIndividual) {
 
-        Dataset dataset = TDBFactory.createDataset(tdbStorageFolder.getAbsolutePath());
-        compile(sourceFolder, dataset, outputFile, targetGraph, prefixesFile, rdfFormat, delimiter, isNamedIndividual);
-        TDBFactory.release(dataset);
+        Dataset dataset = TDB2Factory.connectDataset(tdbStorageFolder.getAbsolutePath());
+        TDBBuilder.compile(sourceFolder, dataset, outputFile, targetGraph, prefixesFile, rdfFormat, delimiter, isNamedIndividual);
     }
 
-    protected static void compile(File sourceFolder, Dataset dataset, File outputFile, Resource targetGraph, File prefixesFile, RDFFormat rdfFormat, char delimiter, Boolean isNamedIndividual) {
-        LOGGER.info("Reading Folder Started: {}", sourceFolder);
-        if (!sourceFolder.exists()) {
-            LOGGER.info("Folder Not Found - Skipping: {}", sourceFolder);
-            return;
-        }
-
-        Model model = convertDirectory(sourceFolder, outputFile, prefixesFile, rdfFormat, delimiter, isNamedIndividual);
-
-        dataset.begin(ReadWrite.WRITE);
-        if (dataset.containsNamedModel(targetGraph.getURI())) {
-            Model existingModel = dataset.getNamedModel(targetGraph.getURI());
-            existingModel.add(model);
-        } else {
-            dataset.addNamedModel(targetGraph.getURI(), model);
-        }
-
-        dataset.commit();
-        dataset.end();
-        dataset.close();
-
-        LOGGER.info("Reading RDF Completed: {}", sourceFolder);
-    }
 }
