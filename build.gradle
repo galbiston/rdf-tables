@@ -32,6 +32,7 @@ dependencies {
     implementation "org.apache.jena:jena-arq:$jenaVersion"
     implementation "org.apache.jena:jena-iri:$jenaVersion"
     implementation "org.apache.jena:jena-tdb:$jenaVersion"
+    implementation "org.apache.jena:jena-tdb2:$jenaVersion"
 
     ext.logbackVersion = "1.2.3"
     testImplementation "ch.qos.logback:logback-classic:$logbackVersion"
@@ -44,7 +45,7 @@ dependencies {
 }
 
 group = 'io.github.galbiston'
-version = '1.0.3'
+version = '1.0.4'
 
 task sourcesJar(type: Jar) {
     from sourceSets.main.allJava
