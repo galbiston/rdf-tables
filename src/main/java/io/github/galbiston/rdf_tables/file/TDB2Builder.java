@@ -57,6 +57,7 @@ public class TDB2Builder {
 
         Dataset dataset = TDB2Factory.connectDataset(tdbStorageFolder.getAbsolutePath());
         TDBBuilder.compile(sourceFolder, dataset, outputFile, targetGraph, prefixesFile, rdfFormat, delimiter, isNamedIndividual);
+        dataset.close();
     }
 
 }

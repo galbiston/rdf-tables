@@ -60,6 +60,7 @@ public class TDBBuilder {
 
         Dataset dataset = TDBFactory.createDataset(tdbStorageFolder.getAbsolutePath());
         compile(sourceFolder, dataset, outputFile, targetGraph, prefixesFile, rdfFormat, delimiter, isNamedIndividual);
+        dataset.close();
         TDBFactory.release(dataset);
     }
 
@@ -82,7 +83,6 @@ public class TDBBuilder {
 
         dataset.commit();
         dataset.end();
-        dataset.close();
 
         LOGGER.info("Reading RDF Completed: {}", sourceFolder);
     }
