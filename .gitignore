@@ -13,3 +13,7 @@ gradle-app.setting
 # Cache of project
 .gradletasknamecache
 /.nb-gradle/
+/.idea/
+/gradlew
+/gradlew.bat
+/gradle/
