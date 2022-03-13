@@ -51,15 +51,15 @@ public class PrefixController {
         PREFIXES.put("xsd", "http://www.w3.org/2001/XMLSchema#");
     }
 
-    public static final void addPrefixes(Map<String, String> prefixes) {
+    public static void addPrefixes(Map<String, String> prefixes) {
         PREFIXES.putAll(prefixes);
     }
 
-    public static final void addPrefix(String prefix, String uri) {
+    public static void addPrefix(String prefix, String uri) {
         PREFIXES.put(prefix, uri);
     }
 
-    public static final String lookupURI(String classLabel, String baseURI) {
+    public static String lookupURI(String classLabel, String baseURI) {
         getPrefixes();
         //Check property URI for HTTP prefix.
         if (checkURI(classLabel)) {
@@ -82,7 +82,7 @@ public class PrefixController {
         }
     }
 
-    public static final boolean checkURI(String candidateURI) {
+    public static boolean checkURI(String candidateURI) {
         return candidateURI.startsWith(HTTP_PREFIX);
     }
 

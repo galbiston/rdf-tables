@@ -75,7 +75,7 @@ public class FormatParameter implements IStringConverter<RDFFormat>, IParameterV
 
     }
 
-    public static final String fileExtension(RDFFormat rdfFormat) {
+    public static String fileExtension(RDFFormat rdfFormat) {
 
         switch (rdfFormat.toString()) {
             case "TTL":
@@ -108,7 +108,7 @@ public class FormatParameter implements IStringConverter<RDFFormat>, IParameterV
 
     }
 
-    public static final String buildFilename(File inputFile, RDFFormat rdfFormat) {
+    public static String buildFilename(File inputFile, RDFFormat rdfFormat) {
 
         String inputFilename = inputFile.getName();
 

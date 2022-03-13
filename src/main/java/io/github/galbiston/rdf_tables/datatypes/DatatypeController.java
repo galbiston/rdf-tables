@@ -43,7 +43,7 @@ public class DatatypeController {
     public static final String HTTP_PREFIX = "http://";
     public static final String BOOLEAN_URI = XSDBaseNumericType.XSDboolean.getURI();
 
-    public static final HashMap<String, String> getDatatypePrefixes() {
+    public static HashMap<String, String> getDatatypePrefixes() {
 
         if (DATATYPE_PREFIXES.isEmpty()) {
             loadXSDDatatypePrefixes();
@@ -79,7 +79,7 @@ public class DatatypeController {
      *
      * @param prefixDatatypes
      */
-    public static final void addPrefixDatatypeURIs(HashMap<String, String> prefixDatatypes) {
+    public static void addPrefixDatatypeURIs(HashMap<String, String> prefixDatatypes) {
         prefixDatatypes.forEach((k, v) -> addPrefixDatatypeURI(k, v));
     }
 
@@ -92,7 +92,7 @@ public class DatatypeController {
      * @param prefix
      * @param datatypeURI
      */
-    public static final void addPrefixDatatypeURI(String prefix, String datatypeURI) {
+    public static void addPrefixDatatypeURI(String prefix, String datatypeURI) {
         addPrefixDatatype(prefix, new BaseDatatype(datatypeURI));
     }
 
@@ -103,7 +103,7 @@ public class DatatypeController {
      *
      * @param prefixDatatypes
      */
-    public static final void addPrefixDatatypes(HashMap<String, BaseDatatype> prefixDatatypes) {
+    public static void addPrefixDatatypes(HashMap<String, BaseDatatype> prefixDatatypes) {
         prefixDatatypes.forEach((k, v) -> addPrefixDatatype(k, v));
     }
 
@@ -115,7 +115,7 @@ public class DatatypeController {
      * @param prefix
      * @param datatype
      */
-    public static final void addPrefixDatatype(String prefix, BaseDatatype datatype) {
+    public static void addPrefixDatatype(String prefix, BaseDatatype datatype) {
         getDatatypePrefixes();
         String datatypeURI = datatype.getURI();
         if (PrefixController.checkURI(datatypeURI)) {
@@ -136,7 +136,7 @@ public class DatatypeController {
      * @param baseURI
      * @return Datatype URI
      */
-    public static final String lookupDatatypeURI(String datatypeLabel, String baseURI) {
+    public static String lookupDatatypeURI(String datatypeLabel, String baseURI) {
         getDatatypePrefixes();
         //Check if datatypeLabel is a URI and if so return.
         String tidyLabel = datatypeLabel.toLowerCase();
@@ -156,7 +156,7 @@ public class DatatypeController {
      * @param datatypeURI
      * @return RDFDatatype
      */
-    public static final RDFDatatype lookupDatatype(String datatypeURI) {
+    public static RDFDatatype lookupDatatype(String datatypeURI) {
         getDatatypePrefixes();
         RDFDatatype datatype = TYPE_MAPPER.getTypeByName(datatypeURI);
 
@@ -175,7 +175,7 @@ public class DatatypeController {
      * @param datatypeURI
      * @return Literal
      */
-    public static final Literal createLiteral(String data, String datatypeURI) {
+    public static Literal createLiteral(String data, String datatypeURI) {
         getDatatypePrefixes();
         RDFDatatype datatype = TYPE_MAPPER.getTypeByName(datatypeURI);
 

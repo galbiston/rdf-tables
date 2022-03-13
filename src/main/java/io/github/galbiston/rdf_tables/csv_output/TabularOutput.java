@@ -40,11 +40,11 @@ public abstract class TabularOutput {
     protected static String BASE_URI = "";
     protected static final char[] ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
 
-    public final static void setBaseURI(String baseURI) {
+    public static void setBaseURI(String baseURI) {
         BASE_URI = baseURI;
     }
 
-    public final static String getBaseURI() {
+    public static String getBaseURI() {
         return BASE_URI;
     }
 

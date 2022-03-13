@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
  */
 public class TDB2Builder {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private static Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     /**
      * Default input format TTL, comma separated with creation of OWL Named

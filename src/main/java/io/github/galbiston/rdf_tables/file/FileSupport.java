@@ -32,7 +32,7 @@ public class FileSupport {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    public static final File checkOutputFile(File inputFile, File outputFile, RDFFormat rdfFormat) {
+    public static File checkOutputFile(File inputFile, File outputFile, RDFFormat rdfFormat) {
 
         if (outputFile == null) {
             if (inputFile.isDirectory()) {
