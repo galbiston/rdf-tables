@@ -17,12 +17,15 @@
  */
 package io.github.galbiston.rdf_tables.file;
 
+import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.util.HashMap;
+import com.opencsv.CSVReaderBuilder;
+import com.opencsv.exceptions.CsvValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,12 +38,14 @@ public class PrefixReader {
     //TODO - load default prefixes and from file.
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    public static final HashMap<String, String> read(File inputFile) {
+    public static HashMap<String, String> read(File inputFile) {
 
         LOGGER.info("Prefix Parsing Started: {}", inputFile.getPath());
         HashMap<String, String> map = new HashMap<>();
         int lineNumber = 1;
-        try (CSVReader reader = new CSVReader(new FileReader(inputFile), DefaultValues.COLUMN_DELIMITER)) {
+
+        CSVParserBuilder parserBuilder = new CSVParserBuilder().withSeparator(DefaultValues.COLUMN_DELIMITER);
+        try (CSVReader reader = new CSVReaderBuilder(new FileReader(inputFile)).withCSVParser(parserBuilder.build()).build()) {
 
             if (reader.readNext().length != 2) {
                 LOGGER.error("Should only be two columns");
@@ -55,7 +60,7 @@ public class PrefixReader {
                 }
             }
 
-        } catch (IOException | RuntimeException ex) {
+        } catch (IOException | RuntimeException | CsvValidationException ex) {
             LOGGER.error("PrefixReader: Line - {}, File - {}, Exception - {}", lineNumber, inputFile.getAbsolutePath(), ex.getMessage());
         }
 

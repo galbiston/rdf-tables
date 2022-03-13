@@ -17,7 +17,10 @@
  */
 package io.github.galbiston.rdf_tables.file;
 
+import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
+import com.opencsv.exceptions.CsvValidationException;
 import io.github.galbiston.rdf_tables.datatypes.DatatypeController;
 import static io.github.galbiston.rdf_tables.datatypes.DatatypeController.HTTP_PREFIX;
 import io.github.galbiston.rdf_tables.datatypes.PrefixController;
@@ -65,11 +68,11 @@ public class FileConverter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    public static final void writeToModel(File inputFile, Model model) {
+    public static void writeToModel(File inputFile, Model model) {
         writeToModel(inputFile, model, ',', true);
     }
 
-    public static final void writeToModel(File inputFile, Model model, char delimiter, Boolean isNamedIndividual) {
+    public static void writeToModel(File inputFile, Model model, char delimiter, Boolean isNamedIndividual) {
 
         LOGGER.info("File Conversion Started: {}", inputFile.getPath());
 
@@ -80,7 +83,8 @@ public class FileConverter {
         List<Boolean> propertyDirections = new ArrayList<>();
         int lineNumber = 1;
 
-        try (CSVReader reader = new CSVReader(new FileReader(inputFile), delimiter)) {
+        CSVParserBuilder parserBuilder = new CSVParserBuilder().withSeparator(delimiter);
+        try (CSVReader reader = new CSVReaderBuilder(new FileReader(inputFile)).withCSVParser(parserBuilder.build()).build()) {
 
             String baseURI = readHeader(reader.readNext(), datatypeURIs, propertyURIs, classURIs, targetColumns, propertyDirections);
 
@@ -91,7 +95,7 @@ public class FileConverter {
             }
             model.setNsPrefixes(PrefixController.getPrefixes());
 
-        } catch (IOException | RuntimeException ex) {
+        } catch (IOException | RuntimeException | CsvValidationException ex) {
 
             LOGGER.error("FileConverter: Line - {}, File - {}, Exception - {}", lineNumber, inputFile.getAbsolutePath(), ex.getMessage());
             throw new AssertionError("Error loading file: " + inputFile.getAbsolutePath());
@@ -126,7 +130,7 @@ public class FileConverter {
                 String datatypeLabel = null;
                 String propertyLabel = parts[0];
                 String classLabel = null;
-                Integer targetColumn = 0;
+                int targetColumn = 0;
 
                 switch (parts.length) {
                     case 1:
